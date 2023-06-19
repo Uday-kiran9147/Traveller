@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:traveler/domain/repositories/database.dart';
 import 'package:traveler/presentation/pages/auth/ui/authentication.dart';
 import 'package:traveler/presentation/pages/home/ui/home.dart';
 import 'package:traveler/utils/constants/sharedprefs.dart';
@@ -34,7 +33,6 @@ class _MyAppState extends State<MyApp> {
       });
       print("isloggedin == $isloggedin");
     });
-    await DatabaseService.getpos();
   }
 
   @override
@@ -45,13 +43,13 @@ class _MyAppState extends State<MyApp> {
           // brightness: Brightness.dark,
           // primarySwatch:
           //splash color is a color that appears behind a button's label when the button is tapped.
-          splashColor: Colors.yellow,
+          splashColor: Colors.white,
           /* This sample creates a MaterialApp with a Theme whose ColorScheme is based on Colors.blue, but with the color scheme's ColorScheme.secondary color overridden to be green. The AppBar widget uses the color scheme's ColorScheme.primary as its default background color and the FloatingActionButton widget uses the color scheme's ColorScheme.secondary for its default background. By default, the Text widget uses TextTheme.bodyMedium, and the color of that TextStyle has been changed to purple. */
           // textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.purple)),
 
           // Define the default font family.
-          fontFamily: 'intro script',
-
+          fontFamily: 'monospace',
+ 
           // Define the default `TextTheme`. Use this to specify the default
           // text styling for headlines, titles, bodies of text, and more.
           textTheme: const TextTheme(
@@ -62,7 +60,7 @@ class _MyAppState extends State<MyApp> {
             bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'serif'),
           ),
         ),
-        home: isloggedin! ? Home() : AuthenticationScreen(),
+        home: isloggedin! ? HomeBloc() : AuthenticationScreen(),
         debugShowCheckedModeBanner: false,
 
         // this troubled me a lot

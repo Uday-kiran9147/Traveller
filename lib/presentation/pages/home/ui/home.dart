@@ -1,27 +1,19 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:traveler/domain/models/user.dart';
-import 'package:traveler/domain/repositories/authentication.dart';
-import 'package:traveler/presentation/pages/auth/ui/authentication.dart';
-import 'package:traveler/presentation/pages/home/ui/widgets/navbar.dart';
-import 'package:traveler/utils/constants/sharedprefs.dart';
+import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
+import 'package:traveler/presentation/pages/profile/profile.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 import '../../explore/ui/explore.dart';
 import '../bloc/home_bloc_bloc.dart';
-import 'widgets/swiperwidget.dart';
+import 'home_screen.dart';
 
-class Home extends StatefulWidget {
+class HomeBloc extends StatefulWidget {
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeBloc> createState() => _HomeBlocState();
 }
 
-class _HomeState extends State<Home> {
-  int pageIndex = 0;
+class _HomeBlocState extends State<HomeBloc> {
   HomeBlocBloc homeBlocBloc = HomeBlocBloc();
 
   @override
@@ -44,12 +36,7 @@ class _HomeState extends State<Home> {
       builder: (context, state) {
         switch (state.runtimeType) {
           case HomeSuccessState:
-            return HomeScreen(
-              homeBlocBloc: homeBlocBloc,
-            );
-          case NavigateToExploreActionState:
-            return ExploreScreen();
-
+            return MyHome(homeBlocBloc: homeBlocBloc);
           default:
             return SizedBox();
         }
@@ -58,111 +45,47 @@ class _HomeState extends State<Home> {
   }
 }
 
-class HomeScreen extends StatefulWidget {
-  HomeBlocBloc homeBlocBloc;
-  HomeScreen({
+class MyHome extends StatefulWidget {
+  MyHome({
     Key? key,
     required this.homeBlocBloc,
   }) : super(key: key);
-
+  HomeBlocBloc homeBlocBloc;
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MyHome> createState() => _MyHomeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  String? email;
+class _MyHomeState extends State<MyHome> {
+  int index = 0;
+  List<Widget> _page = [];
+
   @override
   void initState() {
-    getuser();
-    // _stream = _streamController.stream.asBroadcastStream();
+    _page = [
+      HomeScreen(homeBlocBloc: widget.homeBlocBloc),
+      ExploreScreen(),
+      Profile()
+    ];
     super.initState();
-  }
-
-  getuser() async {
-    var getuser = await SHP.getUserEmailSP();
-    setState(() {
-      email = getuser;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  GoogleAuth auth = GoogleAuth();
-                  bool isSignout = await auth.signoutuser();
-                  if (isSignout) {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, RouteName.authentication, (route) => false);
-                  }
-                },
-                icon: Icon(Icons.logout))
+        body: _page[index],
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Theme.of(context).canvasColor,
+          currentIndex: index,
+          onTap: (value) => setState(() {
+            index = value;
+          }),
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.search_rounded), label: "explore"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person_2_rounded), label: "profile"),
           ],
-          title: Text("$email"),
-        ),
-        // backgroundColor: Theme.of(context).primaryColor,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Container(
-                  height: 110,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 8,
-                    itemBuilder: (context, index) {
-                      return DestinationCard(
-                        destination: 'Africa $index',
-                      );
-                    },
-                  ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 7,
-                      child: TextField(
-                        scrollPadding: EdgeInsets.all(8),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          hintText: 'search country or list',
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        child: Icon(Icons.filter_alt_outlined),
-                        decoration: BoxDecoration(),
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                    height: 330, //392,
-                    width: double.maxFinite,
-                    // decoration: BoxDecoration(color: Colors.green),
-                    child: SwiperWidget()),
-                ElevatedButton(
-                    onPressed: () {
-                      widget.homeBlocBloc.add(NavigateToExploreEvent());
-                    },
-                    child: Text("Navigate to Explore")),
-                ElevatedButton(
-                    onPressed: () {
-                      widget.homeBlocBloc.add(NavigateToExploreEvent());
-                    },
-                    child: Text("Navigate to Explore"))
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: NavBarHome());
+        ));
   }
 }

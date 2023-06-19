@@ -1,9 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/domain/repositories/database.dart';
 import '../../utils/constants/sharedprefs.dart';
 import '../models/post.dart';
@@ -13,13 +11,27 @@ class GoogleAuth {
   static String? userID;
   // static String username=await DatabaseService.getcurrUser(
   //   FirebaseAuth.instance.currentUser!.uid).then((value) {
-
   // });
+
+  static Future addComment(Comment comment) async {
+    var getuser = await DatabaseService.userCollection
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) => value['username']);
+    print(json.encode(getuser));
+    await DatabaseService.addComment(Comment(
+        id: "",
+        username: getuser,
+        comment: comment.comment,
+        userID: FirebaseAuth.instance.currentUser!.uid,
+        date: DateTime.now().toString(),
+        postID: comment.postID));
+  }
 
   static Future<bool> postUserPost(Post post, File image) async {
     print("auth posted");
-    final userdocSnapshot = await DatabaseService.getcurrUser(
-        FirebaseAuth.instance.currentUser!.uid);
+    // final userdocSnapshot = await DatabaseService.getcurrUser(
+    //     FirebaseAuth.instance.currentUser!.uid);
     String getuser = await DatabaseService.userCollection
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()

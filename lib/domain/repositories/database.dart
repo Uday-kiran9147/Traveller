@@ -1,10 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:traveler/domain/models/user.dart';
-
 import '../models/post.dart';
 
 class DatabaseService {
@@ -17,6 +13,24 @@ class DatabaseService {
   static final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
 
+   static Future addComment(Comment comment) async {
+    await userCollection.doc(comment.userID);
+    var user = await userCollection.doc(comment.userID).get();
+    // var post = await postCollection.doc(uid).get();
+
+    DocumentReference commentreference =
+        await FirebaseFirestore.instance.collection('comments').add({
+      'username': comment.username,
+      'comment': comment.comment,
+      'userID': comment.userID,
+      'date': DateTime.now().toString(),
+      'postID': comment.postID
+    });
+    await commentreference.update({
+      "id": commentreference.id,
+    });
+  }
+
   Future saveUserData(String name, String email) async {
     return await userCollection
         .doc(uid)
@@ -26,23 +40,22 @@ class DatabaseService {
   static Future savepost(Post post, File image) async {
     print("database post");
 
-    final ref = FirebaseStorage.instance
-        .ref()  
-        .child("userPost")
-        .child("Traveller-posts-${post.username}-${post.id}.jpeg");
-    await ref.putFile(image);
-    final imageurl = await ref.getDownloadURL();
     DocumentReference postdocumentReference = await postCollection.add({
-      "description": post.description,
       "id": "",
+      "description": post.description,
       "location": post.location,
       "username": post.username,
       "userid": post.userID,
-      "imageurl": imageurl.toString(),
       "date": DateTime.now().toString(),
     });
+    final ref = FirebaseStorage.instance.ref().child("userPost").child(
+        "Traveller-posts-${post.username}-${postdocumentReference.id}.jpeg");
+    await ref.putFile(image);
+    final imageurl = await ref.getDownloadURL();
+
     await postdocumentReference.update({
       "id": postdocumentReference.id,
+      "imageurl": imageurl.toString(),
     });
 
     // final docRef = postCollection.doc("RQ957wrtC6PiqUQsQA4Z");

@@ -1,6 +1,23 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+class Comment {
+  final String id;
+  final String username;
+  final String comment;
+  final String userID;
+  final String date;
+  final String postID;
+  const Comment({
+    required this.id,
+    required this.username,
+    required this.comment,
+    required this.userID,
+    required this.date,
+    required this.postID,
+  });
+}
+
 class Post {
   final String id;
   final String username;
@@ -9,8 +26,9 @@ class Post {
   final String userID;
   final String? location;
   final String date;
+  List<Comment> comments = [];
 
-  const Post({
+   Post({
     required this.id,
     required this.username,
     required this.imageURL,
