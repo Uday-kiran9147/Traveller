@@ -29,16 +29,12 @@ class GoogleAuth {
   }
 
   static Future<bool> postUserPost(Post post, File image) async {
-    print("auth posted");
-    // final userdocSnapshot = await DatabaseService.getcurrUser(
-    //     FirebaseAuth.instance.currentUser!.uid);
     String getuser = await DatabaseService.userCollection
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((value) => value["username"]);
     try {
-      print("try posted");
-      await DatabaseService.savepost(
+      bool database = await DatabaseService.savepost(
           Post(
               id: "",
               username: getuser,
@@ -48,7 +44,7 @@ class GoogleAuth {
               imageURL: post.imageURL,
               date: post.date),
           image);
-      return true;
+      return database;
     } catch (e) {
       print("catch errer  $e");
       return false;

@@ -13,7 +13,7 @@ class DatabaseService {
   static final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
 
-   static Future addComment(Comment comment) async {
+  static Future addComment(Comment comment) async {
     await userCollection.doc(comment.userID);
     var user = await userCollection.doc(comment.userID).get();
     // var post = await postCollection.doc(uid).get();
@@ -37,30 +37,36 @@ class DatabaseService {
         .set({"username": name, "email": email, "uid": uid});
   }
 
-  static Future savepost(Post post, File image) async {
-    print("database post");
+  static Future<bool> savepost(Post post, File image) async {
+    // print("database post");
 
-    DocumentReference postdocumentReference = await postCollection.add({
-      "id": "",
-      "description": post.description,
-      "location": post.location,
-      "username": post.username,
-      "userid": post.userID,
-      "date": DateTime.now().toString(),
-    });
-    final ref = FirebaseStorage.instance.ref().child("userPost").child(
-        "Traveller-posts-${post.username}-${postdocumentReference.id}.jpeg");
-    await ref.putFile(image);
-    final imageurl = await ref.getDownloadURL();
+    try {
+      DocumentReference postdocumentReference = await postCollection.add({
+        "id": "",
+        "description": post.description,
+        "imageurl": "",
+        "location": post.location,
+        "username": post.username,
+        "userid": post.userID,
+        "date": DateTime.now().toString(),
+      });
+      final ref = FirebaseStorage.instance.ref().child("userPost").child(
+          "Traveller-posts-${post.username}-${postdocumentReference.id}.jpeg");
+      await ref.putFile(image);
+      final imageurl = await ref.getDownloadURL();
 
-    await postdocumentReference.update({
-      "id": postdocumentReference.id,
-      "imageurl": imageurl.toString(),
-    });
+      await postdocumentReference.update({
+        "id": postdocumentReference.id,
+        "imageurl": imageurl.toString(),
+      });
+      print("database created");
 
-    // final docRef = postCollection.doc("RQ957wrtC6PiqUQsQA4Z");
-
-    print("database created");
+      // final docRef = postCollection.doc("RQ957wrtC6PiqUQsQA4Z");
+      return true;
+    } catch (e) {
+      print("error in saving post ");
+      return false;
+    }
   }
 
   static Future<DocumentSnapshot?> getcurrUser(String uid) async {

@@ -31,8 +31,13 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         isloggedin = value;
       });
-      print("isloggedin == $isloggedin");
     });
+
+    if(isloggedin == null){
+      setState(() {
+        isloggedin = false;
+      });
+    }
   }
 
   @override
