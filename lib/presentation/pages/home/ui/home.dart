@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
+import 'package:traveler/presentation/pages/explore/ui/grid_screen.dart';
 import 'package:traveler/presentation/pages/profile/profile.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 import '../../explore/ui/explore.dart';
@@ -64,7 +65,8 @@ class _MyHomeState extends State<MyHome> {
     _page = [
       HomeScreen(homeBlocBloc: widget.homeBlocBloc),
       ExploreScreen(),
-      Profile()
+      Profile(),
+      // GridScreen()
     ];
     super.initState();
   }

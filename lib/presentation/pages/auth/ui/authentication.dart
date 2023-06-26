@@ -30,7 +30,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       buildWhen: (previous, current) => current is! AuthActionState,
       listener: (context, state) {
         if (state is NavigateToHomeScreenState) {
-          Navigator.pushNamed(context, RouteName.home);
+          Navigator.pushReplacementNamed(context, RouteName.home);
         }
       },
       builder: (context, state) {

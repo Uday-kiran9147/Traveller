@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
 import 'package:traveler/presentation/pages/explore/ui/newpost.dart';
+import 'package:traveler/presentation/pages/profile/post_screen.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 import '../../../../domain/models/post.dart';
 import 'widgets/post_tile.dart';
@@ -75,15 +76,32 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           final data =
                               documents[index].data() as Map<String, dynamic>;
 
-                          return PostTile(
-                            post: Post(
-                                id: data['id'],
-                                username: data["username"],
-                                imageURL: data["imageurl"],
-                                description: data["description"],
-                                userID: data["userid"],
-                                location: data["location"],
-                                date: data["date"]),
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PostScreen(
+                                        post: Post(
+                                            id: data['id'],
+                                            username: data["username"],
+                                            imageURL: data["imageurl"],
+                                            description: data["description"],
+                                            userID: data["userid"],
+                                            location: data["location"],
+                                            date: data["date"])),
+                                  ));
+                            },
+                            child: PostTile(
+                              post: Post(
+                                  id: data['id'],
+                                  username: data["username"],
+                                  imageURL: data["imageurl"],
+                                  description: data["description"],
+                                  userID: data["userid"],
+                                  location: data["location"],
+                                  date: data["date"]),
+                            ),
                           );
                         },
                         itemCount: documents.length,
