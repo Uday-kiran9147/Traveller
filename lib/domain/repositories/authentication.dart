@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:traveler/domain/repositories/database.dart';
 import '../../utils/constants/sharedprefs.dart';
 import '../models/post.dart';
+import '../models/user.dart';
 
 class GoogleAuth {
   static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -13,6 +14,13 @@ class GoogleAuth {
   //   FirebaseAuth.instance.currentUser!.uid).then((value) {
   // });
 
+
+  Future<UserRegister> getuser() async {
+    final user = await DatabaseService. getcurrUser(FirebaseAuth.instance.currentUser!.uid);
+    print(user);
+    return UserRegister(
+        userName: user!['username'], email: user['email'], password: "");
+  }
   static Future addComment(Comment comment) async {
     var getuser = await DatabaseService.userCollection
         .doc(FirebaseAuth.instance.currentUser!.uid)
