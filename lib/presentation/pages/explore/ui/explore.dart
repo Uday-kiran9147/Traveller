@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
 import 'package:traveler/presentation/pages/explore/ui/newpost.dart';
 import 'package:traveler/presentation/pages/profile/post_screen.dart';
@@ -48,9 +49,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
           case ExploreInitialState:
             return Scaffold(
-                appBar: AppBar(
-                  title: const Text('Explore'),
-                ),
+                backgroundColor: AThemes.universalcolor,
                 body: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection("posts")

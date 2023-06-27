@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:traveler/presentation/pages/explore/ui/widgets/comment_Box.dart';
 import 'package:traveler/utils/routes/route_names.dart';
@@ -18,7 +17,7 @@ class PostTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.red),
+        // border: Border.all(color: Colors.red),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

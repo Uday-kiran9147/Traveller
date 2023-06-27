@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:traveler/config/theme/apptheme.dart';
 
 import 'package:traveler/domain/repositories/authentication.dart';
 import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
@@ -128,8 +129,12 @@ class _NewPostScreenState extends State<NewPostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Post'),
+        title: Text(
+          'New Post',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
       ),
+      backgroundColor: AThemes.universalcolor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -146,7 +151,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     width: double.infinity,
                   ),
                 ),
-              // PickImage(image: _image),
               ElevatedButton(
                 onPressed: _getImage,
                 child: Text('Select Image'),
@@ -183,9 +187,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
                               userID: "userid",
                               location: address ?? _locationController.text,
                               date: DateTime.now().toString()),
-                              image: _image!,
+                          image: _image!,
                         ));
-                       
                       }
                       // Reset the form
                       // _formKey.currentState!.reset();

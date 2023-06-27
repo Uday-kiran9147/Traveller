@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
 import 'package:traveler/presentation/pages/explore/ui/grid_screen.dart';
 import 'package:traveler/presentation/pages/profile/profile.dart';
@@ -76,7 +77,7 @@ class _MyHomeState extends State<MyHome> {
     return Scaffold(
         body: _page[index],
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Theme.of(context).canvasColor,
+          backgroundColor: AThemes.universalcolor,
           currentIndex: index,
           onTap: (value) => setState(() {
             index = value;
