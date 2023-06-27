@@ -78,7 +78,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
+                          backgroundColor:  Color.fromARGB(255, 43, 8, 42),
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -98,7 +98,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade700,
+                          backgroundColor:  Color.fromARGB(255, 43, 8, 42),
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -118,21 +118,21 @@ class _AuthAccountsState extends State<AuthAccounts> {
                   ],
                 ),
                 const SizedBox(height: 40.0),
-                OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.red),
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                  ),
-                  icon: const Icon(Icons.add),
-                  label: const Text("Continue with Google"),
-                  onPressed: () {
-                    // googleAuth.signInWithGoogle();
-                  },
-                ),
+                // OutlinedButton.icon(
+                //   style: OutlinedButton.styleFrom(
+                //     side: const BorderSide(color: Colors.red),
+                //     backgroundColor: Colors.red,
+                //     foregroundColor: Colors.white,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(20.0),
+                //     ),
+                //   ),
+                //   icon: const Icon(Icons.add),
+                //   label: const Text("Continue with Google"),
+                //   onPressed: () {
+                //     // googleAuth.signInWithGoogle();
+                //   },
+                // ),
                 const SizedBox(height: 20.0),
               ],
             ),
@@ -156,8 +156,8 @@ class _AuthAccountsState extends State<AuthAccounts> {
                                     ? Colors.white
                                     : Colors.black,
                                 backgroundColor: _formsIndex == 1
-                                    ? Colors.red
-                                    : Colors.white,
+                                    ?  Color.fromARGB(255, 43, 8, 42)
+                                    : Colors.grey[300],
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0)),
                               ),
@@ -175,8 +175,8 @@ class _AuthAccountsState extends State<AuthAccounts> {
                                     ? Colors.white
                                     : Colors.black,
                                 backgroundColor: _formsIndex == 2
-                                    ? Colors.red
-                                    : Colors.white,
+                                    ?  Color.fromARGB(255, 43, 8, 42)
+                                    : Colors.grey[300],
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0)),
                               ),
