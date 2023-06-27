@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/config/theme/apptheme.dart';
-import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
 import 'package:traveler/presentation/pages/explore/ui/grid_screen.dart';
 import 'package:traveler/presentation/pages/profile/profile.dart';
 import 'package:traveler/utils/routes/route_names.dart';
@@ -66,8 +65,8 @@ class _MyHomeState extends State<MyHome> {
     _page = [
       HomeScreen(homeBlocBloc: widget.homeBlocBloc),
       ExploreScreen(),
+      GridScreen(),
       Profile(),
-      // GridScreen()
     ];
     super.initState();
   }
@@ -78,6 +77,7 @@ class _MyHomeState extends State<MyHome> {
         body: _page[index],
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: AThemes.universalcolor,
+          selectedItemColor: Theme.of(context).primaryColor,
           currentIndex: index,
           onTap: (value) => setState(() {
             index = value;
@@ -85,9 +85,11 @@ class _MyHomeState extends State<MyHome> {
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.search_rounded), label: "explore"),
+                icon: Icon(Icons.follow_the_signs_outlined), label: "following"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_2_rounded), label: "profile"),
+                icon: Icon(Icons.explore), label: "explore"),
+            // BottomNavigationBarItem(
+            //     icon: Icon(Icons.person_2_rounded), label: "profile"),
           ],
         ));
   }
