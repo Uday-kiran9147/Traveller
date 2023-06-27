@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
           // textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.purple)),
 
           // Define the default font family.
-          fontFamily: 'monospace',
+          fontFamily: 'roboto',
  
           // Define the default `TextTheme`. Use this to specify the default
           // text styling for headlines, titles, bodies of text, and more.
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
             displayLarge:
                 TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
             titleLarge: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-            bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'serif'),
+            bodyMedium: TextStyle(fontSize: 14.0, ),
           ),
         ),
         home: isloggedin! ? HomeBloc() : AuthenticationScreen(),
