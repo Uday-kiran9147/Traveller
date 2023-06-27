@@ -40,6 +40,10 @@ class _AuthAccountsState extends State<AuthAccounts> {
       child: Stack(
         children: <Widget>[
           Container(
+            height: double.infinity,
+            child: Image.asset('assets/onb1.jpg',fit: BoxFit.cover,),
+          ),
+          Container(
             color: Colors.black54,
             child: Column(
               children: <Widget>[
