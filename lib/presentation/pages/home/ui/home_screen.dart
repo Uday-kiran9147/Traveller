@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:traveler/config/theme/apptheme.dart';
+import 'package:traveler/domain/models/user.dart';
 
 import '../../../../domain/repositories/authentication.dart';
 import '../../../../utils/constants/sharedprefs.dart';
@@ -27,6 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  // UserRegister? user;
+
   getuser() async {
     var getuser = await SHP.getUserEmailSP();
     setState(() {
@@ -38,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AThemes.universalcolor,
         actions: [
           IconButton(
               onPressed: () async {
@@ -50,9 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: Icon(Icons.logout))
         ],
-        title: Text("$email"),
+        title: Text("$email",style: Theme.of(context).textTheme.bodySmall,),
       ),
-      // backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: AThemes.universalcolor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

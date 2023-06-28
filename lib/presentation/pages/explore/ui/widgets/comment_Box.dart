@@ -28,13 +28,15 @@ class CommentBox extends StatelessWidget {
                 hintText: "Add a comment",
                 suffixIcon: IconButton(
                   onPressed: () async {
-                    await GoogleAuth.addComment(Comment(
+                   if(_commentController.text.isNotEmpty){
+                     await GoogleAuth.addComment(Comment(
                         id: "id",
                         username: "username",
                         comment: _commentController.text,
                         userID: "",
                         date: "",
                         postID: post.id));
+                   }
                   },
                   icon: Icon(Icons.send),
                 ),
@@ -66,7 +68,7 @@ class CommentBox extends StatelessWidget {
                       return ListTile(
                         leading: CircleAvatar(),
                         title: Text("${data['username']}"),
-                        subtitle: Text(data['comment']),
+                        subtitle: Text(data['comment'],style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),),
                       );
                     }),
               );

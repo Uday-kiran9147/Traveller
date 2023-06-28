@@ -28,7 +28,7 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       margin: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color.fromARGB(255, 88, 3, 85),
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: ListView(
@@ -54,7 +54,7 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: 10.0),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: Color.fromARGB(255, 43, 8, 42),
               foregroundColor: Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(

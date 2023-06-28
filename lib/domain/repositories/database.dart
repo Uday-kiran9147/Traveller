@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:traveler/domain/models/user.dart';
 import '../models/post.dart';
 
 class DatabaseService {
@@ -12,6 +13,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
   static final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
+
+
 
   static Future addComment(Comment comment) async {
     await userCollection.doc(comment.userID);

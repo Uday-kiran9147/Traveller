@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:traveler/presentation/pages/explore/ui/widgets/comment_Box.dart';
 import 'package:traveler/utils/routes/route_names.dart';
@@ -18,8 +17,8 @@ class PostTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.red),
-      ),
+          // border: Border.all(color: Colors.red),
+          ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -68,8 +67,7 @@ class PostTile extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 100),
                       child: GestureDetector(
-                        child: Colwidget("",
-                            Icons.chat_rounded),
+                        child: Colwidget("", Icons.chat_rounded),
                         onTap: () {
                           showModalBottomSheet(
                             isDismissible: true,
@@ -124,10 +122,10 @@ class PostTile extends StatelessWidget {
               ],
             ),
           ),
-          Divider(),
           Text(
             "  " + post.description!,
-          )
+          ),
+          Divider(),
         ],
       ),
     );

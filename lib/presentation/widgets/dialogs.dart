@@ -15,10 +15,10 @@ Future<dynamic> showBottomSheetCustom(
         return SingleChildScrollView(
           child: Column(
             children: [
-              ListTile(
-                title: Text("Apple"),
-                subtitle: Text("by uday"),
-              ),
+              // ListTile(
+              //   title: Text("Apple"),
+              //   subtitle: Text("by uday"),
+              // ),
               ListTile(
                   title: Text("Delete",
                       style: TextStyle(
@@ -58,7 +58,7 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("No")),
+              child: Text("No",style: TextStyle(color: Colors.green),)),
         ],
       );
     },

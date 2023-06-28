@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:traveler/presentation/widgets/snackbars.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 import '../../home/ui/home.dart';
 import '../bloc/auth_bloc.dart';
@@ -30,7 +31,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       buildWhen: (previous, current) => current is! AuthActionState,
       listener: (context, state) {
         if (state is NavigateToHomeScreenState) {
-          Navigator.pushNamed(context, RouteName.home);
+          Navigator.pushReplacementNamed(context, RouteName.home);
+        }
+        if (state is LoginFailureState) {
+          customSnackbarMessage("Wrong E-mail,Password Provided by User", context, Theme.of(context).colorScheme.error);
+        }
+        if(state is LoginSuccessState){
+          customSnackbarMessage("You have successfully loggedin", context, Colors.green);
         }
       },
       builder: (context, state) {

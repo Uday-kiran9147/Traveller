@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../config/theme/apptheme.dart';
+
 class Profile extends StatefulWidget {
   @override
   State<Profile> createState() => _ProfileState();
@@ -20,9 +22,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(0, 39, 9, 9),
-      ),
+      backgroundColor: AThemes.universalcolor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
