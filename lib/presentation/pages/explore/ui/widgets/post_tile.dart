@@ -17,8 +17,8 @@ class PostTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        // border: Border.all(color: Colors.red),
-      ),
+          // border: Border.all(color: Colors.red),
+          ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -67,8 +67,7 @@ class PostTile extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 100),
                       child: GestureDetector(
-                        child: Colwidget("",
-                            Icons.chat_rounded),
+                        child: Colwidget("", Icons.chat_rounded),
                         onTap: () {
                           showModalBottomSheet(
                             isDismissible: true,
@@ -123,10 +122,10 @@ class PostTile extends StatelessWidget {
               ],
             ),
           ),
-          Divider(),
           Text(
             "  " + post.description!,
-          )
+          ),
+          Divider(),
         ],
       ),
     );

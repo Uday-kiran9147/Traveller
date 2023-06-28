@@ -30,21 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  UserRegister? user;
+  // UserRegister? user;
 
   getuser() async {
     var getuser = await SHP.getUserEmailSP();
     setState(() {
       email = getuser;
-    });
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(email)
-        .get()
-        .then((value) {
-      setState(() {
-        user = UserRegister.fromJson(value.data().toString());
-      });
     });
   }
 
@@ -52,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AThemes.universalcolor,
         actions: [
           IconButton(
               onPressed: () async {
@@ -64,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: Icon(Icons.logout))
         ],
-        title: Text("$email"),
+        title: Text("$email",style: Theme.of(context).textTheme.bodySmall,),
       ),
       backgroundColor: AThemes.universalcolor,
       body: SingleChildScrollView(

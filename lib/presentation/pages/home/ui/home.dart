@@ -76,7 +76,12 @@ class _MyHomeState extends State<MyHome> {
     return Scaffold(
         body: _page[index],
         bottomNavigationBar: BottomNavigationBar(
+          selectedIconTheme: IconThemeData(color: Theme.of(context).canvasColor),
+          type: BottomNavigationBarType.fixed,
+          iconSize: 16,
+          elevation: 5,
           backgroundColor: AThemes.universalcolor,
+          unselectedItemColor: Colors.grey,
           selectedItemColor: Theme.of(context).primaryColor,
           currentIndex: index,
           onTap: (value) => setState(() {
@@ -88,8 +93,10 @@ class _MyHomeState extends State<MyHome> {
                 icon: Icon(Icons.follow_the_signs_outlined), label: "following"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.explore), label: "explore"),
-            // BottomNavigationBarItem(
-            //     icon: Icon(Icons.person_2_rounded), label: "profile"),
+                // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar] 
+                // so, I had to use type property of [BottomNavigationBar] to [BottomNavigationBarType.fixed].
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person_2_rounded), label: "profile"),
           ],
         ));
   }

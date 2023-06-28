@@ -135,10 +135,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
         ),
       ),
       backgroundColor: AThemes.universalcolor,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
+      body: Form(
+        key: _formKey,
+        child: Container(
+          height: double.infinity,
+          padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

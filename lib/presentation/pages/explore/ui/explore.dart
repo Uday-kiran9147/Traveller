@@ -74,7 +74,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         itemBuilder: (context, index) {
                           final data =
                               documents[index].data() as Map<String, dynamic>;
-
+            
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
