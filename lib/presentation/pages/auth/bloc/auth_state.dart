@@ -12,9 +12,9 @@ class ShowAuthScreenState extends AuthState {}
 
 class AuthInitialState extends AuthState {}
 
-class LoginSuccessState extends AuthState {}
+class LoginSuccessState extends AuthActionState {}
 
-class LoginFailureState extends AuthState {}
+class LoginFailureState extends AuthActionState {}
 
 class RegisterSuccessState extends AuthState {}
 

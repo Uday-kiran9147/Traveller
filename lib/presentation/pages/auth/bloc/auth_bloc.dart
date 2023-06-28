@@ -26,12 +26,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await GoogleAuth.userLogin(event.userlogin.email, event.userlogin.password)
         .then((value) {
       if (value == true) {
+        emit(LoginSuccessState());
         emit((NavigateToHomeScreenState()));
         SHP.saveEmailSP(event.userlogin.email);
         SHP.saveUserLoggedinStatusSP(true);
         print("login success");
       } else {
-        // emit((LoginFailureState()));
+        emit((LoginFailureState()));
         print("login failed");
       }
     });
