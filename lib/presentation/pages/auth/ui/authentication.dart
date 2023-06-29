@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 import 'package:traveler/utils/routes/route_names.dart';
-import '../../home/ui/home.dart';
 import '../bloc/auth_bloc.dart';
 import 'widgets/account_ui.dart';
 

@@ -5,7 +5,6 @@ import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
 import 'package:traveler/presentation/pages/explore/ui/newpost.dart';
 import 'package:traveler/presentation/pages/profile/post_screen.dart';
-import 'package:traveler/utils/routes/route_names.dart';
 import '../../../../domain/models/post.dart';
 import 'widgets/post_tile.dart';
 

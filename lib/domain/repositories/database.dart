@@ -117,7 +117,7 @@ class DatabaseService {
     //------------------------------------------------------
     await docRef.get().then(
       (DocumentSnapshot doc) {
-        final data = doc.data() as Map<String, dynamic>;
+        // final data = doc.data() as Map<String, dynamic>;
       },
       onError: (e) => print("Error getting document: $e"),
     );

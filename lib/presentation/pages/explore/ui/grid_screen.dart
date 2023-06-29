@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:traveler/presentation/pages/profile/post_screen.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../../../domain/models/post.dart';
 
 class GridScreen extends StatefulWidget {
@@ -18,7 +17,6 @@ class _GridScreenState extends State<GridScreen> {
   int collectioncount = 0;
   @override
   void initState() {
-    // TODO: implement initState
     getcount();
     super.initState();
   }

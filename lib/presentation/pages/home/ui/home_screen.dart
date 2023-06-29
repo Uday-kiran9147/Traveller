@@ -6,12 +6,12 @@ import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/domain/models/user.dart';
 
 import '../../../../domain/repositories/authentication.dart';
-import '../../../../utils/constants/sharedprefs.dart';
 import '../../../../utils/routes/route_names.dart';
 import '../bloc/home_bloc_bloc.dart';
 import 'widgets/destination_box.dart';
 import 'widgets/swiperwidget.dart';
 
+// ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
   HomeBlocBloc homeBlocBloc;
   HomeScreen({
@@ -124,9 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: double.maxFinite,
                         // decoration: BoxDecoration(color: Colors.green),
                         child: SwiperWidget()),
-                    Text(user!.reputation == null
-                        ? '0'
-                        : user!.reputation.toString()),
+                    Text(user!.reputation.toString()),
                   ],
                 ),
               ),

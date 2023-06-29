@@ -46,6 +46,7 @@ class _HomeBlocState extends State<HomeBloc> {
   }
 }
 
+// ignore: must_be_immutable
 class MyHome extends StatefulWidget {
   MyHome({
     Key? key,

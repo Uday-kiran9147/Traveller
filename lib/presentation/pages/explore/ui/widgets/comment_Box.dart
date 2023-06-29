@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:traveler/domain/models/post.dart';
 import 'package:traveler/domain/repositories/authentication.dart';
 
+// ignore: must_be_immutable
 class CommentBox extends StatelessWidget {
   TextEditingController _commentController = TextEditingController();
 

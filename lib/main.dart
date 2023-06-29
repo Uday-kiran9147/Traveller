@@ -6,10 +6,8 @@ import 'package:traveler/presentation/pages/auth/ui/authentication.dart';
 import 'package:traveler/presentation/pages/auth/ui/web_auth.dart';
 import 'package:traveler/presentation/pages/home/ui/home.dart';
 import 'package:traveler/utils/constants/sharedprefs.dart';
-import 'package:traveler/utils/keys.dart';
 import 'package:traveler/utils/routes/app_routes.dart';
 
-import 'config/theme/apptheme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

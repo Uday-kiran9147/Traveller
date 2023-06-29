@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:traveler/presentation/pages/auth/ui/authentication.dart';
 import 'package:traveler/presentation/pages/explore/ui/explore.dart';
-import 'package:traveler/presentation/pages/explore/ui/newpost.dart';
 import 'package:traveler/presentation/pages/home/ui/home.dart';
 import 'package:traveler/presentation/pages/profile/profile.dart';
 import 'package:traveler/utils/routes/route_names.dart';

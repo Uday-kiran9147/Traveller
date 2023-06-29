@@ -30,8 +30,6 @@ class _PostScreenState extends State<PostScreen> {
 
     image.image.resolve(ImageConfiguration()).addListener(
       ImageStreamListener((ImageInfo info, bool _) {
-        double ratio =
-            info.image.width.toDouble() / info.image.height.toDouble();
         setState(() {
           imageRatio_height = info.image.height.toDouble();
           imageRatio_width = info.image.width.toDouble();
