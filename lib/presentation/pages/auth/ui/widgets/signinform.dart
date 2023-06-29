@@ -100,9 +100,6 @@ class _SignupFormState extends State<SignupForm> {
                         username: _userNameController.text,
                         email: _emailController.text,
                         password: _passwordController.text)));
-
-                // Navigator.of(context)
-                //     .pushReplacementNamed(RouteName.authentication);
               } else {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(

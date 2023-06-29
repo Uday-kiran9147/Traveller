@@ -43,6 +43,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     }
   }
 
+  bool waitingforlocation = false;
   Position? _currentPosition;
   String? address;
   String? fulladdress;
@@ -68,7 +69,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
             """${place.locality}, ${place.subLocality}, ${place.administrativeArea}, ${place.country}""";
         print(json.encode(place));
       });
+      setState(() {
+        waitingforlocation = false;
+      });
       return placelist;
+      // ignore: body_might_complete_normally_catch_error
     }).catchError((e) {
       print(e);
     });
@@ -78,11 +83,15 @@ class _NewPostScreenState extends State<NewPostScreen> {
   Future getCurrentPosition() async {
     final haspermission = await handleLocationPermission();
     if (!haspermission) return;
+    setState(() {
+      waitingforlocation = true;
+    });
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
       setState(() {
         _currentPosition = position;
         getaddressfromlatlong(_currentPosition!);
+        waitingforlocation = false;
       });
     });
   }
@@ -143,6 +152,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              waitingforlocation ? LinearProgressIndicator() : Container(),
               if (_image != null)
                 Expanded(
                   child: Image.file(
