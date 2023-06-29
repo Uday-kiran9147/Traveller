@@ -67,10 +67,10 @@ class _GridScreenState extends State<GridScreen> {
                       if (snapshot.data.toString().isEmpty) {
                         return const Center(child: Text('No posts yet'));
                       }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
+                      else if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       }
-                      if (snapshot.hasError) {
+                      else if (snapshot.hasError) {
                         return const Center(
                             child: Text('Something went wrong'));
                       }

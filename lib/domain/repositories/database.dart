@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:traveler/domain/models/user.dart';
 import '../models/post.dart';
 
 class DatabaseService {
-  final String uid;
-  DatabaseService({required this.uid});
+  // final String uid = FirebaseAuth.instance.currentUser!.uid;
+  // DatabaseService({required this.uid});
 
   // referenceing collections in database
   static final CollectionReference userCollection =
@@ -14,11 +15,9 @@ class DatabaseService {
   static final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
 
-
-
   static Future addComment(Comment comment) async {
     await userCollection.doc(comment.userID);
-    var user = await userCollection.doc(comment.userID).get();
+    // var user = await userCollection.doc(comment.userID).get();
     // var post = await postCollection.doc(uid).get();
 
     DocumentReference commentreference =
@@ -34,10 +33,27 @@ class DatabaseService {
     });
   }
 
-  Future saveUserData(String name, String email) async {
+  static Future saveUserData(
+    String name,
+    String email,
+    password,
+  ) async {
+    UserRegister user = UserRegister(
+      reputation: 0,
+      bio: null,
+      username: name,
+      email: email,
+      password: password,
+      profileurl: null,
+      followers: [],
+      following: [],
+      uid: FirebaseAuth.instance.currentUser!.uid,
+    );
     return await userCollection
-        .doc(uid)
-        .set({"username": name, "email": email, "uid": uid});
+        .doc(
+          FirebaseAuth.instance.currentUser!.uid,
+        )
+        .set(user.toMap());
   }
 
   static Future<bool> savepost(Post post, File image) async {

@@ -91,12 +91,18 @@ class _SignupFormState extends State<SignupForm> {
               if (_confirmPasswordController.text == _passwordController.text) {
                 widget.authBloc.add(AuthRegisterEvent(
                     userregister: UserRegister(
-                        userName: _userNameController.text,
+                        profileurl: '',
+                        uid: '',
+                        bio: '',
+                        followers: [],
+                        following: [],
+                        reputation: 0,
+                        username: _userNameController.text,
                         email: _emailController.text,
                         password: _passwordController.text)));
 
-                Navigator.of(context)
-                    .pushReplacementNamed(RouteName.authentication);
+                // Navigator.of(context)
+                //     .pushReplacementNamed(RouteName.authentication);
               } else {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(

@@ -9,18 +9,16 @@ import '../models/user.dart';
 
 class GoogleAuth {
   static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  static String? userID;
-  // static String username=await DatabaseService.getcurrUser(
-  //   FirebaseAuth.instance.currentUser!.uid).then((value) {
-  // });
-
+  static String? userID = FirebaseAuth.instance.currentUser!.uid;
+  DatabaseService db = DatabaseService();
 
   Future<UserRegister> getuser() async {
-    final user = await DatabaseService. getcurrUser(FirebaseAuth.instance.currentUser!.uid);
+    final user = await DatabaseService.getcurrUser(
+        FirebaseAuth.instance.currentUser!.uid);
     print(user);
-    return UserRegister(
-        userName: user!['username'], email: user['email'], password: "");
+    return UserRegister.fromMap(user!);
   }
+
   static Future addComment(Comment comment) async {
     var getuser = await DatabaseService.userCollection
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -69,10 +67,7 @@ class GoogleAuth {
       );
       // The user is successfully created. You can perform additional tasks here, such as storing user data in Firestore.
       // Access the user object using (userCredential.user)
-      await DatabaseService(uid: userCredential.user!.uid).saveUserData(
-        name,
-        email,
-      );
+    DatabaseService. saveUserData(name, email, password);
       userID = userCredential.user!.uid;
       print('User created ID: ${userCredential.user!.uid}');
       return true;

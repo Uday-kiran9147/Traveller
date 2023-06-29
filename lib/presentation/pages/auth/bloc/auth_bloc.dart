@@ -40,13 +40,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> authRegisterEvent(
       AuthRegisterEvent event, Emitter<AuthState> emit) async {
-    await GoogleAuth.registerUser(event.userregister.userName,
+    await GoogleAuth.registerUser(event.userregister.username,
             event.userregister.email, event.userregister.password)
         .then((value) {
       if (value == true) {
         emit(RegisterSuccessState());
         SHP.saveEmailSP(event.userregister.email);
-        SHP.saveusernameSP(event.userregister.userName);
+        SHP.saveusernameSP(event.userregister.username);
       }
     });
   }

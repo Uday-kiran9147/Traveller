@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class Userlogin {
   final String email;
@@ -11,33 +13,52 @@ class Userlogin {
 }
 
 class UserRegister {
-  final String userName;
+  final String username;
   final String email;
   final String password;
-  const UserRegister({
-    required this.userName,
+  final String? profileurl;
+  final String? bio;
+  final String uid;
+  final int reputation;
+  final List followers;
+  final List following;
+  UserRegister({
+    required this.username,
     required this.email,
     required this.password,
+    this.profileurl,
+    this.bio,
+    required this.uid,
+    required this.reputation,
+    required this.followers,
+    required this.following,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'userName': userName,
+      'username': username,
       'email': email,
       'password': password,
+      'profileurl': profileurl,
+      'bio': bio,
+      'uid': uid,
+      'reputation': reputation,
+      'followers': followers,
+      'following': following,
     };
   }
 
-  factory UserRegister.fromMap(Map<String, dynamic> map) {
+  static UserRegister fromMap(DocumentSnapshot snap) {
+    var map = snap.data() as Map<String, dynamic>;
     return UserRegister(
-      userName: (map["userName"] ?? '') as String,
-      email: (map["email"] ?? '') as String,
-      password: (map["password"] ?? '') as String,
-    );
+        username: map["username"],
+        email: map["email"],
+        password: map["password"],
+        profileurl: (map["profileurl"] ?? '--No Profile Url--'),
+        bio: map['bio'] ?? '--No Bio--',
+        uid: map["uid"],
+        reputation: map['reputation'],
+        followers: map['followers'],
+        following: map['following']);
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory UserRegister.fromJson(String source) => UserRegister.fromMap(json.decode(source) as Map<String, dynamic>);
 }
-
