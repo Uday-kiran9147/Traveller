@@ -1,12 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/presentation/providers/user_provider.dart';
-
 import '../../../../domain/repositories/authentication.dart';
 import '../../../../utils/routes/route_names.dart';
 import '../bloc/home_bloc_bloc.dart';

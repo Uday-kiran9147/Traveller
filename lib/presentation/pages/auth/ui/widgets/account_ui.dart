@@ -41,6 +41,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
         children: <Widget>[
           Container(
             height: double.infinity,
+            width: double.infinity,
             child: Image.asset('assets/onb1.jpg',fit: BoxFit.cover,),
           ),
           Container(
