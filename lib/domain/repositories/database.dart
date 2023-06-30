@@ -44,6 +44,8 @@ class DatabaseService {
       username: name,
       email: email,
       password: password,
+      tag:null,
+      upcomingtrips: [],
       profileurl: null,
       followers: [],
       following: [],

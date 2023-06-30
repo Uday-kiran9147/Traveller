@@ -125,6 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         // decoration: BoxDecoration(color: Colors.green),
                         child: SwiperWidget()),
                     Text(user!.reputation.toString()),
+                    Text(user!.tag.toString()),
+                    Text(user!.bio.toString()),
                   ],
                 ),
               ),

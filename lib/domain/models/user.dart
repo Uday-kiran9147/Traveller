@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
@@ -17,6 +16,8 @@ class UserRegister {
   final String password;
   final String? profileurl;
   final String? bio;
+  final String? tag;
+  final List upcomingtrips;
   final String uid;
   final int reputation;
   final List followers;
@@ -26,6 +27,8 @@ class UserRegister {
     required this.email,
     required this.password,
     this.profileurl,
+    this.tag,
+    required this.upcomingtrips,
     this.bio,
     required this.uid,
     required this.reputation,
@@ -40,6 +43,8 @@ class UserRegister {
       'password': password,
       'profileurl': profileurl,
       'bio': bio,
+      'tag': tag,
+      'upcomingtrips': upcomingtrips,
       'uid': uid,
       'reputation': reputation,
       'followers': followers,
@@ -56,6 +61,8 @@ class UserRegister {
         profileurl: (map["profileurl"] ?? '--No Profile Url--'),
         bio: map['bio'] ?? '--No Bio--',
         uid: map["uid"],
+        tag: map['tag'] ?? "User",
+        upcomingtrips: map['upcomingtrips'],
         reputation: map['reputation'],
         followers: map['followers'],
         following: map['following']);

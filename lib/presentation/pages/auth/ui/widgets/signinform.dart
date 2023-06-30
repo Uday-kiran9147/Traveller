@@ -95,6 +95,8 @@ class _SignupFormState extends State<SignupForm> {
                         bio: '',
                         followers: [],
                         following: [],
+                        upcomingtrips: [],
+                        tag: null,
                         reputation: 0,
                         username: _userNameController.text,
                         email: _emailController.text,
