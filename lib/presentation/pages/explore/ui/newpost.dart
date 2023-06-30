@@ -196,6 +196,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                               imageURL: "imageURL",
                               description: _captionController.text,
                               userID: "userid",
+                              popularity: 0,
                               location: address ?? _locationController.text,
                               date: DateTime.now().toString()),
                           image: _image!,

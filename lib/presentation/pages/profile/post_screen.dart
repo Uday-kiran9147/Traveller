@@ -123,6 +123,7 @@ class _PostScreenState extends State<PostScreen> {
                     builder: (context) {
                       return CommentBox(
                         post: Post(
+                          popularity: post.popularity,
                             id: post.id,
                             username: post.username,
                             imageURL: post.imageURL,

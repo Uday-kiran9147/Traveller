@@ -103,7 +103,7 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
               },
               child: Text(
                 "Yes",
-                style: TextStyle(color: Theme.of(context).errorColor),
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
               )),
           TextButton(
               onPressed: () {

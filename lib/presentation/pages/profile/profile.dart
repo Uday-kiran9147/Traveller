@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:traveler/domain/models/user.dart';
@@ -25,9 +25,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
     super.initState();
   }
 
+  String owner = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
+    bool isowner = user.uid == owner ? true : false;
 
     return Scaffold(
       backgroundColor: AThemes.universalcolor,
@@ -90,6 +92,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 ),
               ),
             ),
+            isowner?Text(user.email,textAlign: TextAlign.center,):Container(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -117,6 +120,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 : SizedBox(
                     height: 90,
                     child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemCount: user.upcomingtrips.length,
@@ -132,7 +136,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                         width: 1, color: Colors.grey),
                                     borderRadius: BorderRadius.circular(10)),
                                 height: 70,
-                                width: 300,
+                                width: MediaQuery.of(context).size.width * 0.8,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -150,7 +154,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                           .primaryColorDark)),
                                           TextSpan(
                                               text:
-                                                  "${user.upcomingtrips[user.upcomingtrips.length - index - 1]}",
+                                                  "${user.upcomingtrips[index]}",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyLarge!
@@ -175,10 +179,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 top: 2,
                                 child: GestureDetector(
                                     onTap: () async {
-                                      var destination = user.upcomingtrips[
-                                          user.upcomingtrips.length -
-                                              index -
-                                              1];
+                                      var destination =
+                                          user.upcomingtrips[index];
                                       DatabaseService db = DatabaseService();
                                       await db.deleteTravelList(destination);
                                       await Provider.of<UserProvider>(context,
@@ -239,6 +241,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   GridView posts(UserRegister user) {
     return GridView(
+      physics: BouncingScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 30 / 13,
@@ -250,9 +253,9 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             Icons.follow_the_signs, user.followers.length, "folowers"),
         countContainer(
             Icons.follow_the_signs, user.following.length, "following"),
-        countContainer(Icons.follow_the_signs, user.reputation, "count"),
-        countContainer(Icons.follow_the_signs, user.upcomingtrips.length,
-            "upcoming trips"),
+        countContainer(Icons.show_chart_rounded, user.reputation, "count"),
+        countContainer(
+            Icons.nature, user.upcomingtrips.length, "upcoming trips"),
       ],
     );
   }

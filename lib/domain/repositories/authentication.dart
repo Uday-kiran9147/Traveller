@@ -43,6 +43,7 @@ class GoogleAuth {
       bool database = await DatabaseService.savepost(
           Post(
               id: "",
+              popularity: 0,
               username: getuser,
               description: post.description,
               userID: FirebaseAuth.instance.currentUser!.uid,

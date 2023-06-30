@@ -24,6 +24,7 @@ class Post {
   final String imageURL;
   final String? description;
   final String userID;
+  final int popularity;
   final String? location;
   final String date;
   List<Comment> comments = [];
@@ -31,6 +32,7 @@ class Post {
    Post({
     required this.id,
     required this.username,
+    required this.popularity,
     required this.imageURL,
     required this.description,
     required this.userID,
@@ -42,6 +44,7 @@ class Post {
     return <String, dynamic>{
       'id': id,
       'username': username,
+      'popularity':popularity,
       'imageURL': imageURL,
       'description': description,
       'userID': userID,
@@ -54,10 +57,11 @@ class Post {
     return Post(
       id: (map["id"] ?? '') as String,
       username: (map["username"] ?? '') as String,
+      popularity: map['popularity'],
       imageURL: (map["imageURL"] ?? '') as String,
-      description: map['description'] != null ? map["description"] ?? '' as String : null,
+      description: map['description'] != null ? map["description"] ?? '' : null,
       userID: (map["userID"] ?? '') as String,
-      location: map['location'] != null ? map["location"] ?? '' as String : null,
+      location: map['location'] != null ? map["location"] ?? '' : null,
       date: (map["date"] ?? '') as String,
     );
   }

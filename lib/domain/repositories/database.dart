@@ -27,6 +27,21 @@ class DatabaseService {
     }
   }
 
+  Future<bool> incrementReputation(String postid) async {
+    try {
+      await postCollection
+          .doc(postid)
+          .update({'popularity': FieldValue.increment(2)});
+      await userCollection
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({'reputation': FieldValue.increment(1)});
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<bool> deleteTravelList(String destination) async {
     try {
       userCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({
@@ -102,6 +117,7 @@ class DatabaseService {
         "id": "",
         "description": post.description,
         "imageurl": "",
+        'popularity': 0,
         "location": post.location,
         "username": post.username,
         "userid": post.userID,

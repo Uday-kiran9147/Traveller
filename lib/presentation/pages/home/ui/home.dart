@@ -26,8 +26,12 @@ class _HomeBlocState extends State<HomeBloc> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBlocBloc, HomeBlocState>(
+
+
+
       bloc: homeBlocBloc,
       listenWhen: (previous, current) => current is HomeActionState,
+      
       buildWhen: (previous, current) => current is! HomeActionState,
       listener: (context, state) {
         if (state is NavigateToExploreActionState) {

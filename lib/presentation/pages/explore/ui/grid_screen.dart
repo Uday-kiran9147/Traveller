@@ -86,6 +86,7 @@ class _GridScreenState extends State<GridScreen> {
                                       post: Post(
                                           id: data['id'],
                                           username: data["username"],
+                                          popularity: data["popularity"],
                                           imageURL: data["imageurl"],
                                           description: data["description"],
                                           userID: data["userid"],

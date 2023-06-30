@@ -70,10 +70,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         return const Center(child: Text('No posts yet'));
                       }
                       return ListView.builder(
+                        physics: BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           final data =
                               documents[index].data() as Map<String, dynamic>;
-            
+
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -82,6 +83,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                     builder: (context) => PostScreen(
                                         post: Post(
                                             id: data['id'],
+                                            popularity: data['popularity'],
                                             username: data["username"],
                                             imageURL: data["imageurl"],
                                             description: data["description"],
@@ -92,6 +94,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             },
                             child: PostTile(
                               post: Post(
+                                  popularity: data["popularity"],
                                   id: data['id'],
                                   username: data["username"],
                                   imageURL: data["imageurl"],

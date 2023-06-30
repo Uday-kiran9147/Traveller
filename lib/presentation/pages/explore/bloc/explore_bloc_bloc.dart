@@ -22,6 +22,7 @@ class ExploreBloc extends Bloc<ExplorEvent, ExploreState> {
           id: "id",
           username: "username",
           imageURL: "imageURL",
+          popularity: 0,
           description: event.post.description,
           userID: "userid",
           location: event.post.location,
