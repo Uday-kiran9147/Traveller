@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,6 +15,41 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
   static final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
+
+  Future<bool> addTravelList(String destination) async {
+    try {
+      userCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({
+        'upcomingtrips': FieldValue.arrayUnion([destination])
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteTravelList(String destination) async {
+    try {
+      userCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({
+        'upcomingtrips': FieldValue.arrayRemove([destination])
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> editPtofile(String username, String bio, String tag) async {
+    try {
+      await userCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({
+        "username": username,
+        "bio": bio,
+        "tag": tag,
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   static Future addComment(Comment comment) async {
     await userCollection.doc(comment.userID);
@@ -44,7 +80,7 @@ class DatabaseService {
       username: name,
       email: email,
       password: password,
-      tag:null,
+      tag: null,
       upcomingtrips: [],
       profileurl: null,
       followers: [],

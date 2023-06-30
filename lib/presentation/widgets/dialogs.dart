@@ -1,5 +1,60 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../config/theme/apptheme.dart';
+import '../../domain/repositories/database.dart';
+import '../providers/user_provider.dart';
+
+Future<dynamic> destinationDialog(BuildContext context, String? destination) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text("Next Destination",
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: AThemes.universalcolor)),
+        content: CupertinoTextField(
+          onChanged: (val) {
+            destination = val;
+          },
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            color: Colors.grey.shade100,
+          ),
+        ),
+        actions: [
+          TextButton(
+              onPressed: () async {
+                DatabaseService db = DatabaseService();
+                if (destination != null || destination!.isNotEmpty) {
+                  await db.addTravelList(destination!);
+                  print(destination);
+                  await Provider.of<UserProvider>(context, listen: false)
+                      .getuser();
+                  Navigator.pop(context);
+                }
+                else{
+                  Navigator.pop(context);
+                }
+              },
+              child: Text(
+                "Add",
+                style: TextStyle(color: Colors.green),
+              )),
+          TextButton(
+              onPressed: () {},
+              child: Text(
+                "Date",
+                style: TextStyle(),
+              ))
+        ],
+      );
+    },
+  );
+}
 
 Future<dynamic> showBottomSheetCustom(
     BuildContext context, String description, String postid) {
@@ -15,10 +70,6 @@ Future<dynamic> showBottomSheetCustom(
         return SingleChildScrollView(
           child: Column(
             children: [
-              // ListTile(
-              //   title: Text("Apple"),
-              //   subtitle: Text("by uday"),
-              // ),
               ListTile(
                   title: Text("Delete",
                       style: TextStyle(
@@ -58,7 +109,10 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("No",style: TextStyle(color: Colors.green),)),
+              child: Text(
+                "No",
+                style: TextStyle(color: Colors.green),
+              )),
         ],
       );
     },

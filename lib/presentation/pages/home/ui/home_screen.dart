@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isloading = true;
     });
-    Provider.of<UserProvider>(context).getuser();
+    Provider.of<UserProvider>(context,listen: true).getuser();
     user = Provider.of<UserProvider>(context).user;
 
     setState(() {

@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:traveler/domain/models/user.dart';
-
+import 'package:traveler/domain/repositories/database.dart';
+import 'package:traveler/utils/routes/route_names.dart';
 import '../../../config/theme/apptheme.dart';
 import '../../providers/user_provider.dart';
+import '../../widgets/dialogs.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -40,21 +43,30 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 130,
-                  width: 130,
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(color: Colors.grey, blurRadius: 12)
-                      ],
-                      border: Border.all(color: Colors.orange),
-                      borderRadius: BorderRadius.circular(30),
-                      image: DecorationImage(
-                          opacity: 0.75,
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            user.profileurl!,
-                          ))),
+                Stack(
+                  children: [
+                    Container(
+                      height: 130,
+                      width: 130,
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(color: Colors.grey, blurRadius: 12)
+                          ],
+                          border: Border.all(color: Colors.orange),
+                          borderRadius: BorderRadius.circular(30),
+                          image: DecorationImage(
+                              opacity: 0.75,
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                user.profileurl!,
+                              ))),
+                    ),
+                    IconButton.filled(
+                        onPressed: () {
+                          Navigator.pushNamed(context, RouteName.editprofile);
+                        },
+                        icon: Icon(Icons.edit))
+                  ],
                 ),
               ],
             ),
@@ -82,49 +94,105 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Upcoming.."),
-                TextButton(onPressed: () {}, child: Text('Add'))
+                TextButton(
+                    onPressed: () {
+                      String? destination;
+                      destinationDialog(context, destination);
+                    },
+                    child: Text('Add'))
               ],
             ),
-            SizedBox(
-              height: 90,
-              child: user.upcomingtrips.length == 0
-                  ? Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 0.5, color: Colors.grey),
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 40,
-                      width: 300,
-                      child: Text(
-                        'No upcoming Travels',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        textAlign: TextAlign.center,
-                      ))
-                  : ListView.builder(
+            user.upcomingtrips.length == 0
+                ? Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 0.5, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10)),
+                    height: 20,
+                    width: 300,
+                    child: Text(
+                      '-----No upcoming plans-----',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.center,
+                    ))
+                : SizedBox(
+                    height: 90,
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemCount: user.upcomingtrips.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 1, color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10)),
-                            height: 70,
-                            width: 300,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SizedBox(width: 150, child: Text(user.upcomingtrips[index].toString(),maxLines: 3,)),
-                                Text("on \nDec 2021")
-                              ],
-                            ),
+                          child: Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(141, 67, 67, 67),
+                                    border: Border.all(
+                                        width: 1, color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10)),
+                                height: 70,
+                                width: 300,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    SizedBox(
+                                        width: 150,
+                                        child: Text.rich(TextSpan(children: [
+                                          TextSpan(
+                                              text: "Next\n",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall!
+                                                  .copyWith(
+                                                      color: Theme.of(context)
+                                                          .primaryColorDark)),
+                                          TextSpan(
+                                              text:
+                                                  "${user.upcomingtrips[user.upcomingtrips.length - index - 1]}",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Theme.of(context)
+                                                          .primaryColorLight)),
+                                        ])
+                                            // maxLines: 3,
+                                            )),
+                                    Text("on \nDec 2021",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                                color: Theme.of(context)
+                                                    .primaryColorDark))
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                right: 2,
+                                top: 2,
+                                child: GestureDetector(
+                                    onTap: () async {
+                                      var destination = user.upcomingtrips[
+                                          user.upcomingtrips.length -
+                                              index -
+                                              1];
+                                      DatabaseService db = DatabaseService();
+                                      await db.deleteTravelList(destination);
+                                      await Provider.of<UserProvider>(context,
+                                              listen: false)
+                                          .getuser();
+                                    },
+                                    child: Icon(Icons.close)),
+                              )
+                            ],
                           ),
                         );
                       },
                     ),
-            ),
+                  ),
             Container(
               height: 70,
               width: double.maxFinite,

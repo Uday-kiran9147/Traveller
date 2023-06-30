@@ -4,4 +4,5 @@ class RouteName{
   static const String authentication="/authentication-screen";
   static const String newpost="/newpost-screen";
   static const String profilescreen="/profile-screen";
+  static const String editprofile="/editprofile";
 }

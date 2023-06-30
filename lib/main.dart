@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
                   color: Colors.white),
               bodySmall: TextStyle(fontSize: 12.0, color: Colors.white),
               bodyMedium: TextStyle(fontSize: 15.0, color: Colors.white),
-              bodyLarge: TextStyle(fontSize: 18.0, color: Colors.white),
+              bodyLarge: TextStyle(fontSize: 18.0, color: Colors.white,fontWeight: FontWeight.w400),
             ),
           ),
           home: ResponsiveLayout(
