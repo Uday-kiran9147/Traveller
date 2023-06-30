@@ -2,8 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/domain/models/user.dart';
+import 'package:traveler/presentation/providers/user_provider.dart';
 
 import '../../../../domain/repositories/authentication.dart';
 import '../../../../utils/routes/route_names.dart';
@@ -25,25 +27,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isloading = false;
-  @override
-  void initState() {
-    getuser();
-    super.initState();
-  }
-
   UserRegister? user;
+  /* 
+   initialization based on inherited widgets can be placed in the didChangeDependencies method,
+   which is called after initState and whenever the dependencies change thereafter.
+   */
+  @override
+  void didChangeDependencies() {
+    getuser();
+    super.didChangeDependencies();
+  }
 
   getuser() async {
     setState(() {
       isloading = true;
     });
-    DocumentSnapshot getuser = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
-    setState(() {
-      user = UserRegister.fromMap(getuser);
-    });
+    Provider.of<UserProvider>(context).getuser();
+    user = Provider.of<UserProvider>(context).user;
+
     setState(() {
       isloading = false;
     });
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isloading
+    return isloading || user == null
         ? Scaffold(
             backgroundColor: AThemes.universalcolor,
             body: Center(
@@ -124,7 +125,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: double.maxFinite,
                         // decoration: BoxDecoration(color: Colors.green),
                         child: SwiperWidget()),
-                    Text(user!.reputation.toString()),
+                    Text(user!.reputation.toString() == null
+                        ? "hsldfh"
+                        : user!.reputation.toString()),
                     Text(user!.tag.toString()),
                     Text(user!.bio.toString()),
                   ],
