@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:traveler/config/theme/apptheme.dart';
+import 'package:traveler/presentation/pages/profile/random_profile.dart';
 import '../../../domain/models/post.dart';
-import '../../../utils/routes/route_names.dart';
 import '../../widgets/dialogs.dart';
 import '../explore/ui/widgets/comment_Box.dart';
 
@@ -59,7 +59,7 @@ class _PostScreenState extends State<PostScreen> {
           ),
           leading: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, RouteName.profilescreen);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RandomProfile(uid: post.userID),));
             },
             child: CircleAvatar(
               child: Text(post.username.toUpperCase().substring(0, 2)),

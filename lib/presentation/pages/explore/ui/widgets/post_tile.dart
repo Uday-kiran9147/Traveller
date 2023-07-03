@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:traveler/domain/repositories/database.dart';
 import 'package:traveler/presentation/pages/explore/ui/widgets/comment_Box.dart';
+import 'package:traveler/presentation/pages/profile/random_profile.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 import '../../../../../domain/models/post.dart';
 import '../../../../providers/user_provider.dart';
@@ -41,7 +42,11 @@ class PostTile extends StatelessWidget {
             ),
             leading: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, RouteName.profilescreen);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RandomProfile(uid: post.userID),
+                    ));
               },
               child: CircleAvatar(
                 child: Text(post.username.toUpperCase().substring(0, 2)),
