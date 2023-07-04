@@ -35,6 +35,12 @@ class _GridScreenState extends State<GridScreen> {
   }
 
   @override
+  void dispose() {
+    collectioncount = 0;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // List<Post> _postCollection=
     return Scaffold(
@@ -64,11 +70,10 @@ class _GridScreenState extends State<GridScreen> {
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.data.toString().isEmpty) {
                         return const Center(child: Text('No posts yet'));
-                      }
-                      else if (snapshot.connectionState == ConnectionState.waiting) {
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
-                      }
-                      else if (snapshot.hasError) {
+                      } else if (snapshot.hasError) {
                         return const Center(
                             child: Text('Something went wrong'));
                       }

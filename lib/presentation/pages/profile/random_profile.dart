@@ -31,14 +31,21 @@ class _RandomProfile extends State<RandomProfile>
         length: 3,
         vsync:
             this); // extended this class with [SingleTickerProviderStateMixin] to get [vsync] attribute
-    super.initState();
     getRandomuser();
+    super.initState();
   }
 
   UserRegister? user;
+  Future<UserRegister> getuser() async {
+    UserRegister getuser = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) => UserRegister.fromMap(value));
+    return getuser;
+  }
 
   getRandomuser() async {
-    print("get user");
     UserRegister getuser = await FirebaseFirestore.instance
         .collection('users')
         .doc(widget.uid)
@@ -47,15 +54,12 @@ class _RandomProfile extends State<RandomProfile>
     setState(() {
       user = getuser;
     });
-    print("getuser done");
   }
 
   String owner = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
-    // final user = Provider.of<UserProvider>(context).user;
     bool isowner = widget.uid == owner ? true : false;
-    print(user);
     return user == null
         ? Scaffold(
             body: Center(child: CircularProgressIndicator()),

@@ -21,6 +21,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
     super.initState();
   }
 
+  Stream<QuerySnapshot> _poststream = FirebaseFirestore.instance
+      .collection("posts")
+      .orderBy("date", descending: true)
+      .snapshots();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ExploreBloc, ExploreState>(
@@ -50,10 +54,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             return Scaffold(
                 backgroundColor: AThemes.universalcolor,
                 body: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection("posts")
-                        .orderBy("date", descending: true)
-                        .snapshots(),
+                    stream: _poststream,
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.data.toString().isEmpty) {
                         return const Center(child: Text('No posts yet'));
