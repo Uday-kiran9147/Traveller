@@ -42,11 +42,16 @@ class PostTile extends StatelessWidget {
             ),
             leading: GestureDetector(
               onTap: () {
-                Navigator.push(
+               if(post.userID == owner){
+                  Navigator.pushNamed(context, RouteName.profilescreen);
+               }
+               else{
+                 Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => RandomProfile(uid: post.userID),
                     ));
+               }
               },
               child: CircleAvatar(
                 child: Text(post.username.toUpperCase().substring(0, 2)),

@@ -77,22 +77,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               documents[index].data() as Map<String, dynamic>;
 
                           return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PostScreen(
-                                        post: Post(
-                                            id: data['id'],
-                                            popularity: data['popularity'],
-                                            username: data["username"],
-                                            imageURL: data["imageurl"],
-                                            description: data["description"],
-                                            userID: data["userid"],
-                                            location: data["location"],
-                                            date: data["date"])),
-                                  ));
-                            },
                             child: PostTile(
                               post: Post(
                                   popularity: data["popularity"],

@@ -63,13 +63,6 @@ class _LoginFormState extends State<LoginForm> {
             ),
             child: const Text("Login"),
             onPressed: () async {
-              // print(_emailController.text);
-              // print(_passwordController.text);
-              // Future<bool> isloginVerified = GoogleAuth.userLogin(
-              //     _userNameController.text, _passwordController.text);
-              // if (await isloginVerified) {
-              //   Navigator.pushNamed(context, RouteName.home);
-              // }
               widget.authBloc.add(AuthLoginEvent(
                   userlogin: Userlogin(
                       email: _emailController.text,

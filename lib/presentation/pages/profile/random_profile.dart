@@ -34,8 +34,13 @@ class _RandomProfile extends State<RandomProfile>
     getRandomuser();
     super.initState();
   }
+  @override
+  void didChangeDependencies() async{
+    super.didChangeDependencies();
+   await Provider.of<UserProvider>(context, listen: false).getuser();
+  }
 
-  UserRegister? user;
+  UserRegister? randomuser;
   Future<UserRegister> getuser() async {
     UserRegister getuser = await FirebaseFirestore.instance
         .collection('users')
@@ -52,15 +57,17 @@ class _RandomProfile extends State<RandomProfile>
         .get()
         .then((value) => UserRegister.fromMap(value));
     setState(() {
-      user = getuser;
+      randomuser = getuser;
     });
   }
 
   String owner = FirebaseAuth.instance.currentUser!.uid;
+  bool isfollower=true;
   @override
   Widget build(BuildContext context) {
     bool isowner = widget.uid == owner ? true : false;
-    return user == null
+    // bool isfollower_remote = randomuser!.followers.contains(owner) ? true : false;
+    return (randomuser == null)
         ? Scaffold(
             body: Center(child: CircularProgressIndicator()),
           )
@@ -72,7 +79,7 @@ class _RandomProfile extends State<RandomProfile>
                 physics: BouncingScrollPhysics(),
                 children: [
                   Text(
-                    "${user!.username}",
+                    "${randomuser!.username}",
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
                   Row(
@@ -93,7 +100,7 @@ class _RandomProfile extends State<RandomProfile>
                                     opacity: 0.75,
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                      user!.profileurl!,
+                                      randomuser!.profileurl!,
                                     ))),
                           ),
                           isowner
@@ -116,7 +123,7 @@ class _RandomProfile extends State<RandomProfile>
                         style: Theme.of(context).textTheme.bodyMedium,
                         children: <TextSpan>[
                           TextSpan(
-                            text: user!.tag!,
+                            text: randomuser!.tag!,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -125,7 +132,7 @@ class _RandomProfile extends State<RandomProfile>
                                 ),
                           ),
                           TextSpan(
-                              text: ' • ${user!.username}',
+                              text: ' • ${randomuser!.username}',
                               style: Theme.of(context).textTheme.bodyMedium!),
                         ],
                       ),
@@ -133,10 +140,27 @@ class _RandomProfile extends State<RandomProfile>
                   ),
                   isowner
                       ? Text(
-                          user!.email,
+                          randomuser!.email,
                           textAlign: TextAlign.center,
                         )
                       : Container(),
+                 isowner!=true? SizedBox(
+                    width: 70,
+                    child: TextButton(
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.grey[800],
+                        ),
+                        onPressed: () async {
+                          setState(() {
+                           isfollower=!isfollower;
+                         });
+                          DatabaseService db = DatabaseService();
+                          await db.follow(randomuser!.uid, randomuser!.followers);
+                         await Provider .of<UserProvider>(context).getuser();
+                        },
+                        child:Text(randomuser!.followers.contains(owner) && isfollower ? 'Unfollow' : 'Follow')),
+                  ):Container(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -151,7 +175,7 @@ class _RandomProfile extends State<RandomProfile>
                           : Container()
                     ],
                   ),
-                  user!.upcomingtrips.length == 0
+                  randomuser!.upcomingtrips.length == 0
                       ? Container(
                           decoration: BoxDecoration(
                               border:
@@ -170,7 +194,7 @@ class _RandomProfile extends State<RandomProfile>
                             physics: BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
-                            itemCount: user!.upcomingtrips.length,
+                            itemCount: randomuser!.upcomingtrips.length,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
@@ -206,7 +230,7 @@ class _RandomProfile extends State<RandomProfile>
                                                                 .primaryColorDark)),
                                                 TextSpan(
                                                     text:
-                                                        "${user!.upcomingtrips[index]}",
+                                                        "${randomuser!.upcomingtrips[index]}",
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodyLarge!
@@ -233,7 +257,7 @@ class _RandomProfile extends State<RandomProfile>
                                             top: 2,
                                             child: GestureDetector(
                                                 onTap: () async {
-                                                  var destination = user!
+                                                  var destination = randomuser!
                                                       .upcomingtrips[index];
                                                   DatabaseService db =
                                                       DatabaseService();
@@ -288,7 +312,7 @@ class _RandomProfile extends State<RandomProfile>
                   Container(
                     height: 400,
                     child: TabBarView(controller: tabController, children: [
-                      posts(user!),
+                      posts(randomuser!),
                       Text('1'),
                       Text('2'),
                     ]),
@@ -310,7 +334,7 @@ class _RandomProfile extends State<RandomProfile>
           mainAxisSpacing: 10),
       children: [
         countContainer(
-            Icons.follow_the_signs, user.followers.length, "folowers"),
+            Icons.follow_the_signs, user.followers.length, "followers"),
         countContainer(
             Icons.follow_the_signs, user.following.length, "following"),
         countContainer(Icons.show_chart_rounded, user.reputation, "count"),

@@ -7,7 +7,7 @@ import 'package:traveler/domain/models/user.dart';
 import '../models/post.dart';
 
 class DatabaseService {
-  // final String uid = FirebaseAuth.instance.currentUser!.uid;
+  // final String uidCurrentuser = FirebaseAuth.instance.currentUser!.uid;
   // DatabaseService({required this.uid});
 
   // referenceing collections in database
@@ -15,6 +15,32 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
   static final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
+
+  Future<bool> follow(String userid, List random_User_Followers) async {
+      final String uidCurrentuser = FirebaseAuth.instance.currentUser!.uid;
+
+    try {
+      if (random_User_Followers.contains(uidCurrentuser)) {
+        await userCollection.doc(userid).update({
+          'followers': FieldValue.arrayRemove([uidCurrentuser])
+        });
+        await userCollection.doc(uidCurrentuser).update({
+        'following': FieldValue.arrayRemove([userid])
+      });
+      } else {
+        await userCollection.doc(userid).update({
+          'followers': FieldValue.arrayUnion([uidCurrentuser])
+        });
+        await userCollection.doc(uidCurrentuser).update({
+          'following': FieldValue.arrayUnion([userid])
+        });
+      }
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   Future<bool> addTravelList(String destination) async {
     try {
