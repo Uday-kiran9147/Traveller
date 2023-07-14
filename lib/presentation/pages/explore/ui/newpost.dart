@@ -202,10 +202,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           image: _image!,
                         ));
                       }
-                      // Reset the form
-                      // _formKey.currentState!.reset();
-                      // _captionController.clear();
-                      // _locationController.clear();
                     }
                   },
                   child: Text('Submit'),

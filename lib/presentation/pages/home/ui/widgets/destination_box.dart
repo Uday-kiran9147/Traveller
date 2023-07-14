@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:traveler/presentation/pages/home/ui/widgets/swiperwidget.dart';
 
 class DestinationCard extends StatelessWidget {
-  const DestinationCard({
-    Key? key,
-    required this.destination,
-  }) : super(key: key);
+  final String imageurl;
+
+  const DestinationCard(
+      {Key? key, required this.destination, required this.imageurl})
+      : super(key: key);
   final String destination;
 
   @override
@@ -17,7 +19,23 @@ class DestinationCard extends StatelessWidget {
       width: 76,
       height: 110,
       margin: EdgeInsets.only(right: 10, bottom: 10, top: 10),
-      child: Text(destination, textAlign: TextAlign.center,style: Theme.of(context).textTheme.labelMedium,),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                child: Image.network(
+                  imageurl,
+                  fit: BoxFit.fitWidth,
+                )),
+          ),
+          Text(
+            destination,
+            style: Theme.of(context).textTheme.bodySmall,
+          )
+        ],
+      ),
     );
   }
 }

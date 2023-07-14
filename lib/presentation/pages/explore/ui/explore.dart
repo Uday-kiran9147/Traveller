@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
 import 'package:traveler/presentation/pages/explore/ui/newpost.dart';
+import 'package:traveler/presentation/widgets/snackbars.dart';
 import '../../../../domain/models/post.dart';
 import 'widgets/post_tile.dart';
 
@@ -40,6 +41,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
               MaterialPageRoute(
                 builder: (context) => NewPostScreen(exploreBloc: expbloc),
               ));
+        }
+        if (state is PostPostingFailedState) {
+          customSnackbarMessage('Something went wrong please try again later',
+              context, Colors.red);
         }
       },
       builder: (context, state) {

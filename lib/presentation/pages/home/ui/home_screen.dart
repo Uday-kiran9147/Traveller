@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isloading = true;
     });
-    Provider.of<UserProvider>(context,listen: true).getuser();
+    Provider.of<UserProvider>(context, listen: true).getuser();
     user = Provider.of<UserProvider>(context).user;
 
     setState(() {
@@ -71,8 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Icon(Icons.logout))
               ],
               title: Text(
-                "${user?.username}",
-                style: Theme.of(context).textTheme.bodySmall,
+                "Hi, ${user?.username}",
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
             backgroundColor: AThemes.universalcolor,
@@ -85,10 +85,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 110,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 8,
+                        itemCount: 5,
                         itemBuilder: (context, index) {
                           return DestinationCard(
                             destination: 'Africa $index',
+                            imageurl: netimage[netimage.length - 1 - index],
                           );
                         },
                       ),
@@ -121,9 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: double.maxFinite,
                         // decoration: BoxDecoration(color: Colors.green),
                         child: SwiperWidget()),
-                    Text(user!.reputation.toString() == null
-                        ? "hsldfh"
-                        : user!.reputation.toString()),
+                    Text(user!.reputation.toString()),
                     Text(user!.tag.toString()),
                     Text(user!.bio.toString()),
                   ],

@@ -33,6 +33,9 @@ class ExploreBloc extends Bloc<ExplorEvent, ExploreState> {
       emit(PostPostingSuccessState());
       // Navigator.pop(context);
     }
+    else{
+      emit(PostPostingFailedState());
+    }
   }
 
   FutureOr<void> exploreInitialEvent(
