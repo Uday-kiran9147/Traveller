@@ -35,10 +35,10 @@ class _RandomProfile extends State<RandomProfile>
     super.initState();
   }
   @override
-  void didChangeDependencies() async{
-    super.didChangeDependencies();
-   await Provider.of<UserProvider>(context, listen: false).getuser();
-  }
+  // void didChangeDependencies() async{
+  //   super.didChangeDependencies();
+  //  await Provider.of<UserProvider>(context, listen: false).getuser();
+  // }
 
   UserRegister? randomuser;
   Future<UserRegister> getuser() async {
@@ -63,6 +63,9 @@ class _RandomProfile extends State<RandomProfile>
 
   String owner = FirebaseAuth.instance.currentUser!.uid;
   bool isfollower=true;
+  Stream<QuerySnapshot> _follow = FirebaseFirestore.instance
+      .collection("users")
+      .snapshots();
   @override
   Widget build(BuildContext context) {
     bool isowner = widget.uid == owner ? true : false;
@@ -146,20 +149,22 @@ class _RandomProfile extends State<RandomProfile>
                       : Container(),
                  isowner!=true? SizedBox(
                     width: 70,
-                    child: TextButton(
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.grey[800],
-                        ),
-                        onPressed: () async {
-                          setState(() {
-                           isfollower=!isfollower;
-                         });
-                          DatabaseService db = DatabaseService();
-                          await db.follow(randomuser!.uid, randomuser!.followers);
-                         await Provider .of<UserProvider>(context).getuser();
-                        },
-                        child:Text(randomuser!.followers.contains(owner) && isfollower ? 'Unfollow' : 'Follow')),
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: _follow,
+                      builder: (context,AsyncSnapshot<QuerySnapshot> snapshot) {
+                        return TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.grey[800],
+                            ),
+                            onPressed: () async {
+                              DatabaseService db = DatabaseService();
+                              await db.follow(randomuser!.uid, randomuser!.followers);
+                             await Provider .of<UserProvider>(context,listen: false).getuser();
+                            },
+                            child:Text(randomuser!.followers.contains(owner)? 'Unfollow' : 'Follow'));
+                      }
+                    ),
                   ):Container(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
