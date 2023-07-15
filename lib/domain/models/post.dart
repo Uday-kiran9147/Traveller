@@ -47,27 +47,22 @@ class Post {
       'popularity':popularity,
       'imageURL': imageURL,
       'description': description,
-      'userID': userID,
+      'userid': userID,
       'location': location,
       'date': date,
     };
   }
 
-  factory Post.fromMap(Map<String, dynamic> map) {
+  static Post fromMap(Map<String, dynamic> map) {
     return Post(
-      id: (map["id"] ?? '') as String,
-      username: (map["username"] ?? '') as String,
+      id: map["id"],
+      username: map["username"] ,
       popularity: map['popularity'],
-      imageURL: (map["imageURL"] ?? '') as String,
-      description: map['description'] != null ? map["description"] ?? '' : null,
-      userID: (map["userID"] ?? '') as String,
-      location: map['location'] != null ? map["location"] ?? '' : null,
-      date: (map["date"] ?? '') as String,
+      imageURL: (map["imageURL"] ?? '') ,
+      description: map["description"] ?? ' ',
+      userID: map["userid"],
+      location:  map["location"] ?? ' ',
+      date: map["date"],
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory Post.fromJson(String source) =>
-      Post.fromMap(json.decode(source) as Map<String, dynamic>);
 }

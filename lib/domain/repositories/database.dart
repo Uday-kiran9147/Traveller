@@ -17,7 +17,7 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('posts');
 
   Future<bool> follow(String userid, List random_User_Followers) async {
-      final String uidCurrentuser = FirebaseAuth.instance.currentUser!.uid;
+    final String uidCurrentuser = FirebaseAuth.instance.currentUser!.uid;
 
     try {
       if (random_User_Followers.contains(uidCurrentuser)) {
@@ -25,8 +25,8 @@ class DatabaseService {
           'followers': FieldValue.arrayRemove([uidCurrentuser])
         });
         await userCollection.doc(uidCurrentuser).update({
-        'following': FieldValue.arrayRemove([userid])
-      });
+          'following': FieldValue.arrayRemove([userid])
+        });
       } else {
         await userCollection.doc(userid).update({
           'followers': FieldValue.arrayUnion([uidCurrentuser])
@@ -55,13 +55,22 @@ class DatabaseService {
 
   Future<bool> incrementReputation(String postid) async {
     try {
-      await postCollection
+      var post = await FirebaseFirestore.instance
+          .collection('posts')
           .doc(postid)
-          .update({'popularity': FieldValue.increment(2)});
-      await userCollection
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update({'reputation': FieldValue.increment(1)});
-      return true;
+          .get();
+      // user cannot increment popularity of his own post and user reputation will not increment for his own post
+      if (post['userid'] != FirebaseAuth.instance.currentUser!.uid) {
+        await postCollection
+            .doc(postid)
+            .update({'popularity': FieldValue.increment(2)});
+        await userCollection
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update({'reputation': FieldValue.increment(1)});
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       print(e);
       return false;
