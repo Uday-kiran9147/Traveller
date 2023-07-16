@@ -49,15 +49,15 @@ class _GridScreenState extends State<GridScreen> {
           // margin: EdgeInsets.all(12),
           child: GridView.custom(
               gridDelegate: SliverQuiltedGridDelegate(
-                crossAxisCount: 4,
+                crossAxisCount: 2,
                 mainAxisSpacing: 1,
                 crossAxisSpacing: 1,
                 repeatPattern: QuiltedGridRepeatPattern.mirrored,
                 pattern: [
                   QuiltedGridTile(2, 1),
                   QuiltedGridTile(2, 1),
-                  QuiltedGridTile(1, 1),
-                  QuiltedGridTile(1, 1),
+                  // QuiltedGridTile(1, 1),
+                  // QuiltedGridTile(1, 1),
                 ],
               ),
               childrenDelegate: SliverChildBuilderDelegate(
