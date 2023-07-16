@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:traveler/presentation/pages/home/ui/widgets/swiperwidget.dart';
 
 class DestinationCard extends StatelessWidget {
   final String imageurl;

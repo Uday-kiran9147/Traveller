@@ -34,7 +34,6 @@ class _RandomProfile extends State<RandomProfile>
     getRandomuser();
     super.initState();
   }
-  @override
   // void didChangeDependencies() async{
   //   super.didChangeDependencies();
   //  await Provider.of<UserProvider>(context, listen: false).getuser();
