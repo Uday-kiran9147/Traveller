@@ -48,6 +48,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         SHP.saveEmailSP(event.userregister.email);
         SHP.saveusernameSP(event.userregister.username);
       }
+      else{
+        emit(RegisterFailureState());
+      }
     });
   }
 }

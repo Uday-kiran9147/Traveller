@@ -40,6 +40,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
           customSnackbarMessage(
               "You have successfully loggedin", context, Colors.green);
         }
+        if(state is RegisterFailureState){
+          customSnackbarMessage("Failed to register user", context, Theme.of(context).colorScheme.error);
+        }
       },
       builder: (context, state) {
         switch (state.runtimeType) {
@@ -48,6 +51,10 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
               authBloc: authBloc,
             );
           case RegisterSuccessState:
+            return AuthAccounts(
+              authBloc: authBloc,
+            );
+            case RegisterFailureState:
             return AuthAccounts(
               authBloc: authBloc,
             );
