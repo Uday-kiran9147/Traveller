@@ -35,15 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getuser() async {
-    setState(() {
-      isloading = true;
-    });
+    // setState(() {
+    //   isloading = true;
+    // });
     Provider.of<UserProvider>(context, listen: true).getuser();
     user = Provider.of<UserProvider>(context).user;
 
-    setState(() {
-      isloading = false;
-    });
+    // setState(() {
+    //   isloading = false;
+    // });
   }
 
   @override

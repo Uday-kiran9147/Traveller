@@ -87,7 +87,7 @@ class _PostScreenState extends State<PostScreen> {
         ),
         InteractiveViewer(
           // boundaryMargin: const EdgeInsets.all(20.0),
-          minScale: 0.10,
+          minScale: 1,
           maxScale: 5,
           child: Container(
             height:imageRatio_height<250?250: 500,

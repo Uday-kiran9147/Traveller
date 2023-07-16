@@ -45,9 +45,11 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
                 style: TextStyle(color: Colors.green),
               )),
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: Text(
-                "Date",
+                "Back",
                 style: TextStyle(),
               ))
         ],

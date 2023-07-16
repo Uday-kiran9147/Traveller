@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:traveler/domain/models/post.dart';
@@ -19,7 +20,8 @@ class CommentBox extends StatelessWidget {
     return Column(
       children: [
         Container(
-            height: 70,
+            padding: EdgeInsets.only(top: 20),
+            height: 80,
             width: 500,
             margin: EdgeInsets.only(left: 20),
             child: TextFormField(
@@ -28,15 +30,16 @@ class CommentBox extends StatelessWidget {
                 hintText: "Add a comment",
                 suffixIcon: IconButton(
                   onPressed: () async {
-                   if(_commentController.text.isNotEmpty){
-                     await GoogleAuth.addComment(Comment(
-                        id: "id",
-                        username: "username",
-                        comment: _commentController.text,
-                        userID: "",
-                        date: "",
-                        postID: post.id));
-                   }
+                    if (_commentController.text.isNotEmpty) {
+                      await GoogleAuth.addComment(Comment(
+                          id: "id",
+                          username: "username",
+                          comment: _commentController.text,
+                          userID: "",
+                          date: "",
+                          postID: post.id));
+                      _commentController.clear();
+                    }
                   },
                   icon: Icon(Icons.send),
                 ),
@@ -49,7 +52,7 @@ class CommentBox extends StatelessWidget {
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: LinearProgressIndicator());
               }
               if (snapshot.hasError) {
                 return const Center(child: Text('Something went wrong'));
@@ -66,9 +69,25 @@ class CommentBox extends StatelessWidget {
                       final data =
                           documents[index].data() as Map<String, dynamic>;
                       return ListTile(
+                        onLongPress: () async {
+                          if (data['userID'] ==
+                              FirebaseAuth.instance.currentUser!.uid) {
+                            DocumentReference<Map<String, dynamic>> id =
+                                await FirebaseFirestore.instance
+                                    .collection("comment")
+                                    .doc(data['id']);
+                            await id.delete();
+                          }
+                        },
                         leading: CircleAvatar(),
                         title: Text("${data['username']}"),
-                        subtitle: Text(data['comment'],style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black),),
+                        subtitle: Text(
+                          data['comment'],
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: Colors.black),
+                        ),
                       );
                     }),
               );

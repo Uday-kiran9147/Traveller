@@ -80,23 +80,28 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   style: Theme.of(context).textTheme.bodyMedium,
                   children: <TextSpan>[
                     TextSpan(
-                      text: user.tag!,
+                        text: '${user.username} • ',
+                        style: Theme.of(context).textTheme.bodyMedium!),
+                    TextSpan(
+                      text: '${user.tag!}',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Colors.greenAccent,
                           ),
                     ),
-                    TextSpan(
-                        text: ' • ${user.username}',
-                        style: Theme.of(context).textTheme.bodyMedium!),
                   ],
                 ),
               ),
             ),
-            isowner?Text(user.email,textAlign: TextAlign.center,):Container(),
+            isowner
+                ? Text(
+                    user.email,
+                    textAlign: TextAlign.center,
+                  )
+                : Container(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Upcoming.."),
+                Text("Upcoming....."),
                 TextButton(
                     onPressed: () {
                       String? destination;
@@ -114,7 +119,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     width: 300,
                     child: Text(
                       '-----No upcoming plans-----',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.bodySmall,
                       textAlign: TextAlign.center,
                     ))
                 : SizedBox(
@@ -164,7 +169,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                         ])
                                             // maxLines: 3,
                                             )),
-                                    Text("on \nDec 2021",
+                                    Text("Destination",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
@@ -187,7 +192,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                               listen: false)
                                           .getuser();
                                     },
-                                    child: Icon(Icons.close)),
+                                    child: Icon(Icons.close_rounded)),
                               )
                             ],
                           ),
