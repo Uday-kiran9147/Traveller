@@ -48,21 +48,27 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 Stack(
                   children: [
                     Container(
-                      height: 130,
-                      width: 130,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(color: Colors.grey, blurRadius: 12)
-                          ],
-                          border: Border.all(color: Colors.orange),
-                          borderRadius: BorderRadius.circular(30),
-                          image: DecorationImage(
-                              opacity: 0.75,
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                user.profileurl!,
-                              ))),
-                    ),
+                        height: 130,
+                        width: 130,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(color: Colors.grey, blurRadius: 12)
+                            ],
+                            border: Border.all(color: Colors.orange),
+                            borderRadius: BorderRadius.circular(30),
+                            image: (user.profileurl == null ||
+                                    user.profileurl!.startsWith('http')==false)
+                                ? DecorationImage(
+                                    opacity: 0.75,
+                                    fit: BoxFit.cover,
+                                    image: AssetImage('assets/noimage.png'),
+                                  )
+                                : DecorationImage(
+                                    opacity: 0.75,
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      user.profileurl!,
+                                    )))),
                     IconButton.filled(
                         onPressed: () {
                           Navigator.pushNamed(context, RouteName.editprofile);

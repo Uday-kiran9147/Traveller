@@ -69,6 +69,7 @@ flutter:
     - assets/onb1.jpg
     - assets/filter_icon.png
     - assets/verified.png
+    - assets/noimage.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
