@@ -147,7 +147,7 @@ class DatabaseService {
   static Future<bool> saveprofilepicture(File image) async {
     try {
       final ref = await FirebaseStorage.instance.ref().child("userProfile").child(
-          "Traveller-profile-${userCollection.id}");
+          "Traveller-profile-${userCollection.id}-${FirebaseAuth.instance.currentUser!.uid}");
      await ref.putFile(image);
       final imageurl =await ref.getDownloadURL();
     //  DocumentReference userdocreference= await userCollection.add({});
