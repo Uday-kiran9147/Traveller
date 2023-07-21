@@ -89,7 +89,7 @@ class _RandomProfile extends State<RandomProfile>
                     children: [
                       Stack(
                         children: [
-                          Container(
+                        if(randomuser!.profileurl! !=null ||randomuser!.profileurl!.isNotEmpty)  Container(
                             height: 130,
                             width: 130,
                             decoration: BoxDecoration(

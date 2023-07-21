@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-            backgroundColor: AThemes.universalcolor,
+            backgroundColor: AThemes.comment_Box,
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -97,18 +97,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       children: [
                         Expanded(
-                          flex: 7,
-                          child: TextField(
-                            scrollPadding: EdgeInsets.all(8),
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              hintText: 'search country or list',
-                            ),
-                          ),
-                        ),
+                            flex: 7,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Search",
+                                fillColor: AThemes.comment_Box,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                ),
+                              ),
+                            )),
                         Expanded(
                           child: Container(
                             child: Icon(Icons.filter_alt_outlined),
