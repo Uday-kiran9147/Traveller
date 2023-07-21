@@ -82,15 +82,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     Container(
-                      height: 110,
+                      height: 148,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
                         itemBuilder: (context, index) {
-                          return DestinationCard(
-                            destination: 'Africa $index',
-                            imageurl: netimage[netimage.length - 1 - index],
-                          );
+                          return Column(children: [
+                            Text('Africa $index',style: Theme.of(context).textTheme.bodySmall,),
+                            DestinationCard(
+                              imageurl: netimage[netimage.length - 1 - index],
+                            ),
+                          ]);
                         },
                       ),
                     ),
