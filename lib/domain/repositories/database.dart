@@ -144,6 +144,22 @@ class DatabaseService {
         .set(user.toMap());
   }
 
+  static Future<bool> saveprofilepicture(File image) async {
+    try {
+      final ref = await FirebaseStorage.instance.ref().child("userProfile").child(
+          "Traveller-profile-${userCollection.id}");
+     await ref.putFile(image);
+      final imageurl =await ref.getDownloadURL();
+    //  DocumentReference userdocreference= await userCollection.add({});
+     await userCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({
+      "profileurl": imageurl.toString(),
+     });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   static Future<bool> savepost(Post post, File image) async {
     // print("database post");
 
