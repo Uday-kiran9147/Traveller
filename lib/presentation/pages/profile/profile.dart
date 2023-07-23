@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/domain/repositories/database.dart';
+import 'package:traveler/presentation/pages/profile/followings.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 import '../../../config/theme/apptheme.dart';
 import '../../providers/user_provider.dart';
@@ -57,7 +58,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             border: Border.all(color: Colors.orange),
                             borderRadius: BorderRadius.circular(30),
                             image: (user.profileurl == null ||
-                                    user.profileurl!.startsWith('http')==false)
+                                    user.profileurl!.startsWith('http') ==
+                                        false)
                                 ? DecorationImage(
                                     opacity: 0.75,
                                     fit: BoxFit.cover,
@@ -260,13 +262,21 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           crossAxisSpacing: 20,
           mainAxisSpacing: 10),
       children: [
-        countContainer(
-            Icons.follow_the_signs, user.followers.length, "folowers"),
-        countContainer(
-            Icons.follow_the_signs, user.following.length, "following"),
-        countContainer(Icons.show_chart_rounded, user.reputation, "count"),
-        countContainer(
-            Icons.nature, user.upcomingtrips.length, "upcoming trips"),
+        GestureDetector(
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => FollowingScreen(index:1))),
+          child: countContainer(
+              Icons.follow_the_signs, user.followers.length, "followers"),
+        ),
+        InkWell(
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => FollowingScreen(index:0))),
+          child: countContainer(
+              Icons.follow_the_signs, user.following.length, "following"),
+        ),
+        countContainer(Icons.favorite, user.reputation, "reputation"),
+        countContainer(Icons.density_large_rounded, user.upcomingtrips.length,
+            "upcoming trips"),
       ],
     );
   }
@@ -280,7 +290,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       width: 70,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Icon(Icons.person_2), Text(count.toString()), Text(text)],
+        children: [Icon(icon), Text(count.toString()), Text(text)],
       ),
     );
   }

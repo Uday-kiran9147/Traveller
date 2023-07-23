@@ -15,6 +15,40 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
   static final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
+  Future<List<UserRegister>?> getfollowList() async {
+    List following = [];
+    var res;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) async {
+      UserRegister user = UserRegister.fromMap(value);
+      following = user.following;
+      res = await getusers(following);
+      user.followers;
+      return res;
+      // ignore: body_might_complete_normally_catch_error
+    }).catchError((e) {
+      print("Error Occured uday: $e");
+    });
+    return res;
+  }
+
+  Future<List<UserRegister>> getusers(List uid_list) async {
+    List<UserRegister>? users;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .where('uid', whereIn: uid_list)
+        .get()
+        .then((value) {
+      users = value.docs.map((e) => UserRegister.fromMap(e)).toList();
+      // allusers = users;
+    }).catchError((e) {
+      print("Error Occured uday: $e");
+    });
+    return users!;
+  }
 
   Future<bool> follow(String userid, List random_User_Followers) async {
     final String uidCurrentuser = FirebaseAuth.instance.currentUser!.uid;
@@ -148,12 +182,12 @@ class DatabaseService {
     try {
       final ref = await FirebaseStorage.instance.ref().child("userProfile").child(
           "Traveller-profile-${userCollection.id}-${FirebaseAuth.instance.currentUser!.uid}");
-     await ref.putFile(image);
-      final imageurl =await ref.getDownloadURL();
-    //  DocumentReference userdocreference= await userCollection.add({});
-     await userCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({
-      "profileurl": imageurl.toString(),
-     });
+      await ref.putFile(image);
+      final imageurl = await ref.getDownloadURL();
+      //  DocumentReference userdocreference= await userCollection.add({});
+      await userCollection.doc(FirebaseAuth.instance.currentUser!.uid).update({
+        "profileurl": imageurl.toString(),
+      });
       return true;
     } catch (e) {
       return false;
