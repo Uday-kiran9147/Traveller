@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:traveler/config/theme/apptheme.dart';
 
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/domain/repositories/database.dart';
@@ -24,13 +25,14 @@ class _FollowingScreenState extends State<FollowingScreen> {
   }
 
   getus() async {
-    List<UserRegister>? users = await db.getfollowList();
+    List<List<UserRegister>?> users = await db.getfollowList();
+    print(users);
     setState(() {
-      followingallusers = users;
+      biglist = users;
     });
   }
 
-  List<UserRegister>? followingallusers;
+  List<List<UserRegister>?>? biglist = [[], []];
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +40,13 @@ class _FollowingScreenState extends State<FollowingScreen> {
       length: 2,
       initialIndex: widget.index,
       child: Scaffold(
+        backgroundColor: AThemes.universalcolor,
         appBar: AppBar(
-          actions: [],
+          backgroundColor: AThemes.universalcolor,
           bottom: TabBar(
+            // indicator: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(50), // Creates border
+            //     color: Colors.greenAccent),
             tabs: [
               Tab(text: 'Following'),
               Tab(text: 'Followers'),
@@ -51,28 +57,58 @@ class _FollowingScreenState extends State<FollowingScreen> {
           children: [
             Container(
               child: Center(
-                child: followingallusers == null
+                child: biglist![0] == null
                     ? CircularProgressIndicator()
-                    : ListView.builder(
-                        itemCount: followingallusers!.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: ListTile(
-                              title: Text(followingallusers![index].username),
-                            ),
-                          );
-                        },
-                      ),
+                    : FollowList(biglist: biglist![0]),
               ),
             ),
             Container(
               child: Center(
-                child: Text('Followers'),
+                child: biglist![1] == null
+                    ? CircularProgressIndicator()
+                    : FollowList(biglist: biglist![1]),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class FollowList extends StatelessWidget {
+  const FollowList({
+    super.key,
+    required this.biglist,
+  });
+
+  final List<UserRegister>? biglist;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: biglist!.length,
+      itemBuilder: (context, index) {
+        var user = biglist![index];
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: AThemes.universalcolor,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: Colors.red,
+              ),
+            ),
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(user.profileurl!),
+              ),
+              title: Text(biglist![index].username),
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -15,9 +15,12 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
   static final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
-  Future<List<UserRegister>?> getfollowList() async {
+  Future<List<List<UserRegister>?>> getfollowList() async {
+    List<List<UserRegister>?> biglist=List.empty(growable: true);
     List following = [];
-    var res;
+    List followers = [];
+    var ing;
+    var ers;
     await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -25,14 +28,16 @@ class DatabaseService {
         .then((value) async {
       UserRegister user = UserRegister.fromMap(value);
       following = user.following;
-      res = await getusers(following);
-      user.followers;
-      return res;
+      ing = await getusers(following);
+      followers = user.followers;
+      ers = await getusers(followers);
+      biglist = [ing, ers];
+      return biglist;
       // ignore: body_might_complete_normally_catch_error
     }).catchError((e) {
       print("Error Occured uday: $e");
     });
-    return res;
+    return biglist;
   }
 
   Future<List<UserRegister>> getusers(List uid_list) async {
