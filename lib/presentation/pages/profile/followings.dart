@@ -59,14 +59,22 @@ class _FollowingScreenState extends State<FollowingScreen> {
               child: Center(
                 child: biglist![0] == null
                     ? CircularProgressIndicator()
-                    : FollowList(biglist: biglist![0]),
+                    : biglist![0]!.isEmpty
+                        ? Center(
+                            child: Text('No following yet'),
+                          )
+                        : FollowList(biglist: biglist![0]),
               ),
             ),
             Container(
               child: Center(
                 child: biglist![1] == null
                     ? CircularProgressIndicator()
-                    : FollowList(biglist: biglist![1]),
+                    : biglist![1]!.isEmpty
+                        ? Center(
+                            child: Text('No followers yet'),
+                          )
+                        : FollowList(biglist: biglist![1]),
               ),
             ),
           ],

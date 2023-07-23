@@ -16,7 +16,7 @@ class DatabaseService {
   static final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
   Future<List<List<UserRegister>?>> getfollowList() async {
-    List<List<UserRegister>?> biglist=List.empty(growable: true);
+    List<List<UserRegister>?> biglist = List.empty(growable: true);
     List following = [];
     List followers = [];
     var ing;
@@ -31,7 +31,7 @@ class DatabaseService {
       ing = await getusers(following);
       followers = user.followers;
       ers = await getusers(followers);
-      biglist = [ing, ers];
+      biglist = [ing??[], ers??[]];
       return biglist;
       // ignore: body_might_complete_normally_catch_error
     }).catchError((e) {
