@@ -26,7 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await GoogleAuth.userLogin(event.userlogin.email, event.userlogin.password)
         .then((value) {
       if (value == true) {
-        emit(LoginSuccessState());
+        emit(LoginSuccessState(event.userlogin.email));
         emit((NavigateToHomeScreenState()));
         SHP.saveEmailSP(event.userlogin.email);
         SHP.saveUserLoggedinStatusSP(true);
@@ -42,14 +42,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthRegisterEvent event, Emitter<AuthState> emit) async {
     await GoogleAuth.registerUser(event.userregister.username,
             event.userregister.email, event.userregister.password)
-        .then((value) {
-      if (value == true) {
-        emit(RegisterSuccessState());
-        SHP.saveEmailSP(event.userregister.email);
-        SHP.saveusernameSP(event.userregister.username);
+        .then((value) async {
+          var isvalid=value['status'];
+          print(value);
+      if (isvalid == true) {
+        emit(RegisterSuccessState(SuccessMsg:value['msg'] ));
+
+       await SHP.saveEmailSP(event.userregister.email);
+       await SHP.saveusernameSP(event.userregister.username);
       }
       else{
-        emit(RegisterFailureState());
+        emit(RegisterFailureState(failMsg: value['msg']));
       }
     });
   }

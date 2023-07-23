@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:traveler/domain/models/user.dart';
+import 'package:traveler/presentation/widgets/snackbars.dart';
 import '../../bloc/auth_bloc.dart';
 
 class SignupForm extends StatefulWidget {
@@ -103,11 +104,7 @@ class _SignupFormState extends State<SignupForm> {
                         password: _passwordController.text)));
               } else {
                 ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Passwords do not match"),
-                  ),
-                );
+                customSnackbarMessage("Passwords do not match, please check", context, Colors.red);
               }
             },
           ),

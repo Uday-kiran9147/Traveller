@@ -33,15 +33,18 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
           Navigator.pushReplacementNamed(context, RouteName.home);
         }
         if (state is LoginFailureState) {
-          customSnackbarMessage("Wrong E-mail,Password Provided by User",
+          customSnackbarMessage("Wrong email,password provided",
               context, Theme.of(context).colorScheme.error);
         }
         if (state is LoginSuccessState) {
           customSnackbarMessage(
-              "You have successfully loggedin", context, Colors.green);
+              "You have successfully loggedin ${state.SuccessMsg}", context, Colors.green);
         }
         if(state is RegisterFailureState){
-          customSnackbarMessage("Failed to register user", context, Theme.of(context).colorScheme.error);
+          customSnackbarMessage(state.failMsg, context, Theme.of(context).colorScheme.error);
+        }
+        if(state is RegisterSuccessState){
+          customSnackbarMessage(state.SuccessMsg, context, Colors.green);
         }
       },
       builder: (context, state) {

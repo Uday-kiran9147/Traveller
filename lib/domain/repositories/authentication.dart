@@ -58,7 +58,7 @@ class GoogleAuth {
     }
   }
 
-  static Future<bool> registerUser(
+  static Future<Map<String, dynamic>> registerUser(
       String name, String email, String password) async {
     try {
       UserCredential userCredential =
@@ -68,14 +68,14 @@ class GoogleAuth {
       );
       // The user is successfully created. You can perform additional tasks here, such as storing user data in Firestore.
       // Access the user object using (userCredential.user)
-    DatabaseService. saveUserData(name, email, password);
+      DatabaseService.saveUserData(name, email, password);
       userID = userCredential.user!.uid;
       print('User created ID: ${userCredential.user!.uid}');
-      return true;
+      return {"msg": "Acount created with $email", "status": true};
     } catch (e) {
       // Handle any errors that occur during the user creation process
-      print('Error creating user: ${e}');
-      return false;
+      // print('Error creating user: ${e}');
+      return {"msg": e.toString(), "status": false};
     }
   }
 

@@ -12,12 +12,23 @@ class ShowAuthScreenState extends AuthState {}
 
 class AuthInitialState extends AuthState {}
 
-class LoginSuccessState extends AuthActionState {}
+class LoginSuccessState extends AuthActionState {
+    final String SuccessMsg;
+
+  LoginSuccessState(this.SuccessMsg);
+
+}
 
 class LoginFailureState extends AuthActionState {}
 
-class RegisterSuccessState extends AuthState {}
+class RegisterSuccessState extends AuthActionState {
+  final String SuccessMsg;
+  RegisterSuccessState({required this.SuccessMsg});
+}
 
-class RegisterFailureState extends AuthState {}
+class RegisterFailureState extends AuthActionState {
+    final String failMsg;
+  RegisterFailureState({required this.failMsg});
+}
 
 class AuthLoadingState extends AuthState {}
