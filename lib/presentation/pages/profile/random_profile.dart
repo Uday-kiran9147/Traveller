@@ -149,6 +149,8 @@ class _RandomProfile extends State<RandomProfile>
                         ),
                       ),
                     ),
+                    Text(randomuser!.bio!.isEmpty ? '-Bio-' : randomuser!.bio!,textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium!),
                     isowner
                         ? Text(
                             randomuser!.email,

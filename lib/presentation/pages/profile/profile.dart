@@ -100,6 +100,9 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 ),
               ),
             ),
+            Text(user.bio!.isEmpty ? '-Bio-' : user.bio!,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium!),
             isowner
                 ? Text(
                     user.email,
@@ -263,14 +266,18 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           mainAxisSpacing: 10),
       children: [
         GestureDetector(
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => FollowingScreen(index:1))),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => FollowingScreen(index: 1))),
           child: countContainer(
               Icons.follow_the_signs, user.followers.length, "followers"),
         ),
         InkWell(
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => FollowingScreen(index:0))),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => FollowingScreen(index: 0))),
           child: countContainer(
               Icons.follow_the_signs, user.following.length, "following"),
         ),

@@ -129,23 +129,11 @@ class _UserInfoFormState extends State<UserInfoForm> {
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'tag'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an tag';
-                  }
-                  // You can add email format validation if needed.
-                  return null;
-                },
+                
                 controller: tag,
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'bio'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a boi';
-                  }
-                  return null;
-                },
                 controller: bio,
               ),
               // Add more text fields for other user information here.
