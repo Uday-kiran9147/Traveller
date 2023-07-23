@@ -109,9 +109,13 @@ class FollowList extends StatelessWidget {
               ),
             ),
             child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(user.profileurl!),
-              ),
+              leading: user.profileurl!.startsWith('http') == false
+                  ? CircleAvatar(
+                      backgroundImage: AssetImage('assets/noimage.png'),
+                    )
+                  : CircleAvatar(
+                      backgroundImage: NetworkImage(user.profileurl!),
+                    ),
               title: Text(biglist![index].username),
             ),
           ),
