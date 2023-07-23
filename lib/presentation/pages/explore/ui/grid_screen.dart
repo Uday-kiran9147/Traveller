@@ -46,7 +46,12 @@ class _GridScreenState extends State<GridScreen> {
     return Scaffold(
         backgroundColor: Colors.black,
         body: Container(
-          // margin: EdgeInsets.all(12),
+          height: double.maxFinite,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Colors.greenAccent,
+            Colors.purple,
+          ])),
           child: GridView.custom(
               gridDelegate: SliverQuiltedGridDelegate(
                 crossAxisCount: 2,

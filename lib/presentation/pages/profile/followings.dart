@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/domain/repositories/database.dart';
+import 'package:traveler/presentation/providers/user_provider.dart';
 
 class FollowingScreen extends StatefulWidget {
   const FollowingScreen({
@@ -36,6 +38,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user.username;
     return DefaultTabController(
       length: 2,
       initialIndex: widget.index,
@@ -43,10 +46,19 @@ class _FollowingScreenState extends State<FollowingScreen> {
         backgroundColor: AThemes.universalcolor,
         appBar: AppBar(
           backgroundColor: AThemes.universalcolor,
+          automaticallyImplyLeading: false, // hides leading widget (Back button)
+          title: Text(
+            user,textAlign: TextAlign.end,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
           bottom: TabBar(
-            // indicator: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(50), // Creates border
-            //     color: Colors.greenAccent),
+            indicator: BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  AThemes.gradient2,
+                  AThemes.gradient1,
+                ]),
+                borderRadius: BorderRadius.circular(50), // Creates border
+                ),
             tabs: [
               Tab(text: 'Following'),
               Tab(text: 'Followers'),
@@ -57,7 +69,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
           children: [
             Container(
               child: Center(
-                child: biglist![0] == null
+                child: biglist![0] == null || biglist![0]!.isEmpty
                     ? CircularProgressIndicator()
                     : biglist![0]!.isEmpty
                         ? Center(
@@ -68,7 +80,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
             ),
             Container(
               child: Center(
-                child: biglist![1] == null
+                child: biglist![1] == null || biglist![1]!.isEmpty
                     ? CircularProgressIndicator()
                     : biglist![1]!.isEmpty
                         ? Center(
@@ -102,10 +114,14 @@ class FollowList extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Color.fromARGB(255, 194, 65, 103),
+                Colors.blueAccent,
+              ]),
               color: AThemes.universalcolor,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: Colors.red,
+                color: Colors.green,
               ),
             ),
             child: ListTile(

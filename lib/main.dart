@@ -85,8 +85,8 @@ class _MyAppState extends State<MyApp> {
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
               titleLarge: TextStyle(
-                  fontSize: 36.0,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.w300,
                   color: Colors.white),
               bodySmall: TextStyle(fontSize: 12.0, color: Colors.white),
               bodyMedium: TextStyle(fontSize: 15.0, color: Colors.white),
