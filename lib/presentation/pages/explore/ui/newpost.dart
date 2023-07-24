@@ -7,10 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:traveler/config/theme/apptheme.dart';
-
 import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
-
-import '../../../../domain/models/post.dart';
 
 // ignore: must_be_immutable
 class NewPostScreen extends StatefulWidget {
@@ -26,7 +23,7 @@ class NewPostScreen extends StatefulWidget {
 class _NewPostScreenState extends State<NewPostScreen> {
   File? _image;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _captionController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
   TextEditingController _locationController = TextEditingController();
 
   Future<void> _getImage() async {
@@ -129,7 +126,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _captionController.dispose();
+    _descriptionController.dispose();
     _locationController.dispose();
     super.dispose();
   }
@@ -167,7 +164,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 child: Text('Select Image'),
               ),
               TextFormField(
-                controller: _captionController,
+                controller: _descriptionController,
                 decoration: InputDecoration(
                   labelText: 'write a caption.....',
                 ),
@@ -187,18 +184,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     if (_formKey.currentState!.validate()) {
                       // Form is valid, process the data
                       if (_image != null) {
-                        print("pressed");
                         // Use the selected image
                         widget.exploreBloc.add(PostingPostEvent(
-                          post: Post(
-                              id: "id",
-                              username: "username",
-                              imageURL: "imageURL",
-                              description: _captionController.text,
-                              userID: "userid",
-                              popularity: 0,
-                              location: address ?? _locationController.text,
-                              date: DateTime.now().toString()),
+                              description: _descriptionController.text,
+                              location: address!.isEmpty? _locationController.text:address!,
+                              date: DateTime.now().toString(),
                           image: _image!,
                         ));
                       }

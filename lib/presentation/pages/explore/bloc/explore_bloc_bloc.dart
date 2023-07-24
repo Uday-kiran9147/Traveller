@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:traveler/domain/usecases/save_post.dart';
-import '../../../../domain/models/post.dart';
 part 'explore_bloc_event.dart';
 part 'explore_bloc_state.dart';
 
@@ -17,8 +16,8 @@ class ExploreBloc extends Bloc<ExplorEvent, ExploreState> {
 
   FutureOr<void> postingPostEvent(
       PostingPostEvent event, Emitter<ExploreState> emit) async {
-        SavePost GoogleAuth = SavePost(post: event.post, image: event.image!);
-    bool isposted = await GoogleAuth.savepost();
+        SavePost savepost = SavePost(description: event.description, location: event.location, date: event.date, image: event.image);
+    bool isposted = await savepost.savepost();
     if (isposted) {
       emit(PostPostingSuccessState());
       // Navigator.pop(context);

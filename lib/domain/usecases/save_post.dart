@@ -1,16 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
-import '../models/post.dart';
+import '../../data/repository/database.dart';
 
 class SavePost {
-  final Post post;
-  final File image;
-  const SavePost({
-    required this.post,
+  final String description;
+  final String location;
+  final String date;
+  final File? image;
+  SavePost({
+    required this.description,
+    required this.location,
+    required this.date,
     required this.image,
   });
   static final CollectionReference postCollection =
@@ -18,19 +21,28 @@ class SavePost {
 
   Future<bool> savepost() async {
     try {
+      var username = await DatabaseService.userCollection
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get()
+          .then((value) => value['username'])
+          .catchError((e) {
+        print("error in getting username");
+        print(e.toString());
+      });
+
       DocumentReference postdocumentReference = await postCollection.add({
         "id": "",
-        "description": post.description,
+        "description": description,
         "imageurl": "",
         'popularity': 0,
-        "location": post.location,
-        "username": post.username,
-        "userid": post.userID,
+        "location": location,
+        "username": username,
+        "userid": FirebaseAuth.instance.currentUser!.uid,
         "date": DateTime.now().toString(),
       });
       final ref = FirebaseStorage.instance.ref().child("userPost").child(
-          "Traveller-posts-${post.username}-${postdocumentReference.id}.jpeg");
-      await ref.putFile(image);
+          "Traveller-posts-${username}-${postdocumentReference.id}.jpeg");
+      await ref.putFile(image!);
       final imageurl = await ref.getDownloadURL();
 
       await postdocumentReference.update({

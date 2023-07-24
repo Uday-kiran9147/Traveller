@@ -7,10 +7,14 @@ abstract class ExplorEvent {}
 class ExploreInitialEvent extends ExplorEvent {}
 
 class PostingPostEvent extends ExplorEvent {
-  final Post post;
+  final String description;
+  final String location;
+  final String date;
   final File? image;
    PostingPostEvent({
-    required this.post,
+    required this.description,
+    required this.location,
+    required this.date,
     required this.image,
   });
 }
