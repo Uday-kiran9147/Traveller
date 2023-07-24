@@ -29,7 +29,9 @@ class SavePost {
         print("error in getting username");
         print(e.toString());
       });
-
+      if (username.toString().isEmpty) {
+        return false;
+      }
       DocumentReference postdocumentReference = await postCollection.add({
         "id": "",
         "description": description,
@@ -38,7 +40,7 @@ class SavePost {
         "location": location,
         "username": username,
         "userid": FirebaseAuth.instance.currentUser!.uid,
-        "date": DateTime.now().toString(),
+        "date": date,
       });
       final ref = FirebaseStorage.instance.ref().child("userPost").child(
           "Traveller-posts-${username}-${postdocumentReference.id}.jpeg");
