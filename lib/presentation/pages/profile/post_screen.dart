@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/profile/random_profile.dart';
@@ -40,8 +41,7 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(imageRatio_height);
-    print(imageRatio_width);
+
     Post post = widget.post;
     return Scaffold(
       backgroundColor: AThemes.universalcolor,
@@ -53,7 +53,8 @@ class _PostScreenState extends State<PostScreen> {
         ListTile(
           trailing: IconButton(
             onPressed: () {
-              showBottomSheetCustom(context, post.description!, post.id);
+              if (post.userID == FirebaseAuth.instance.currentUser!.uid)
+                showBottomSheetCustom(context, post.description!, post.id);
             },
             icon: Icon(Icons.more_vert),
           ),

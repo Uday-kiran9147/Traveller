@@ -92,7 +92,10 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
     builder: (context) {
       return AlertDialog(
         title: Text("Are you sure you want to delete this post?",
-            style: TextStyle(fontSize: 15, fontStyle: FontStyle.normal)),
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: AThemes.universalcolor)),
         actions: [
           TextButton(
               onPressed: () async {
@@ -100,6 +103,8 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
                     .collection("posts")
                     .doc(postid)
                     .delete();
+                Navigator.pop(context);
+                Navigator.pop(context);
                 Navigator.pop(context);
               },
               child: Text(
