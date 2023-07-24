@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:traveler/domain/models/user.dart';
-import 'package:traveler/data/repository/database.dart';
+import 'package:traveler/domain/usecases/delete_travel_list.dart';
 import 'package:traveler/presentation/pages/profile/followings.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 import '../../../config/theme/apptheme.dart';
@@ -197,8 +197,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                     onTap: () async {
                                       var destination =
                                           user.upcomingtrips[index];
-                                      DatabaseService db = DatabaseService();
-                                      await db.deleteTravelList(destination);
+                                      DeleteTravelListItem db = DeleteTravelListItem(destination: destination);
+                                      await db.deleteTravelList();
                                       await Provider.of<UserProvider>(context,
                                               listen: false)
                                           .getuser();

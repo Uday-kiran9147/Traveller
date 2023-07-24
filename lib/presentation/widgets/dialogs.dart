@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:traveler/domain/usecases/add_travel_list.dart';
 import '../../config/theme/apptheme.dart';
-import '../../data/repository/database.dart';
 import '../providers/user_provider.dart';
 
 Future<dynamic> destinationDialog(BuildContext context, String? destination) {
@@ -28,15 +28,14 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
         actions: [
           TextButton(
               onPressed: () async {
-                DatabaseService db = DatabaseService();
                 if (destination != null || destination!.isNotEmpty) {
-                  await db.addTravelList(destination!);
+                  AddTravelItem add_Travel_list = AddTravelItem(destination: destination!);
+                  await add_Travel_list.addTravelList();
                   print(destination);
                   await Provider.of<UserProvider>(context, listen: false)
                       .getuser();
                   Navigator.pop(context);
-                }
-                else{
+                } else {
                   Navigator.pop(context);
                 }
               },

@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:traveler/domain/models/user.dart';
-import 'package:traveler/data/repository/database.dart';
+import 'package:traveler/domain/usecases/follow_user.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 
 import '../../../config/theme/apptheme.dart';
+import '../../../domain/usecases/delete_travel_list.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/dialogs.dart';
 
@@ -61,7 +62,7 @@ class _RandomProfile extends State<RandomProfile>
   }
 
   Future<void> refresh() async {
-  //  await Future.delayed(Duration(seconds: 1));
+    //  await Future.delayed(Duration(seconds: 1));
   }
 
   String owner = FirebaseAuth.instance.currentUser!.uid;
@@ -149,8 +150,9 @@ class _RandomProfile extends State<RandomProfile>
                         ),
                       ),
                     ),
-                    Text(randomuser!.bio!.isEmpty ? '-Bio-' : randomuser!.bio!,textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium!),
+                    Text(randomuser!.bio!.isEmpty ? '-Bio-' : randomuser!.bio!,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyMedium!),
                     isowner
                         ? Text(
                             randomuser!.email,
@@ -170,9 +172,11 @@ class _RandomProfile extends State<RandomProfile>
                                         backgroundColor: Colors.grey[800],
                                       ),
                                       onPressed: () async {
-                                        DatabaseService db = DatabaseService();
-                                        await db.follow(randomuser!.uid,
-                                            randomuser!.followers);
+                                        FollowUser follow = FollowUser(
+                                            userid: randomuser!.uid,
+                                            random_User_Followers:
+                                                randomuser!.followers);
+                                        await follow.follow();
                                         await Provider.of<UserProvider>(context,
                                                 listen: false)
                                             .getuser();
@@ -285,10 +289,11 @@ class _RandomProfile extends State<RandomProfile>
                                                         randomuser!
                                                                 .upcomingtrips[
                                                             index];
-                                                    DatabaseService db =
-                                                        DatabaseService();
-                                                    await db.deleteTravelList(
-                                                        destination);
+                                                    DeleteTravelListItem db =
+                                                        DeleteTravelListItem(
+                                                            destination:
+                                                                destination);
+                                                    await db.deleteTravelList();
                                                     await Provider.of<
                                                                 UserProvider>(
                                                             context,

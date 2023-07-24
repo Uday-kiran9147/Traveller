@@ -31,13 +31,9 @@ class CommentBox extends StatelessWidget {
                 suffixIcon: IconButton(
                   onPressed: () async {
                     if (_commentController.text.isNotEmpty) {
-                      AddComment addComment = AddComment(Comment(
-                          id: "id",
-                          username: "username",
+                      AddComment addComment = AddComment(
                           comment: _commentController.text,
-                          userID: "",
-                          date: "",
-                          postID: post.id));
+                          postid: post.id);
                       await addComment.addComment();
                       _commentController.clear();
                     }

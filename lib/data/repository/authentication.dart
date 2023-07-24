@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:traveler/data/repository/database.dart';
-import '../../utils/constants/sharedprefs.dart';
 import '../../domain/models/user.dart';
 
 class GoogleAuth {
@@ -44,15 +43,5 @@ class GoogleAuth {
     return true;
   }
 
-  Future<bool> signoutuser() async {
-    try {
-      await SHP.saveEmailSP("");
-      await SHP.saveUserLoggedinStatusSP(false);
-      await SHP.saveusernameSP("");
-      await firebaseAuth.signOut();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
+
 }

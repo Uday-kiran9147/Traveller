@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:traveler/data/repository/database.dart';
+import 'package:traveler/domain/usecases/edit_profile.dart';
 import 'package:traveler/presentation/providers/user_provider.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
@@ -97,7 +98,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                         if (_image != null) {
                           customSnackbarMessage("updating please wait..... ",
                               context, Colors.orange);
-                          await DatabaseService.saveprofilepicture(_image!)
+                          await EditProfile.saveprofilepicture(_image!)
                               .then((value) async {
                             if (value) {
                               await Provider.of<UserProvider>(context,
@@ -143,8 +144,9 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Save the user information to your database or use it as needed.
+                    EditProfile editprofile=EditProfile(username.text, bio.text, tag.text);
                     var response =
-                        await db.editPtofile(username.text, bio.text, tag.text);
+                        await editprofile.editPtofile();
                     if (response) {
                       await Provider.of<UserProvider>(context, listen: false)
                           .getuser();

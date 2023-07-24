@@ -5,6 +5,7 @@ import 'package:traveler/config/theme/apptheme.dart';
 
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/data/repository/database.dart';
+import 'package:traveler/domain/usecases/get_follow_user.dart';
 import 'package:traveler/presentation/providers/user_provider.dart';
 
 class FollowingScreen extends StatefulWidget {
@@ -27,7 +28,8 @@ class _FollowingScreenState extends State<FollowingScreen> {
   }
 
   getus() async {
-    List<List<UserRegister>?> users = await db.getfollowList();
+    GetFollow getFollow =GetFollow();
+    List<List<UserRegister>?> users = await getFollow.getfollowList();
     print(users);
     setState(() {
       biglist = users;

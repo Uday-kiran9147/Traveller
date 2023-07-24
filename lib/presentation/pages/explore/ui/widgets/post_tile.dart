@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:traveler/data/repository/database.dart';
+import 'package:traveler/domain/usecases/incrememt_reputation.dart';
 import 'package:traveler/presentation/pages/explore/ui/widgets/comment_Box.dart';
 import 'package:traveler/presentation/pages/profile/random_profile.dart';
 import 'package:traveler/utils/routes/route_names.dart';
@@ -131,8 +131,8 @@ class PostTile extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        DatabaseService db = DatabaseService();
-                        await db.incrementReputation(post.id);
+                        IncrementReputation incr=IncrementReputation(post.id);
+                        await incr.incrementReputation();
                         await Provider.of<UserProvider>(context, listen: false)
                             .getuser();
                       },
