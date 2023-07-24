@@ -5,6 +5,7 @@ import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/utils/constants/sharedprefs.dart';
 
 import '../../../../data/repository/authentication.dart';
+import '../../../../domain/usecases/login.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -23,8 +24,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> authLoginEvent(
       AuthLoginEvent event, Emitter<AuthState> emit) async {
-    await GoogleAuth.userLogin(event.userlogin.email, event.userlogin.password)
-        .then((value) {
+    Login login = Login(email: event.userlogin.email,password:  event.userlogin.password);
+
+    await login.userLogin().then((value) {
       if (value == true) {
         emit(LoginSuccessState(event.userlogin.email));
         emit((NavigateToHomeScreenState()));
@@ -43,15 +45,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await GoogleAuth.registerUser(event.userregister.username,
             event.userregister.email, event.userregister.password)
         .then((value) async {
-          var isvalid=value['status'];
-          print(value);
+      var isvalid = value['status'];
+      print(value);
       if (isvalid == true) {
-        emit(RegisterSuccessState(SuccessMsg:value['msg'] ));
+        emit(RegisterSuccessState(SuccessMsg: value['msg']));
 
-       await SHP.saveEmailSP(event.userregister.email);
-       await SHP.saveusernameSP(event.userregister.username);
-      }
-      else{
+        await SHP.saveEmailSP(event.userregister.email);
+        await SHP.saveusernameSP(event.userregister.username);
+      } else {
         emit(RegisterFailureState(failMsg: value['msg']));
       }
     });

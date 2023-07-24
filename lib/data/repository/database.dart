@@ -199,38 +199,7 @@ class DatabaseService {
     }
   }
 
-  static Future<bool> savepost(Post post, File image) async {
-    // print("database post");
 
-    try {
-      DocumentReference postdocumentReference = await postCollection.add({
-        "id": "",
-        "description": post.description,
-        "imageurl": "",
-        'popularity': 0,
-        "location": post.location,
-        "username": post.username,
-        "userid": post.userID,
-        "date": DateTime.now().toString(),
-      });
-      final ref = FirebaseStorage.instance.ref().child("userPost").child(
-          "Traveller-posts-${post.username}-${postdocumentReference.id}.jpeg");
-      await ref.putFile(image);
-      final imageurl = await ref.getDownloadURL();
-
-      await postdocumentReference.update({
-        "id": postdocumentReference.id,
-        "imageurl": imageurl.toString(),
-      });
-      print("database created");
-
-      // final docRef = postCollection.doc("RQ957wrtC6PiqUQsQA4Z");
-      return true;
-    } catch (e) {
-      print("error in saving post ");
-      return false;
-    }
-  }
 
   static Future<DocumentSnapshot?> getcurrUser(String uid) async {
     print("getting user");

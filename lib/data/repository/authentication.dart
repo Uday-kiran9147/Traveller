@@ -34,29 +34,29 @@ class GoogleAuth {
         postID: comment.postID));
   }
 
-  static Future<bool> postUserPost(Post post, File image) async {
-    String getuser = await DatabaseService.userCollection
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((value) => value["username"]);
-    try {
-      bool database = await DatabaseService.savepost(
-          Post(
-              id: "",
-              popularity: 0,
-              username: getuser,
-              description: post.description,
-              userID: FirebaseAuth.instance.currentUser!.uid,
-              location: post.location,
-              imageURL: post.imageURL,
-              date: post.date),
-          image);
-      return database;
-    } catch (e) {
-      print("catch errer  $e");
-      return false;
-    }
-  }
+  // static Future<bool> postUserPost(Post post, File image) async {
+  //   String getuser = await DatabaseService.userCollection
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .get()
+  //       .then((value) => value["username"]);
+  //   try {
+  //     bool database = await DatabaseService.savepost(
+  //         Post(
+  //             id: "",
+  //             popularity: 0,
+  //             username: getuser,
+  //             description: post.description,
+  //             userID: FirebaseAuth.instance.currentUser!.uid,
+  //             location: post.location,
+  //             imageURL: post.imageURL,
+  //             date: post.date),
+  //         image);
+  //     return database;
+  //   } catch (e) {
+  //     print("catch errer  $e");
+  //     return false;
+  //   }
+  // }
 
   static Future<Map<String, dynamic>> registerUser(
       String name, String email, String password) async {
@@ -80,25 +80,7 @@ class GoogleAuth {
   }
 
 // login
-  static Future<bool> userLogin(String email, password) async {
-    try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      // print(user.user!);
-      await SHP.saveEmailSP(email);
-      await SHP.saveUserLoggedinStatusSP(true);
-      await DatabaseService.getcurrUser(FirebaseAuth.instance.currentUser!.uid);
-      return true;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print("No User Found for that Email");
-      } else if (e.code == 'wrong-password') {
-        print("Wrong Password Provided by User");
-        return false;
-      }
-      return false;
-    }
-  }
+
 
   static resetPassword(String email) async {
     try {
