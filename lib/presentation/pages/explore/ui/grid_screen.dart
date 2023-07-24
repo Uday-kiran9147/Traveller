@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:traveler/presentation/pages/profile/post_screen.dart';
 import '../../../../domain/models/post.dart';
+import '../../home/ui/home_screen.dart';
 
 class GridScreen extends StatefulWidget {
   GridScreen({
@@ -77,7 +78,7 @@ class _GridScreenState extends State<GridScreen> {
                         return const Center(child: Text('No posts yet'));
                       } else if (snapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(child: LoadingProgress());
                       } else if (snapshot.hasError) {
                         return const Center(
                             child: Text('Something went wrong'));

@@ -48,11 +48,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isloading || user == null
+    return isloading || user == null || user!.username.isEmpty
         ? Scaffold(
             backgroundColor: AThemes.universalcolor,
             body: Center(
-              child: CircularProgressIndicator(),
+              child: LoadingProgress(),
             ),
           )
         : Scaffold(
@@ -132,5 +132,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           );
+  }
+}
+
+class LoadingProgress extends StatelessWidget {
+  const LoadingProgress({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CircularProgressIndicator(
+      backgroundColor: Colors.greenAccent,valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+    );
   }
 }

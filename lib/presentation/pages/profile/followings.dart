@@ -8,6 +8,8 @@ import 'package:traveler/data/repository/database.dart';
 import 'package:traveler/domain/usecases/get_follow_user.dart';
 import 'package:traveler/presentation/providers/user_provider.dart';
 
+import '../home/ui/home_screen.dart';
+
 class FollowingScreen extends StatefulWidget {
   const FollowingScreen({
     Key? key,
@@ -72,7 +74,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
             Container(
               child: Center(
                 child: biglist![0] == null || biglist![0]!.isEmpty
-                    ? CircularProgressIndicator()
+                    ? LoadingProgress()
                     : biglist![0]!.isEmpty
                         ? Center(
                             child: Text('No following yet'),
@@ -83,7 +85,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
             Container(
               child: Center(
                 child: biglist![1] == null || biglist![1]!.isEmpty
-                    ? CircularProgressIndicator()
+                    ? LoadingProgress()
                     : biglist![1]!.isEmpty
                         ? Center(
                             child: Text('No followers yet'),

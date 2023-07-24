@@ -5,11 +5,11 @@ import 'package:traveler/domain/models/user.dart';
 
 class UserProvider extends ChangeNotifier {
   UserRegister? _user = UserRegister(
-      username: 'username',
-      email: 'email',
-      password: 'password',
+      username: '',
+      email: '',
+      password: '',
       upcomingtrips: [],
-      uid: 'uid',
+      uid: '',
       reputation: 0,
       followers: [],
       following: []);

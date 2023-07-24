@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
 import 'package:traveler/presentation/pages/explore/ui/newpost.dart';
+import 'package:traveler/presentation/pages/home/ui/home_screen.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 import '../../../../domain/models/post.dart';
 import 'widgets/post_tile.dart';
@@ -64,7 +65,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         return const Center(child: Text('No posts yet'));
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(child: LoadingProgress());
                       }
                       if (snapshot.hasError) {
                         return const Center(

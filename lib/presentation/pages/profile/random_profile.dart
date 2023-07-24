@@ -12,6 +12,7 @@ import '../../../config/theme/apptheme.dart';
 import '../../../domain/usecases/delete_travel_list.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/dialogs.dart';
+import '../home/ui/home_screen.dart';
 
 class RandomProfile extends StatefulWidget {
   final String uid;
@@ -75,7 +76,7 @@ class _RandomProfile extends State<RandomProfile>
     // bool isfollower_remote = randomuser!.followers.contains(owner) ? true : false;
     return (randomuser == null)
         ? Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+            body: Center(child: LoadingProgress()),
           )
         : Scaffold(
             backgroundColor: AThemes.universalcolor,
