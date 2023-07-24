@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:traveler/domain/models/post.dart';
-import 'package:traveler/domain/repositories/authentication.dart';
+import 'package:traveler/data/repository/authentication.dart';
 
 // ignore: must_be_immutable
 class CommentBox extends StatelessWidget {

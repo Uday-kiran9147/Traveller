@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:traveler/domain/models/user.dart';
-import 'package:traveler/domain/repositories/database.dart';
+import 'package:traveler/data/repository/database.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 
 import '../../../config/theme/apptheme.dart';

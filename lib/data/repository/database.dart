@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:traveler/domain/models/user.dart';
-import '../models/post.dart';
+import '../../domain/models/post.dart';
 
 class DatabaseService {
   // final String uidCurrentuser = FirebaseAuth.instance.currentUser!.uid;

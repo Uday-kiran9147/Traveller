@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../config/theme/apptheme.dart';
-import '../../domain/repositories/database.dart';
+import '../../data/repository/database.dart';
 import '../providers/user_provider.dart';
 
 Future<dynamic> destinationDialog(BuildContext context, String? destination) {

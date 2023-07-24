@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:traveler/domain/models/user.dart';
-import 'package:traveler/domain/repositories/authentication.dart';
+import 'package:traveler/data/repository/authentication.dart';
 import 'package:traveler/presentation/pages/auth/bloc/auth_bloc.dart';
 
 class LoginForm extends StatefulWidget {

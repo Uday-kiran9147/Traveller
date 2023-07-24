@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import '../../../../domain/models/post.dart';
-import '../../../../domain/repositories/authentication.dart';
+import '../../../../data/repository/authentication.dart';
 part 'explore_bloc_event.dart';
 part 'explore_bloc_state.dart';
 

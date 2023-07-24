@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../domain/repositories/authentication.dart';
+import '../../../../../data/repository/authentication.dart';
 import '../../bloc/auth_bloc.dart';
 import 'loginform.dart';
 import 'signinform.dart';

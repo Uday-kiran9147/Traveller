@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/utils/constants/sharedprefs.dart';
 
-import '../../../../domain/repositories/authentication.dart';
+import '../../../../data/repository/authentication.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 

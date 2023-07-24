@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/presentation/providers/user_provider.dart';
-import '../../../../domain/repositories/authentication.dart';
+import '../../../../data/repository/authentication.dart';
 import '../../../../utils/routes/route_names.dart';
 import '../bloc/home_bloc_bloc.dart';
 import 'widgets/destination_box.dart';

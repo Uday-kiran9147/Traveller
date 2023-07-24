@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:traveler/domain/repositories/database.dart';
+import 'package:traveler/data/repository/database.dart';
 import '../../utils/constants/sharedprefs.dart';
-import '../models/post.dart';
-import '../models/user.dart';
+import '../../domain/models/post.dart';
+import '../../domain/models/user.dart';
 
 class GoogleAuth {
   static FirebaseAuth firebaseAuth = FirebaseAuth.instance;

@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:traveler/domain/repositories/database.dart';
+import 'package:traveler/data/repository/database.dart';
 import 'package:traveler/presentation/providers/user_provider.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
