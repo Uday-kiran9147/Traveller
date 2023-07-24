@@ -2,9 +2,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:traveler/domain/models/user.dart';
+import 'package:traveler/domain/usecases/signup.dart';
 import 'package:traveler/utils/constants/sharedprefs.dart';
-
-import '../../../../data/repository/authentication.dart';
 import '../../../../domain/usecases/login.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -24,7 +23,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> authLoginEvent(
       AuthLoginEvent event, Emitter<AuthState> emit) async {
-    Login login = Login(email: event.userlogin.email,password:  event.userlogin.password);
+    Login login =
+        Login(email: event.userlogin.email, password: event.userlogin.password);
 
     await login.userLogin().then((value) {
       if (value == true) {
@@ -42,9 +42,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> authRegisterEvent(
       AuthRegisterEvent event, Emitter<AuthState> emit) async {
-    await GoogleAuth.registerUser(event.userregister.username,
-            event.userregister.email, event.userregister.password)
-        .then((value) async {
+    SignUp signUp = SignUp(
+        name: event.userregister.username,
+        email: event.userregister.email,
+        password: event.userregister.password);
+    await signUp.registerUser().then((value) async {
       var isvalid = value['status'];
       print(value);
       if (isvalid == true) {

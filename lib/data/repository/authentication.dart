@@ -1,10 +1,7 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:traveler/data/repository/database.dart';
 import '../../utils/constants/sharedprefs.dart';
-import '../../domain/models/post.dart';
 import '../../domain/models/user.dart';
 
 class GoogleAuth {
@@ -19,78 +16,7 @@ class GoogleAuth {
     return UserRegister.fromMap(user!);
   }
 
-  static Future addComment(Comment comment) async {
-    var getuser = await DatabaseService.userCollection
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((value) => value['username']);
-    print(json.encode(getuser));
-    await DatabaseService.addComment(Comment(
-        id: "",
-        username: getuser,
-        comment: comment.comment,
-        userID: FirebaseAuth.instance.currentUser!.uid,
-        date: DateTime.now().toString(),
-        postID: comment.postID));
-  }
-
-  // static Future<bool> postUserPost(Post post, File image) async {
-  //   String getuser = await DatabaseService.userCollection
-  //       .doc(FirebaseAuth.instance.currentUser!.uid)
-  //       .get()
-  //       .then((value) => value["username"]);
-  //   try {
-  //     bool database = await DatabaseService.savepost(
-  //         Post(
-  //             id: "",
-  //             popularity: 0,
-  //             username: getuser,
-  //             description: post.description,
-  //             userID: FirebaseAuth.instance.currentUser!.uid,
-  //             location: post.location,
-  //             imageURL: post.imageURL,
-  //             date: post.date),
-  //         image);
-  //     return database;
-  //   } catch (e) {
-  //     print("catch errer  $e");
-  //     return false;
-  //   }
-  // }
-
-  static Future<Map<String, dynamic>> registerUser(
-      String name, String email, String password) async {
-    try {
-      UserCredential userCredential =
-          await firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      // The user is successfully created. You can perform additional tasks here, such as storing user data in Firestore.
-      // Access the user object using (userCredential.user)
-      DatabaseService.saveUserData(name, email, password);
-      userID = userCredential.user!.uid;
-      print('User created ID: ${userCredential.user!.uid}');
-      return {"msg": "Acount created with $email", "status": true};
-    } catch (e) {
-      // Handle any errors that occur during the user creation process
-      // print('Error creating user: ${e}');
-      return {"msg": e.toString(), "status": false};
-    }
-  }
-
 // login
-
-
-  static resetPassword(String email) async {
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      }
-    }
-  }
 
   Future<bool> signInWithGoogle() async {
     // print('sign-in method called');

@@ -158,30 +158,6 @@ class DatabaseService {
     });
   }
 
-  static Future saveUserData(
-    String name,
-    String email,
-    password,
-  ) async {
-    UserRegister user = UserRegister(
-      reputation: 0,
-      bio: null,
-      username: name,
-      email: email,
-      password: password,
-      tag: null,
-      upcomingtrips: [],
-      profileurl: null,
-      followers: [],
-      following: [],
-      uid: FirebaseAuth.instance.currentUser!.uid,
-    );
-    return await userCollection
-        .doc(
-          FirebaseAuth.instance.currentUser!.uid,
-        )
-        .set(user.toMap());
-  }
 
   static Future<bool> saveprofilepicture(File image) async {
     try {

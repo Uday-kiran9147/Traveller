@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:traveler/domain/models/user.dart';
-import 'package:traveler/data/repository/authentication.dart';
+import 'package:traveler/domain/usecases/reset_password.dart';
 import 'package:traveler/presentation/pages/auth/bloc/auth_bloc.dart';
 
 class LoginForm extends StatefulWidget {
@@ -97,9 +97,10 @@ class _LoginFormState extends State<LoginForm> {
                           ),
                         ),
                         child: const Text("Reset Password"),
-                        onPressed: () async {
-                          // print(_resetEmailController.text);
-                          GoogleAuth.resetPassword(_resetEmailController.text);
+                        onPressed: () {
+                          ResetPassword resetPassword =
+                              ResetPassword(_resetEmailController.text);
+                          resetPassword.resetPassword();
                           print("Password reset link sent to your email");
                         })
                   ],

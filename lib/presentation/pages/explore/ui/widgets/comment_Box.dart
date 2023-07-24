@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:traveler/domain/models/post.dart';
-import 'package:traveler/data/repository/authentication.dart';
+import 'package:traveler/domain/usecases/add_comment.dart';
 
 // ignore: must_be_immutable
 class CommentBox extends StatelessWidget {
@@ -31,13 +31,14 @@ class CommentBox extends StatelessWidget {
                 suffixIcon: IconButton(
                   onPressed: () async {
                     if (_commentController.text.isNotEmpty) {
-                      await GoogleAuth.addComment(Comment(
+                      AddComment addComment = AddComment(Comment(
                           id: "id",
                           username: "username",
                           comment: _commentController.text,
                           userID: "",
                           date: "",
                           postID: post.id));
+                      await addComment.addComment();
                       _commentController.clear();
                     }
                   },
