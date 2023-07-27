@@ -83,14 +83,14 @@ class _MyAppState extends State<MyApp> {
               displayLarge: TextStyle(
                   fontSize: 72.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                  color: Colors.black),
               titleLarge: TextStyle(
                   fontSize: 25.0,
                   fontWeight: FontWeight.w300,
-                  color: Colors.white),
-              bodySmall: TextStyle(fontSize: 12.0, color: Colors.white),
-              bodyMedium: TextStyle(fontSize: 15.0, color: Colors.white),
-              bodyLarge: TextStyle(fontSize: 18.0, color: Colors.white,fontWeight: FontWeight.w400),
+                  color: Colors.black),
+              bodySmall: TextStyle(fontSize: 12.0, color: Colors.black),
+              bodyMedium: TextStyle(fontSize: 15.0, color: Colors.black),
+              bodyLarge: TextStyle(fontSize: 18.0, color: Colors.black,fontWeight: FontWeight.w400),
             ),
           ),
           home: ResponsiveLayout(

@@ -35,15 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getuser() async {
-    // setState(() {
-    //   isloading = true;
-    // });
     Provider.of<UserProvider>(context, listen: true).getuser();
     user = Provider.of<UserProvider>(context).user;
-
-    // setState(() {
-    //   isloading = false;
-    // });
   }
 
   @override
@@ -74,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-            backgroundColor: AThemes.comment_Box,
+            backgroundColor: AThemes.universalcolor,
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -102,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: TextField(
                               decoration: InputDecoration(
                                 hintText: "Search",
-                                fillColor: AThemes.comment_Box,
+                                fillColor: AThemes.universalcolor,
                                 filled: true,
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
