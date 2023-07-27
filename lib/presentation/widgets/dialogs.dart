@@ -104,8 +104,6 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
                     .doc(postid)
                     .delete();
                 Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pop(context);
               },
               child: Text(
                 "Yes",

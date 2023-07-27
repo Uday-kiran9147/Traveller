@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
+import 'package:traveler/presentation/widgets/snackbars.dart';
 
 // ignore: must_be_immutable
 class NewPostScreen extends StatefulWidget {
@@ -44,11 +45,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
   Position? _currentPosition;
   String? address;
   String? fulladdress;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   Future<List<Placemark>> getaddressfromlatlong(Position position) async {
     /* 
@@ -99,9 +95,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Location services are disabled. Please enable the services')));
+      customSnackbarMessage(
+          'Location services are disabled. Please enable the services',
+          context,
+          const Color.fromARGB(255, 202, 122, 0));
       return false;
     }
 
@@ -115,9 +112,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Location permissions are permanently denied, we cannot request permissions.')));
+      customSnackbarMessage(
+          'Location permissions are permanently denied, we cannot request permissions.',
+          context,
+          Color.fromARGB(255, 202, 122, 0));
       return false;
     }
     return true;
@@ -125,7 +123,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _descriptionController.dispose();
     _locationController.dispose();
     super.dispose();
@@ -150,15 +147,29 @@ class _NewPostScreenState extends State<NewPostScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               waitingforlocation ? LinearProgressIndicator() : Container(),
-              if (_image != null)
-                Expanded(
-                  child: Image.file(
-                    scale: 1.0,
-                    _image!,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
-                ),
+              _image != null
+                  ? Expanded(
+                      child: Image.file(
+                        scale: 1.0,
+                        _image!,
+                        height: double.infinity,
+                        width: double.infinity,
+                      ),
+                    )
+                  : Expanded(
+                      child: Center(
+                          child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.grey)),
+                      child: GestureDetector(
+                          onTap: _getImage,
+                          child: Icon(
+                            Icons.image_search_rounded,
+                            color: Colors.grey,
+                            size: 100,
+                          )),
+                    ))),
               ElevatedButton(
                 onPressed: _getImage,
                 child: Text('Select Image'),
@@ -186,9 +197,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       if (_image != null) {
                         // Use the selected image
                         widget.exploreBloc.add(PostingPostEvent(
-                              description: _descriptionController.text,
-                              location: address!.isEmpty? _locationController.text:address!,
-                              date: DateTime.now().toString(),
+                          description: _descriptionController.text,
+                          location: _locationController.text.isEmpty
+                              ? address ?? ""
+                              : _locationController.text,
+                          date: DateTime.now().toString(),
                           image: _image!,
                         ));
                       }
