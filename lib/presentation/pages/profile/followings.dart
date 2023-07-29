@@ -73,7 +73,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
           children: [
             Container(
               child: Center(
-                child: biglist![0] == null || biglist![0]!.isEmpty
+                child: biglist![0] == null 
                     ? LoadingProgress()
                     : biglist![0]!.isEmpty
                         ? Center(
@@ -84,7 +84,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
             ),
             Container(
               child: Center(
-                child: biglist![1] == null || biglist![1]!.isEmpty
+                child: biglist![1] == null
                     ? LoadingProgress()
                     : biglist![1]!.isEmpty
                         ? Center(

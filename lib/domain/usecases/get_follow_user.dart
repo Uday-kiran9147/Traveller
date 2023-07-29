@@ -30,7 +30,8 @@ class GetFollow{
   }
 
   Future<List<UserRegister>> getusers(List uid_list) async {
-    List<UserRegister>? users;
+    List<UserRegister>? users=[];
+    if(uid_list.isEmpty) return users;
     await FirebaseFirestore.instance
         .collection('users')
         .where('uid', whereIn: uid_list)
