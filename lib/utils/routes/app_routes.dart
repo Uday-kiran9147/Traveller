@@ -6,9 +6,12 @@ import 'package:traveler/presentation/pages/profile/edit_profile.dart';
 import 'package:traveler/presentation/pages/profile/profile.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 
+import '../../presentation/pages/home/ui/add_story_screen.dart';
 class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case RouteName.addstory:
+      return MaterialPageRoute(builder: (context) => AddStory());
       case RouteName.home:
         return MaterialPageRoute(builder: (context) => HomeBloc());
       case RouteName.authentication:

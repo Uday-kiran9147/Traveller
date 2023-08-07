@@ -60,7 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             RouteName.authentication, (route) => false);
                       }
                     },
-                    icon: Icon(Icons.logout))
+                    icon: Icon(Icons.logout)),
+                    IconButton(onPressed: (){
+                      Navigator.pushNamed(context, RouteName.addstory);
+                    }, icon: Icon(Icons.add))
               ],
               title: Text(
                 "Hi, ${user?.username}",
@@ -113,13 +116,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     Container(
-                        height: 330, //392,
+                        height: 400, //392,
                         width: double.maxFinite,
-                        // decoration: BoxDecoration(color: Colors.green),
                         child: SwiperWidget()),
-                    Text(user!.reputation.toString()),
-                    Text(user!.tag.toString()),
-                    Text(user!.bio.toString()),
                   ],
                 ),
               ),
