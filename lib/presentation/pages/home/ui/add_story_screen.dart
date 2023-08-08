@@ -3,6 +3,7 @@ import 'package:traveler/data/datasources/local/travel_story.dart';
 import 'package:traveler/domain/models/travel_story.dart';
 import 'package:traveler/presentation/pages/home/ui/widgets/swiperwidget.dart';
 
+// ignore: must_be_immutable
 class AddStory extends StatelessWidget {
   AddStory({super.key});
   ScrollController scrollController = ScrollController();
@@ -11,7 +12,7 @@ class AddStory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey,
+        // backgroundColor: Colors.grey,
         appBar: AppBar(
           actions: [
             IconButton(
@@ -24,8 +25,6 @@ class AddStory extends StatelessWidget {
                       destinationRating: 4,
                       photos: [netimage[3], netimage[2]]);
                       travel_List.add(newstory);
-                  print(_titleController.text);
-                  print(_storyController.text);
                 },
                 icon: Icon(Icons.save))
           ],
@@ -43,7 +42,6 @@ class AddStory extends StatelessWidget {
                 cursorColor: Colors.purple,
                 // maxLength: 50, // max length of the text
                 decoration: InputDecoration(
-                  // border: InputBorder.none,
                   hintText: "story Title",
                 ),
               ),
