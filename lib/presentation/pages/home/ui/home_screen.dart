@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/domain/usecases/signout.dart';
+import 'package:traveler/presentation/pages/home/ui/story_list.dart';
 import 'package:traveler/presentation/providers/user_provider.dart';
 import '../../../../utils/routes/route_names.dart';
 import '../bloc/home_bloc_bloc.dart';
@@ -52,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: AppBar(
               backgroundColor: AThemes.universalcolor,
               actions: [
+                IconButton(onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => StoryListScreen(),)), icon: Icon(Icons.search)),
                 IconButton(
                     onPressed: () async {
                       bool isSignout = await SignOut.signoutuser();
