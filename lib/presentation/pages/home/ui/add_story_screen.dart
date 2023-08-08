@@ -22,6 +22,8 @@ class AddStory extends StatelessWidget {
                       userName: 'Uday-kiran9147',
                       storyTitle: _titleController.text,
                       travelStory: _storyController.text,
+                      created_at: DateTime.now().toString(),
+                      likes: [],
                       destinationRating: 4,
                       photos: [netimage[3], netimage[2]]);
                       travel_List.add(newstory);

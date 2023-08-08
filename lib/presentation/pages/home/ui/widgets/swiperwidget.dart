@@ -28,6 +28,8 @@ class SwiperWidget extends StatelessWidget {
                             uid: l.uid,
                             userName: l.userName,
                             storyTitle: l.storyTitle,
+                            created_at: l.created_at,
+                            likes: l.likes,
                             photos: l.photos,
                             travelStory: l.travelStory,
                             destinationRating: l.destinationRating)),

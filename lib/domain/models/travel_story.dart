@@ -4,6 +4,8 @@ class TravelStory {
   final String uid;
   final String userName;
   final String storyTitle;
+  final String created_at;
+  final List<String> likes;
   final List<String> photos;
   final String travelStory;
   final int destinationRating;
@@ -11,6 +13,8 @@ class TravelStory {
     required this.uid,
     required this.userName,
     required this.storyTitle,
+    required this.likes,
+    required this.created_at,
     required this.photos,
     required this.travelStory,
     required this.destinationRating,
@@ -21,6 +25,8 @@ class TravelStory {
       'uid': uid,
       'username': userName,
       'storyTitle':storyTitle,
+      'created_at':created_at,
+      'likes': likes,
       'photos': photos,
       'travelStory': travelStory,
       'destinationRating': destinationRating
@@ -32,6 +38,8 @@ class TravelStory {
         uid: map['uid'],
         userName: map['username'],
         storyTitle:map['storyTitle'],
+        likes: map['likes'],
+        created_at:map['created_at'],
         photos: map['photos'],
         travelStory: map['travelStory'],
         destinationRating: map['destinationRating']);
