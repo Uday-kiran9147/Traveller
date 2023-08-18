@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
 import 'package:traveler/domain/models/travel_story.dart';
 
 class StoryDetail extends StatelessWidget {
@@ -15,6 +16,13 @@ class StoryDetail extends StatelessWidget {
           children: [
             ListView(
               children: [
+                travelStory.photos.length>0?
+                SizedBox(height: 300,child:Swiper(autoplay: true,
+                  itemCount: travelStory.photos.length,loop: false,
+                  itemBuilder: (context, index) {
+                  return Image.network(travelStory.photos[index]);
+                },),):Container(),
+                Text(travelStory.photos.length.toString()),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(travelStory.storyTitle,
@@ -37,7 +45,7 @@ class StoryDetail extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(travelStory.travelStory,
+                  child: SelectableText(travelStory.travelStory,cursorHeight: 30,
                       style: Theme.of(context).textTheme.bodyLarge),
                 ),
                 Padding(
@@ -80,16 +88,16 @@ class StoryDetail extends StatelessWidget {
                         }, icon: Icon(Icons.share_outlined)),
                     IconButton(
                         onPressed: () {}, icon: Icon(Icons.comment_outlined)),
-                    Column(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         IconButton(
                             onPressed: () {
-                              travelStory.likes.add('1');
+                              // travelStory.likes.add('1');
                             },
                             icon: Icon(Icons.favorite_border_outlined)),
                         Text(
-                          travelStory.likes.length.toString(),
+                          travelStory.likes.toString(),
                           style: Theme.of(context).textTheme.bodySmall,
                         )
                       ],

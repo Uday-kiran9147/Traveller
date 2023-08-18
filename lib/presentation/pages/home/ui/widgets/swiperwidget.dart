@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
 import 'package:traveler/data/datasources/local/travel_story.dart';
 import 'package:traveler/domain/models/travel_story.dart';
-import 'package:traveler/presentation/pages/home/ui/widgets/story_detail_screen.dart';
+import 'package:traveler/presentation/pages/home/ui/story_detail_screen.dart';
 
 class SwiperWidget extends StatelessWidget {
   const SwiperWidget({
@@ -15,11 +15,11 @@ class SwiperWidget extends StatelessWidget {
         scale: 0.9,
         viewportFraction: 0.8,
         pagination: SwiperPagination(),
-        itemCount: travel_List.length,
+        itemCount: travell_List.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              var l = travel_List[index];
+              var l = travell_List[index];
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -48,7 +48,7 @@ class SwiperWidget extends StatelessWidget {
                 children: [
                   ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                      child: Image.network(travel_List[index].photos[0],
+                      child: Image.network(travell_List[index].photos[0],
                           fit: BoxFit.cover)),
                   Positioned(
                       top: 20,
@@ -61,14 +61,14 @@ class SwiperWidget extends StatelessWidget {
                             width: 250,
                             height: 150,
                             child: Text(
-                              travel_List[index].storyTitle,
+                              travell_List[index].storyTitle,
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style:
                                   Theme.of(context).textTheme.headlineLarge,
                             ),
                           ),
-                          Text(travel_List[index].userName),
+                          Text(travell_List[index].userName),
                         ],
                       )),
                 ],

@@ -5,10 +5,10 @@ class TravelStory {
   final String userName;
   final String storyTitle;
   final String created_at;
-  final List<String> likes;
-  final List<String> photos;
+  final int likes;
+  final List<dynamic> photos;
   final String travelStory;
-  final int destinationRating;
+  final double destinationRating;
   TravelStory({
     required this.uid,
     required this.userName,

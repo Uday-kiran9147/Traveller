@@ -10,6 +10,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
   static final CollectionReference postCollection =
       FirebaseFirestore.instance.collection('posts');
+      static final CollectionReference travelStoryCollection =
+      FirebaseFirestore.instance.collection('travelstory');
 
   static Future<DocumentSnapshot?> getcurrUser(String uid) async {
     print("getting user");

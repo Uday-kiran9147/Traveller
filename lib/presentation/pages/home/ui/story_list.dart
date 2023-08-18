@@ -1,62 +1,88 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:traveler/data/datasources/local/travel_story.dart';
-import 'package:traveler/presentation/pages/home/ui/widgets/swiperwidget.dart';
-
 import '../../../../domain/models/travel_story.dart';
-import 'widgets/story_detail_screen.dart';
+import 'home_screen.dart';
+import 'story_detail_screen.dart';
 
-class StoryListScreen extends StatelessWidget {
+class StoryListScreen extends StatefulWidget {
   const StoryListScreen({super.key});
 
   @override
+  State<StoryListScreen> createState() => _StoryListScreenState();
+}
+
+class _StoryListScreenState extends State<StoryListScreen> {
+   Stream<QuerySnapshot> _poststream = FirebaseFirestore.instance
+      .collection("travelstory")
+      // .orderBy("date", descending: true)
+      .snapshots();
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: ListView.builder(
-        itemCount: travel_List.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              var l = travel_List[index];
+      // backgroundColor: Colors.black,
+      body: StreamBuilder<QuerySnapshot>(
+          stream: _poststream,
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.data.toString().isEmpty) {
+              return const Center(child: Text('No posts yet'));
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: LoadingProgress());
+            }
+            if (snapshot.hasError) {
+              return const Center(child: Text('Something went wrong'));
+            }
+            List<DocumentSnapshot> documents = snapshot.data!.docs;
+            if (documents.isEmpty) {
+              return const Center(child: Text('No posts yet'));
+            }
+            return ListView.builder(
+              itemCount: documents.length,
+              itemBuilder: (context, index) {
+                var data = documents[index].data() as Map<String, dynamic>;
+                // var coverimage = data['photos'][0];
+                return GestureDetector(
+                  onTap: (){
+                    print(data['photos']);
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => StoryDetail(
                         travelStory: TravelStory(
-                            uid: l.uid,
-                            userName: l.userName,
-                            storyTitle: l.storyTitle,
-                            created_at: l.created_at,
-                            likes: l.likes,
-                            photos: l.photos,
-                            travelStory: l.travelStory,
-                            destinationRating: l.destinationRating)),
-                  ));
-            },
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: 5,
-                ),
-                _build_Card(),
-                Positioned(
-                  top: 30,
-                  left: 30,
-                  child: CircleAvatar(
-                    radius: 30,
+                            uid:data['id'],
+                            userName:data['userName'],
+                            storyTitle:data['storyTitle'],
+                            created_at:data['created_at'],
+                            likes:data['likes'],
+                            photos:data['photos'],
+                            travelStory:data['travelStory'],
+                            destinationRating:data['destinationRating']))));
+                  },
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      _build_Card(data['photos'].length==0?null:data['photos'][0]),
+                      Positioned(
+                        top: 30,
+                        left: 30,
+                        child: CircleAvatar(
+                          radius: 30,
+                        ),
+                      ),
+                      _build_Date(),
+                      _build_Title_username(index, context,data['storyTitle'],data['userName'])
+                    ],
                   ),
-                ),
-                _build_avatar(),
-                _build_Title_user(index, context)
-              ],
-            ),
-          );
-        },
-      ),
+                );
+              },
+            );
+          }),
     );
   }
 
-  Positioned _build_Title_user(int index, BuildContext context) {
+  Positioned _build_Title_username(int index, BuildContext context,String title,String username) {
     return Positioned(
         left: 30,
         bottom: 30,
@@ -68,18 +94,18 @@ class StoryListScreen extends StatelessWidget {
               width: 250,
               height: 150,
               child: Text(
-                travel_List[index].storyTitle,
+                title,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
-            Text(travel_List[index].userName),
+            Text(username),
           ],
         ));
   }
 
-  Positioned _build_avatar() {
+  Positioned _build_Date() {
     return Positioned(
       right: 30,
       top: 30,
@@ -98,7 +124,7 @@ class StoryListScreen extends StatelessWidget {
     );
   }
 
-  Padding _build_Card() {
+  Padding _build_Card(String? image0) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -111,7 +137,7 @@ class StoryListScreen extends StatelessWidget {
           height: 380,
           child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
-              child: Image.network(netimage[2], fit: BoxFit.cover)),
+              child:image0==null?Container(color: Colors.grey,): Image.network(image0, fit: BoxFit.cover)),
         ),
       ),
     );

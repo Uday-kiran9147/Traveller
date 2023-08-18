@@ -120,7 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                         height: 400, //392,
                         width: double.maxFinite,
-                        child: SwiperWidget()),
+                        // child: SwiperWidget()
+                        ),
                   ],
                 ),
               ),

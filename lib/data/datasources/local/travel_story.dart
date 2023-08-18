@@ -1,12 +1,12 @@
 import 'package:traveler/domain/models/travel_story.dart';
 
-List<TravelStory> travel_List = [
+List<TravelStory> travell_List = [
   TravelStory(
       uid: 'uid',
       userName: 'Uday-kiran9147',
       storyTitle: 'Great Under-water experience',
       created_at: DateTime.now().toString(),
-      likes: ['uid', 'new_uid','uid', 'new_uid','uid', 'new_uid'],
+      likes: 0,
       photos: [
         "https://www.businessdestinations.com/wp-content/uploads/2019/08/Vitoria-Gasteiz.jpg",
       ],
@@ -17,7 +17,7 @@ List<TravelStory> travel_List = [
       uid: 'new_uid',
       userName: 'zuck',
       storyTitle: 'Theft in the city alert',
-      likes: ['uid', 'new_uid'],
+      likes: 9,
       created_at: DateTime.now().toString(),
       photos: [
         "https://www.businessdestinations.com/wp-content/uploads/2019/08/Vitoria-Gasteiz.jpg",
