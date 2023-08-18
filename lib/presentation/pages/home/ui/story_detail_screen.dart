@@ -66,14 +66,14 @@ class StoryDetail extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text('Rating'),
                 ),
-                SizedBox(
+               travelStory.destinationRating==null?Container(): SizedBox(
                   height: 50,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: 5,
                     itemBuilder: (context, index) {
                       return Icon(Icons.star,
-                          color: index + 1 <= travelStory.destinationRating
+                          color: index + 1 <= travelStory.destinationRating!
                               ? Colors.amber[700]
                               : Colors.grey);
                     },

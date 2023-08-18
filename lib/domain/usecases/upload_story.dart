@@ -13,7 +13,7 @@ class UploadTravelStory {
   final String storyTitle;
   final String created_at;
   final String travelStory;
-  final double destinationRating;
+  final double? destinationRating;
   List<File>? photos;
 
   UploadTravelStory(
@@ -22,7 +22,7 @@ class UploadTravelStory {
       required this.storyTitle,
       required this.created_at,
       required this.travelStory,
-      required this.destinationRating,
+      this.destinationRating,
       this.photos});
   Future<bool> uploadStory() async {
     try {

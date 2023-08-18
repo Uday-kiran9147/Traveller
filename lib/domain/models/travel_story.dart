@@ -9,7 +9,7 @@ class TravelStory {
   final int likes;
   final List<dynamic> photos;
   final String travelStory;
-  final double destinationRating;
+  double? destinationRating=null;
   TravelStory({
     required this.uid,
     required this.id,
@@ -19,7 +19,7 @@ class TravelStory {
     required this.created_at,
     required this.photos,
     required this.travelStory,
-    required this.destinationRating,
+    this.destinationRating,
   });
 
   Map<String, dynamic> toMap() {

@@ -47,7 +47,7 @@ class _AddStoryState extends State<AddStory> {
                       storyTitle: _titleController.text,
                       created_at: DateTime.now().toString(),
                       travelStory: _storyController.text,
-                      destinationRating: 4,
+                      destinationRating: null,
                       photos: _images);
                   await story.uploadStory().then((value) {
                     if (value) {
