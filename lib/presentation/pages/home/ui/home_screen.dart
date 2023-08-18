@@ -5,10 +5,10 @@ import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/domain/usecases/signout.dart';
 import 'package:traveler/presentation/pages/home/ui/story_list.dart';
 import 'package:traveler/presentation/providers/user_provider.dart';
+import '../../../../data/datasources/local/urls.dart';
 import '../../../../utils/routes/route_names.dart';
 import '../bloc/home_bloc_bloc.dart';
 import 'widgets/destination_box.dart';
-import 'widgets/swiperwidget.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {

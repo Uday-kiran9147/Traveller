@@ -2,13 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
+import 'package:provider/provider.dart';
 import 'package:traveler/domain/models/travel_story.dart';
+import 'package:traveler/domain/usecases/delete_travelstory.dart';
+import 'package:traveler/presentation/widgets/snackbars.dart';
+
+import '../../../providers/user_provider.dart';
 
 class StoryDetail extends StatelessWidget {
   TravelStory travelStory;
   StoryDetail({Key? key, required this.travelStory}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    var curuser = Provider.of<UserProvider>(context).user;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -16,12 +22,19 @@ class StoryDetail extends StatelessWidget {
           children: [
             ListView(
               children: [
-                travelStory.photos.length>0?
-                SizedBox(height: 300,child:Swiper(autoplay: true,
-                  itemCount: travelStory.photos.length,loop: false,
-                  itemBuilder: (context, index) {
-                  return Image.network(travelStory.photos[index]);
-                },),):Container(),
+                travelStory.photos.length > 0
+                    ? SizedBox(
+                        height: 300,
+                        child: Swiper(
+                          autoplay: true,
+                          itemCount: travelStory.photos.length,
+                          loop: false,
+                          itemBuilder: (context, index) {
+                            return Image.network(travelStory.photos[index]);
+                          },
+                        ),
+                      )
+                    : Container(),
                 Text(travelStory.photos.length.toString()),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -45,7 +58,8 @@ class StoryDetail extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SelectableText(travelStory.travelStory,cursorHeight: 30,
+                  child: SelectableText(travelStory.travelStory,
+                      cursorHeight: 30,
                       style: Theme.of(context).textTheme.bodyLarge),
                 ),
                 Padding(
@@ -73,34 +87,61 @@ class StoryDetail extends StatelessWidget {
             Positioned(
               bottom: 0,
               child: Container(
-                width: MediaQuery.of(context).size.width*0.95,
+                width: MediaQuery.of(context).size.width * 0.95,
                 height: 66,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  border: Border.all(color: Colors.grey),borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
+                    color: Colors.grey[300],
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                        onPressed: () {
-
-                        }, icon: Icon(Icons.share_outlined)),
-                    IconButton(
-                        onPressed: () {}, icon: Icon(Icons.comment_outlined)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              // travelStory.likes.add('1');
-                            },
-                            icon: Icon(Icons.favorite_border_outlined)),
-                        Text(
-                          travelStory.likes.toString(),
-                          style: Theme.of(context).textTheme.bodySmall,
+                    travelStory.uid == curuser.uid
+                        ? Expanded(
+                          child: IconButton(
+                              onPressed: () async {
+                                DeleteTravelStory deleteTravelStory =
+                                    DeleteTravelStory(storyid: travelStory.id);
+                                await deleteTravelStory
+                                    .deleteStory()
+                                    .then((value) => customSnackbarMessage(
+                                        value,
+                                        context,
+                                        Colors.green.shade300))
+                                    .catchError((e) {
+                                  customSnackbarMessage(
+                                        e.toString(),
+                                        context,
+                                        Colors.red);
+                                      Navigator.pop(context);
+                                });
+                              },
+                              icon: Icon(Icons.delete_outlined),color: Colors.red),
                         )
-                      ],
+                        : Container(),
+                    Expanded(
+                      child: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.share_outlined),color: Colors.blue),
+                    ),
+                    Expanded(
+                      child: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.comment_outlined)),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                // travelStory.likes.add('1');
+                              },
+                              icon: Icon(Icons.favorite_border_outlined)),
+                          Text(
+                            travelStory.likes.toString(),
+                            style: Theme.of(context).textTheme.bodySmall,
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),

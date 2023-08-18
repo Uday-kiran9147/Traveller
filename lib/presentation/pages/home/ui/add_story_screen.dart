@@ -3,10 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-// import 'package:traveler/data/datasources/local/travel_story.dart';
-// import 'package:traveler/domain/models/travel_story.dart';
 import 'package:traveler/domain/usecases/upload_story.dart';
-// import 'package:traveler/presentation/pages/home/ui/widgets/swiperwidget.dart';
 import 'package:traveler/presentation/providers/user_provider.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
@@ -46,6 +43,7 @@ class _AddStoryState extends State<AddStory> {
                   var user = Provider.of<UserProvider>(context, listen: false);
                   UploadTravelStory story = UploadTravelStory(
                       userName: user.user.username,
+                      userid: user.user.uid,
                       storyTitle: _titleController.text,
                       created_at: DateTime.now().toString(),
                       travelStory: _storyController.text,
@@ -53,6 +51,7 @@ class _AddStoryState extends State<AddStory> {
                       photos: _images);
                   await story.uploadStory().then((value) {
                     if (value) {
+                      customSnackbarMessage('Story uploaded successfully', context, Colors.green);
                       Navigator.pop(context);
                     } else {
                       customSnackbarMessage(

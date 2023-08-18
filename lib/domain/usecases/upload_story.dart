@@ -9,6 +9,7 @@ import 'package:traveler/data/repository/database.dart';
 
 class UploadTravelStory {
   final String userName;
+  final String userid;
   final String storyTitle;
   final String created_at;
   final String travelStory;
@@ -17,6 +18,7 @@ class UploadTravelStory {
 
   UploadTravelStory(
       {required this.userName,
+      required this.userid,
       required this.storyTitle,
       required this.created_at,
       required this.travelStory,
@@ -27,6 +29,7 @@ class UploadTravelStory {
       DocumentReference travelStoryreference =
           await DatabaseService.travelStoryCollection.add({
         "userName": userName,
+        "uid": userid,
         "storyTitle": storyTitle,
         "created_at": created_at,
         "likes": 0,

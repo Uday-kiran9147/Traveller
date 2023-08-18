@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:traveler/domain/usecases/delete_travelstory.dart';
 import '../../../../domain/models/travel_story.dart';
 import 'home_screen.dart';
 import 'story_detail_screen.dart';
@@ -14,7 +15,6 @@ class StoryListScreen extends StatefulWidget {
 class _StoryListScreenState extends State<StoryListScreen> {
    Stream<QuerySnapshot> _poststream = FirebaseFirestore.instance
       .collection("travelstory")
-      // .orderBy("date", descending: true)
       .snapshots();
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,11 @@ class _StoryListScreenState extends State<StoryListScreen> {
               itemCount: documents.length,
               itemBuilder: (context, index) {
                 var data = documents[index].data() as Map<String, dynamic>;
-                // var coverimage = data['photos'][0];
                 return GestureDetector(
+                  onLongPress: ()async{
+                    DeleteTravelStory deleteTravelStory = DeleteTravelStory(storyid: data['id']);
+                    await deleteTravelStory.deleteStory();
+                  },
                   onTap: (){
                     print(data['photos']);
               Navigator.push(
@@ -49,14 +52,14 @@ class _StoryListScreenState extends State<StoryListScreen> {
                   MaterialPageRoute(
                     builder: (context) => StoryDetail(
                         travelStory: TravelStory(
-                            uid:data['id'],
+                            uid:data['uid'],
                             userName:data['userName'],
                             storyTitle:data['storyTitle'],
                             created_at:data['created_at'],
                             likes:data['likes'],
                             photos:data['photos'],
                             travelStory:data['travelStory'],
-                            destinationRating:data['destinationRating']))));
+                            destinationRating:data['destinationRating'], id: data['id']))));
                   },
                   child: Stack(
                     children: [

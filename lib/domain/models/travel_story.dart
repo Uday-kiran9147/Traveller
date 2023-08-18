@@ -2,6 +2,7 @@
 //•	Story: {username, uid, List<photo or video>, Travelstory, destination-rating,
 class TravelStory {
   final String uid;
+  final String id;
   final String userName;
   final String storyTitle;
   final String created_at;
@@ -11,6 +12,7 @@ class TravelStory {
   final double destinationRating;
   TravelStory({
     required this.uid,
+    required this.id,
     required this.userName,
     required this.storyTitle,
     required this.likes,
@@ -23,6 +25,7 @@ class TravelStory {
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
+      'id': id,
       'username': userName,
       'storyTitle':storyTitle,
       'created_at':created_at,
@@ -36,6 +39,7 @@ class TravelStory {
   static TravelStory fromMap(Map<String, dynamic> map) {
     return TravelStory(
         uid: map['uid'],
+        id: map['id'],
         userName: map['username'],
         storyTitle:map['storyTitle'],
         likes: map['likes'],
