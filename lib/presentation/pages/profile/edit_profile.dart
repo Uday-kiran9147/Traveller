@@ -117,25 +117,37 @@ class _UserInfoFormState extends State<UserInfoForm> {
                       },
                       child: Text('save image'))
                 ],
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Username'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a username';
-                  }
-                  return null;
-                },
-                controller: username,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'tag'),
-                
-                controller: tag,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'bio'),
-                controller: bio,
+              ),SizedBox(height: 20,),
+              SizedBox(height: 300,
+                child: Flex(
+                  direction: Axis.vertical,
+                  children: [
+                    Expanded(flex: 1,
+                      child: TextFormField(
+                        decoration: InputDecoration(labelText: 'Username'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a username';
+                          }
+                          return null;
+                        },
+                        controller: username,
+                      ),
+                    ),
+                    Expanded(flex: 1,
+                      child: TextFormField(
+                        decoration: InputDecoration(labelText: 'tag'),
+                        controller: tag,
+                      ),
+                    ),
+                    Expanded(flex: 1,
+                      child: TextFormField(
+                        decoration: InputDecoration(labelText: 'bio'),
+                        controller: bio,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               // Add more text fields for other user information here.
 
@@ -144,9 +156,9 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Save the user information to your database or use it as needed.
-                    EditProfile editprofile=EditProfile(username.text, bio.text, tag.text);
-                    var response =
-                        await editprofile.editPtofile();
+                    EditProfile editprofile =
+                        EditProfile(username.text, bio.text, tag.text);
+                    var response = await editprofile.editPtofile();
                     if (response) {
                       await Provider.of<UserProvider>(context, listen: false)
                           .getuser();

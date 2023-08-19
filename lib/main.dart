@@ -67,7 +67,7 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             // Define the default brightness and colors.
             // brightness: Brightness.dark,
-            primarySwatch: Colors.amber,
+            primarySwatch: Colors.teal,
             //splash color is a color that appears behind a button's label when the button is tapped.
             splashColor: Colors.white,
             /* This sample creates a MaterialApp with a Theme whose ColorScheme is based on Colors.blue, but with the color scheme's ColorScheme.secondary color overridden to be green. The AppBar widget uses the color scheme's ColorScheme.primary as its default background color and the FloatingActionButton widget uses the color scheme's ColorScheme.secondary for its default background. By default, the Text widget uses TextTheme.bodyMedium, and the color of that TextStyle has been changed to purple. */
