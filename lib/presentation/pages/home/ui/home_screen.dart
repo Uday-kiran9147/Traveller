@@ -51,17 +51,33 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         : Scaffold(
             endDrawer: Drawer(
-              backgroundColor: Colors.teal.shade100,
+              backgroundColor: Colors.grey.shade200,
               elevation: 15,
               child: ListView(
+                padding: EdgeInsets.zero,
                 children: [
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Container(
+                      height: 150,
+                      width: 150,
+                      child: (user!.profileurl == null ||
+                              user!.profileurl!.startsWith('http') == false)
+                          ? CircleAvatar(
+                              backgroundImage: AssetImage('assets/noimage.png'),
+                            )
+                          : CircleAvatar(
+                              backgroundImage: NetworkImage(user!.profileurl!),
+                            )),Text(user!.username,textAlign: TextAlign.center,),
+                  Divider(),
                   ListTile(
                       onTap: () async {
                         bool isSignout = await SignOut.signoutuser();
                         if (isSignout) {
                           Navigator.pushNamedAndRemoveUntil(context,
                               RouteName.authentication, (route) => false);
-                        }
+                        } // remove the drawer
                       },
                       leading: Icon(
                         Icons.logout_outlined,
@@ -72,17 +88,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.red,
                           ))),
                   ListTile(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => StoryListScreen(),
-                          )),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StoryListScreen(),
+                            ));
+                      },
                       leading: Icon(
-                    Icons.circle,
+                        Icons.circle,
                         color: Colors.green,
                       ),
                       title: Text(
-                        "Storie\'s",
+                        "Stories",
                       )),
                   ListTile(
                       onTap: () {
@@ -92,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Icons.add_circle_outline_outlined,
                         color: Colors.green,
                       ),
-                      title: Text("Add story"))
+                      title: Text("Add story")),
                 ],
               ),
             ),

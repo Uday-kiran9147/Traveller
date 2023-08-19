@@ -67,7 +67,7 @@ class _AddStoryState extends State<AddStory> {
                 icon: Icon(Icons.save))
           ],
         ),
-        body: ListView(
+        body: ListView(padding: EdgeInsets.only(top: 26.0),
           children: [
             _images != null && _images!.length > 0
                 ? SizedBox(
@@ -78,13 +78,29 @@ class _AddStoryState extends State<AddStory> {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image.file(_images![index]),
+                          child: Container(decoration: BoxDecoration(border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(20)),
+                            child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(20)),child: Image.file(_images![index])),
+                          ),
                         );
                       },
                     ),
-                  )
-                : Container(),
-            TextButton(onPressed: _pickImages, child: Text('select')),
+                  ):
+            Expanded(
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.grey)),
+                  child: GestureDetector(
+                      onTap: _pickImages,
+                      child: Icon(
+                        Icons.image_search_rounded,
+                        color: Colors.grey,
+                        size: 120,
+                      )),
+                ),
+              ),
+            ),SizedBox(height: 16.0),TextButton(onPressed: _pickImages, child: Text('choose')),
             Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomTextForm(titleController: _titleController)),

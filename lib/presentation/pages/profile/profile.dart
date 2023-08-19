@@ -58,7 +58,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                     user.profileurl!.startsWith('http') ==
                                         false)
                                 ? DecorationImage(
-                                    opacity: 0.75,
+                                    // opacity: 0.75,
                                     fit: BoxFit.cover,
                                     image: AssetImage('assets/noimage.png'),
                                   )
