@@ -141,7 +141,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                    color: Color.fromARGB(141, 67, 67, 67),
+                                    color: Color.fromARGB(141, 135, 134, 134),
                                     border: Border.all(
                                         width: 1, color: Colors.black54,),
                                     borderRadius: BorderRadius.circular(10)),
@@ -168,8 +168,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                   .textTheme
                                                   .bodyLarge!
                                                   .copyWith(
-                                                      color: Theme.of(context)
-                                                          .primaryColorLight)),
+                                                      color: Colors.white)),
                                         ])
                                             // maxLines: 3,
                                             )),

@@ -10,7 +10,7 @@ import 'story_detail_screen.dart';
 class StoryListScreen extends StatelessWidget {
   StoryListScreen({super.key});
 
-   Stream<QuerySnapshot> _poststream = FirebaseFirestore.instance
+   Stream<QuerySnapshot> _travelstorytstream = FirebaseFirestore.instance
       .collection("travelstory")
       .snapshots();
 
@@ -19,7 +19,7 @@ class StoryListScreen extends StatelessWidget {
     return Scaffold(
       // backgroundColor: Colors.black,
       body: StreamBuilder<QuerySnapshot>(
-          stream: _poststream,
+          stream: _travelstorytstream,
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.data.toString().isEmpty) {
               return const Center(child: Text('No posts yet'));
@@ -59,7 +59,7 @@ class StoryListScreen extends StatelessWidget {
                       SizedBox(
                         height: 5,
                       ),
-                      _build_Card(data['photos'].length==0?null:data['photos'][0]),
+                      build_Card(data['photos'].length==0?null:data['photos'][0]),
                       // Positioned(
                       //   top: 30,
                       //   left: 30,
@@ -67,8 +67,8 @@ class StoryListScreen extends StatelessWidget {
                       //     radius: 30,
                       //   ),
                       // ),
-                      _build_Date(),
-                      _build_Title_username(index, context,data['storyTitle'],data['userName'])
+                      build_Date(),
+                      build_Title_username(index, context,data['storyTitle'],data['userName'])
                     ],
                   ),
                 );
@@ -78,7 +78,7 @@ class StoryListScreen extends StatelessWidget {
     );
   }
 
-  Positioned _build_Title_username(int index, BuildContext context,String title,String username) {
+  Positioned build_Title_username(int index, BuildContext context,String title,String username) {
     return Positioned(
         left: 30,
         bottom: 30,
@@ -101,7 +101,7 @@ class StoryListScreen extends StatelessWidget {
         ));
   }
 
-  Positioned _build_Date() {
+  Positioned build_Date() {
     return Positioned(
       right: 30,
       top: 30,
@@ -120,7 +120,7 @@ class StoryListScreen extends StatelessWidget {
     );
   }
 
-  Padding _build_Card(String? image0) {
+  Padding build_Card(String? image0) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(

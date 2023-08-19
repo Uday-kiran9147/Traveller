@@ -15,7 +15,7 @@ class DestinationCard extends StatelessWidget {
         color: Colors.grey.shade200,
       ),
       width: 76,
-      height: 110,
+      height: 100,
       margin: EdgeInsets.only(right: 10, bottom: 10, top: 10),
       child: Container(
         child: ClipRRect(
