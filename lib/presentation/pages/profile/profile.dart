@@ -120,7 +120,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             ),
             user.upcomingtrips.length == 0
                 ? Container(
-                    height: 20,
+                    height: 30,
                     width: 300,
                     child: Text(
                       '-----No upcoming plans-----',
@@ -160,8 +160,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                   .textTheme
                                                   .bodySmall!
                                                   .copyWith(
-                                                      color: Theme.of(context)
-                                                          .primaryColorDark)),
+                                                  color: Colors.black)),
                                           TextSpan(
                                               text:
                                                   "${user.upcomingtrips[index]}",
@@ -179,8 +178,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                             .textTheme
                                             .bodySmall!
                                             .copyWith(
-                                                color: Theme.of(context)
-                                                    .primaryColorDark))
+                                                color: Colors.black))
                                   ],
                                 ),
                               ),
@@ -197,7 +195,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                               listen: false)
                                           .getuser();
                                     },
-                                    child: Icon(Icons.close_rounded)),
+                                    child: Icon(Icons.close_rounded,color: Colors.black45,)),
                               )
                             ],
                           ),
@@ -206,7 +204,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     ),
                   ),
             Container(
-              height: 70,
+              height: 60,
               width: double.maxFinite,
               child: Align(
                 alignment: Alignment.center,
