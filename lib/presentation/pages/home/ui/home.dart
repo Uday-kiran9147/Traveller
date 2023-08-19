@@ -62,7 +62,7 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
-  int index = 0;
+  int index = 0;   // initial index of the [BottomNavigationBar] is 0.
   List<Widget> _page = [];
 
   @override
@@ -81,7 +81,7 @@ class _MyHomeState extends State<MyHome> {
     return Scaffold(
         body: _page[index],
         bottomNavigationBar: BottomNavigationBar(
-          selectedIconTheme: IconThemeData(color: Theme.of(context).canvasColor),
+          selectedIconTheme: IconThemeData(color: Theme.of(context).primaryColor),
           type: BottomNavigationBarType.fixed,
           iconSize: 16,
           elevation: 5,

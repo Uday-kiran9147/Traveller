@@ -7,6 +7,8 @@ import 'package:traveler/domain/usecases/upload_story.dart';
 import 'package:traveler/presentation/providers/user_provider.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
+import '../../../../config/theme/apptheme.dart';
+
 // ignore: must_be_immutable
 class AddStory extends StatefulWidget {
   AddStory({super.key});
@@ -51,7 +53,8 @@ class _AddStoryState extends State<AddStory> {
                       photos: _images);
                   await story.uploadStory().then((value) {
                     if (value) {
-                      customSnackbarMessage('Story uploaded successfully', context, Colors.green);
+                      customSnackbarMessage(
+                          'Story uploaded successfully', context, Colors.green);
                       Navigator.pop(context);
                     } else {
                       customSnackbarMessage(
@@ -83,20 +86,8 @@ class _AddStoryState extends State<AddStory> {
                 : Container(),
             TextButton(onPressed: _pickImages, child: Text('select')),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _titleController,
-                autocorrect: true,
-                onSaved: (newVal) {
-                  _titleController.text = newVal!;
-                },
-                cursorColor: Colors.purple,
-                // maxLength: 50, // max length of the text
-                decoration: InputDecoration(
-                  hintText: "story Title",
-                ),
-              ),
-            ),
+                padding: const EdgeInsets.all(8.0),
+                child: CustomTextForm(titleController: _titleController)),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
@@ -106,15 +97,50 @@ class _AddStoryState extends State<AddStory> {
                 scrollController: scrollController,
                 controller: _storyController,
                 autocorrect: true,
-                cursorColor: Colors.purple,
+                cursorColor: Theme.of(context).primaryColor,
                 maxLines: null,
                 decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Add Story",
+                  hintText: "Tell us your story",
+                  fillColor: AThemes.universalcolor,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
                 ),
               ),
             ),
           ],
         ));
+  }
+}
+
+class CustomTextForm extends StatelessWidget {
+  const CustomTextForm({
+    super.key,
+    required TextEditingController titleController,
+  }) : _titleController = titleController;
+
+  final TextEditingController _titleController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _titleController,
+      autocorrect: true,
+      onSaved: (newVal) {
+        _titleController.text = newVal!;
+      },
+      cursorColor: Colors.purple,
+      decoration: InputDecoration(
+        hintText: "story Title",
+        fillColor: AThemes.universalcolor,
+        filled: true,
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+      ),
+    );
   }
 }

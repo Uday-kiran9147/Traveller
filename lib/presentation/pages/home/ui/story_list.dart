@@ -60,13 +60,13 @@ class StoryListScreen extends StatelessWidget {
                         height: 5,
                       ),
                       _build_Card(data['photos'].length==0?null:data['photos'][0]),
-                      Positioned(
-                        top: 30,
-                        left: 30,
-                        child: CircleAvatar(
-                          radius: 30,
-                        ),
-                      ),
+                      // Positioned(
+                      //   top: 30,
+                      //   left: 30,
+                      //   child: CircleAvatar(
+                      //     radius: 30,
+                      //   ),
+                      // ),
                       _build_Date(),
                       _build_Title_username(index, context,data['storyTitle'],data['userName'])
                     ],

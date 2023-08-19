@@ -170,44 +170,60 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             size: 120,
                           )),
                     ))),
-              TextFormField(
+              TextField(
                 controller: _descriptionController,
                 decoration: InputDecoration(
-                  labelText: 'write a caption.....',
+                  hintText: "description.....",
+                  fillColor: Colors.grey.shade200,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
                 ),
-              ),
-              TextFormField(
+              ),SizedBox(height: 16.0),
+              TextField(
                 controller: _locationController,
                 decoration: InputDecoration(
-                  labelText: 'location (Ladhak, India)',
+                  hintText: "location (Ladhak, India)",
+                  fillColor: Colors.grey.shade200,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
                 ),
               ),
               SizedBox(height: 16.0),
               Row(
-            children: [Icon(Icons.location_on_outlined),
+                children: [
+                  Icon(Icons.location_on_outlined),
                   TextButton(
-                      onPressed: getCurrentPosition, child: Text("get current location")),
+                      onPressed: getCurrentPosition,
+                      child: Text("get current location")),
                 ],
               ),
               Center(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      // Form is valid, process the data
-                      if (_image != null) {
-                        // Use the selected image
-                        widget.exploreBloc.add(PostingPostEvent(
-                          description: _descriptionController.text,
-                          location: _locationController.text.isEmpty
-                              ? address ?? ""
-                              : _locationController.text,
-                          date: DateTime.now().toString(),
-                          image: _image!,
-                        ));
+                child: Container(width: MediaQuery.of(context).size.width*0.50,
+                  child: ElevatedButton(style: ButtonStyle(elevation: MaterialStateProperty.all(10),overlayColor: MaterialStateColor.resolveWith((states) => Colors.green)),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        // Form is valid, process the data
+                        if (_image != null) {
+                          // Use the selected image
+                          widget.exploreBloc.add(PostingPostEvent(
+                            description: _descriptionController.text,
+                            location: _locationController.text.isEmpty
+                                ? address ?? ""
+                                : _locationController.text,
+                            date: DateTime.now().toString(),
+                            image: _image!,
+                          ));
+                        }
                       }
-                    }
-                  },
-                  child: Text('Submit'),
+                    },
+                    child: Text('Submit'),
+                  ),
                 ),
               ),
               Text('ADDRESS: ${address ?? ""}'),

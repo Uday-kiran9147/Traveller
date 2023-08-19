@@ -55,7 +55,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
             user,textAlign: TextAlign.end,
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          bottom: TabBar(
+          bottom: TabBar(labelColor: Colors.teal,
             indicator: BoxDecoration(
                 gradient: LinearGradient(colors: [
                 Colors.grey.shade300,

@@ -48,22 +48,18 @@ class _GridScreenState extends State<GridScreen> {
         backgroundColor: Colors.black,
         body: Container(
           height: double.maxFinite,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Colors.greenAccent,
-            Colors.purple,
-          ])),
+          decoration: BoxDecoration(),
           child: GridView.custom(
               gridDelegate: SliverQuiltedGridDelegate(
-                crossAxisCount: 2,
+                crossAxisCount: 4,
                 mainAxisSpacing: 1,
                 crossAxisSpacing: 1,
                 repeatPattern: QuiltedGridRepeatPattern.mirrored,
                 pattern: [
                   QuiltedGridTile(2, 1),
                   QuiltedGridTile(2, 1),
-                  // QuiltedGridTile(1, 1),
-                  // QuiltedGridTile(1, 1),
+                  QuiltedGridTile(1, 1),
+                  QuiltedGridTile(1, 1),
                 ],
               ),
               childrenDelegate: SliverChildBuilderDelegate(

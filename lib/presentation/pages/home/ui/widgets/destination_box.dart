@@ -12,7 +12,7 @@ class DestinationCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Color.fromARGB(255, 88, 3, 85),
+        color: Colors.grey.shade200,
       ),
       width: 76,
       height: 110,
