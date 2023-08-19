@@ -82,7 +82,7 @@ class PostTile extends StatelessWidget {
               Expanded(
                 child: Container(
                   height: 400,
-                  decoration: BoxDecoration(
+                  decoration: BoxDecoration(border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       image: DecorationImage(
                           fit: BoxFit.fitWidth,
@@ -90,14 +90,12 @@ class PostTile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      child: GestureDetector(
-                        child: Colwidget("", Icons.chat_rounded),
+                     GestureDetector(
+                        child: Colwidget("", Icons.chat_bubble_outline_rounded),
                         onTap: () {
                           showModalBottomSheet(
                             isDismissible: true,
@@ -124,10 +122,9 @@ class PostTile extends StatelessWidget {
                           );
                         },
                       ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 50),
-                      child: Colwidget("120", Icons.share),
+                      child: Colwidget("", Icons.share_rounded),
                     ),
                     GestureDetector(
                       onTap: () async {
@@ -139,7 +136,7 @@ class PostTile extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 50),
                         child: Colwidget(convertToKNotation(post.popularity),
-                            Icons.nat_sharp),
+                            Icons.favorite_border_rounded),
                       ),
                     ),
                   ],
@@ -149,15 +146,9 @@ class PostTile extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Rowwidget(post.location! + "     ", Icons.location_on_outlined),
-              ],
+            child: Text(
+              "  " + post.description!,
             ),
-          ),
-          Text(
-            "  " + post.description!,
           ),
           Divider(),
         ],
