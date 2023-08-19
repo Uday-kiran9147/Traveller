@@ -167,13 +167,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           child: Icon(
                             Icons.image_search_rounded,
                             color: Colors.grey,
-                            size: 100,
+                            size: 120,
                           )),
                     ))),
-              ElevatedButton(
-                onPressed: _getImage,
-                child: Text('Select Image'),
-              ),
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(
@@ -187,8 +183,12 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 ),
               ),
               SizedBox(height: 16.0),
-              TextButton(
-                  onPressed: getCurrentPosition, child: Text("get location")),
+              Row(
+            children: [Icon(Icons.location_on_outlined),
+                  TextButton(
+                      onPressed: getCurrentPosition, child: Text("get current location")),
+                ],
+              ),
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
