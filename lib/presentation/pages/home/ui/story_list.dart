@@ -1,6 +1,8 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:traveler/domain/usecases/delete_travelstory.dart';
+
 import '../../../../domain/models/travel_story.dart';
 import 'home_screen.dart';
 import 'story_detail_screen.dart';
@@ -37,10 +39,6 @@ class StoryListScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 var data = documents[index].data() as Map<String, dynamic>;
                 return GestureDetector(
-                  onLongPress: ()async{
-                    DeleteTravelStory deleteTravelStory = DeleteTravelStory(storyid: data['id']);
-                    await deleteTravelStory.deleteStory();
-                  },
                   onTap: (){
               Navigator.push(
                   context,
