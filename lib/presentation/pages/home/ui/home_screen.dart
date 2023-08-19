@@ -50,29 +50,60 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           )
         : Scaffold(
+            endDrawer: Drawer(
+              backgroundColor: Colors.teal.shade100,
+              elevation: 15,
+              child: ListView(
+                children: [
+                  ListTile(
+                      onTap: () async {
+                        bool isSignout = await SignOut.signoutuser();
+                        if (isSignout) {
+                          Navigator.pushNamedAndRemoveUntil(context,
+                              RouteName.authentication, (route) => false);
+                        }
+                      },
+                      leading: Icon(
+                        Icons.logout_outlined,
+                        color: Colors.red,
+                      ),
+                      title: Text("logout",
+                          style: TextStyle(
+                            color: Colors.red,
+                          ))),
+                  ListTile(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => StoryListScreen(),
+                          )),
+                      leading: Icon(
+                    Icons.circle,
+                        color: Colors.green,
+                      ),
+                      title: Text(
+                        "Storie\'s",
+                      )),
+                  ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, RouteName.addstory);
+                      },
+                      leading: Icon(
+                        Icons.add_circle_outline_outlined,
+                        color: Colors.green,
+                      ),
+                      title: Text("Add story"))
+                ],
+              ),
+            ),
             appBar: AppBar(
-              backgroundColor: AThemes.universalcolor,
-              actions: [
-                IconButton(onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => StoryListScreen(),)), icon: Icon(Icons.search)),
-                IconButton(
-                    onPressed: () async {
-                      bool isSignout = await SignOut.signoutuser();
-                      if (isSignout) {
-                        Navigator.pushNamedAndRemoveUntil(context,
-                            RouteName.authentication, (route) => false);
-                      }
-                    },
-                    icon: Icon(Icons.logout)),
-                    IconButton(onPressed: (){
-                      Navigator.pushNamed(context, RouteName.addstory);
-                    }, icon: Icon(Icons.add))
-              ],
+              // backgroundColor: AThemes.universalcolor,
               title: Text(
                 "Hi, ${user?.username}",
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-            backgroundColor: AThemes.universalcolor,
+            // backgroundColor: AThemes.universalcolor,
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -85,7 +116,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: 5,
                         itemBuilder: (context, index) {
                           return Column(children: [
-                            Text('Africa $index',style: Theme.of(context).textTheme.bodySmall,),
+                            Text(
+                              'Africa $index',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
                             DestinationCard(
                               imageurl: netimage[netimage.length - 1 - index],
                             ),
@@ -118,10 +152,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     Container(
-                        height: 400, //392,
-                        width: double.maxFinite,
-                        // child: SwiperWidget()
-                        ),
+                      height: 400, //392,
+                      width: double.maxFinite,
+                      // child: SwiperWidget()
+                    ),
                   ],
                 ),
               ),
@@ -138,7 +172,8 @@ class LoadingProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
-      backgroundColor: Colors.greenAccent,valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+      backgroundColor: Colors.greenAccent,
+      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
     );
   }
 }
