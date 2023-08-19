@@ -15,7 +15,7 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
-                .copyWith(color: AThemes.universalcolor)),
+                .copyWith(color: AThemes.comment_Box)),
         content: CupertinoTextField(
           onChanged: (val) {
             destination = val;

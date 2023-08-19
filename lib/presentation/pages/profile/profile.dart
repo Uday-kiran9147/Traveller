@@ -49,14 +49,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 Stack(
                   children: [
                     Container(
-                        height: 130,
-                        width: 130,
+                        height: 150,
+                        width: 150,
                         decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(color: Colors.grey, blurRadius: 12)
-                            ],
-                            border: Border.all(color: Colors.orange),
-                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(20),
                             image: (user.profileurl == null ||
                                     user.profileurl!.startsWith('http') ==
                                         false)
@@ -123,9 +120,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             ),
             user.upcomingtrips.length == 0
                 ? Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 0.5, color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10)),
                     height: 20,
                     width: 300,
                     child: Text(
@@ -149,7 +143,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 decoration: BoxDecoration(
                                     color: Color.fromARGB(141, 67, 67, 67),
                                     border: Border.all(
-                                        width: 1, color: Colors.grey),
+                                        width: 1, color: Colors.black54,),
                                     borderRadius: BorderRadius.circular(10)),
                                 height: 70,
                                 width: MediaQuery.of(context).size.width * 0.8,
@@ -245,8 +239,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               height: 400,
               child: TabBarView(controller: tabController, children: [
                 posts(user),
-                Text('1'),
-                Text('2'),
+                Center(child: Text('Empty,\nComing soon!')),
+                Center(child: Text('Empty,\nComing soon!')),
               ]),
             ),
           ],

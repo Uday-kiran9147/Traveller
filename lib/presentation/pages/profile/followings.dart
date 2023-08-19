@@ -58,10 +58,10 @@ class _FollowingScreenState extends State<FollowingScreen> {
           bottom: TabBar(
             indicator: BoxDecoration(
                 gradient: LinearGradient(colors: [
-                  AThemes.gradient2,
-                  AThemes.gradient1,
+                Colors.grey.shade300,
+                Colors.blue.shade300,
                 ]),
-                borderRadius: BorderRadius.circular(50), // Creates border
+                // borderRadius: BorderRadius.circular(40), // Creates border
                 ),
             tabs: [
               Tab(text: 'Following'),
@@ -119,8 +119,8 @@ class FollowList extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                Color.fromARGB(255, 194, 65, 103),
-                Colors.blueAccent,
+                Colors.grey.shade300,
+                Colors.blue.shade300,
               ]),
               color: AThemes.universalcolor,
               borderRadius: BorderRadius.circular(12),
