@@ -9,6 +9,7 @@ import '../../../../data/datasources/local/urls.dart';
 import '../../../../utils/routes/route_names.dart';
 import '../bloc/home_bloc_bloc.dart';
 import 'widgets/destination_box.dart';
+import 'widgets/swiperwidget.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
@@ -120,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                         height: 400, //392,
                         width: double.maxFinite,
-                        // child: SwiperWidget()
+                        child: SwiperWidget()
                         ),
                   ],
                 ),

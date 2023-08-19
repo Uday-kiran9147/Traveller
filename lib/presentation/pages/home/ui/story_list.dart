@@ -5,17 +5,13 @@ import '../../../../domain/models/travel_story.dart';
 import 'home_screen.dart';
 import 'story_detail_screen.dart';
 
-class StoryListScreen extends StatefulWidget {
-  const StoryListScreen({super.key});
+class StoryListScreen extends StatelessWidget {
+  StoryListScreen({super.key});
 
-  @override
-  State<StoryListScreen> createState() => _StoryListScreenState();
-}
-
-class _StoryListScreenState extends State<StoryListScreen> {
    Stream<QuerySnapshot> _poststream = FirebaseFirestore.instance
       .collection("travelstory")
       .snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +42,6 @@ class _StoryListScreenState extends State<StoryListScreen> {
                     await deleteTravelStory.deleteStory();
                   },
                   onTap: (){
-                    print(data['photos']);
               Navigator.push(
                   context,
                   MaterialPageRoute(
