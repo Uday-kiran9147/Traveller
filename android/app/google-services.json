@@ -1,34 +1,122 @@
 {
   "project_info": {
-    "project_number": "1075481555757",
-    "project_id": "traveller-fd5a3",
-    "storage_bucket": "traveller-fd5a3.appspot.com"
+    "project_number": "693150012196",
+    "firebase_url": "https://quizmaker2-565b6-default-rtdb.firebaseio.com",
+    "project_id": "quizmaker2-565b6",
+    "storage_bucket": "quizmaker2-565b6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1075481555757:android:654797514d7a87797d19a4",
+        "mobilesdk_app_id": "1:693150012196:android:aee2acdee406e9e8bd19b1",
         "android_client_info": {
-          "package_name": "com.example.traveler"
+          "package_name": "com.example.csproject1"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1075481555757-2tir7a877l6j147l7vcdnim8hbuoiq8d.apps.googleusercontent.com",
+          "client_id": "693150012196-0jev871og3v9rrft343j5r9d3qij7a1n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBSruJLS0bIsnevS0Rryq0rmv5FhGH7KxA"
+          "current_key": "AIzaSyDQ7rcxVAMvP4gNFshDkGOwb-_jgbdslt8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1075481555757-2tir7a877l6j147l7vcdnim8hbuoiq8d.apps.googleusercontent.com",
+              "client_id": "693150012196-0jev871og3v9rrft343j5r9d3qij7a1n.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "693150012196-7rdb8412svm4ouavdc2pfi809vsa2p23.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.traveler"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693150012196:android:8749c715bbd800bbbd19b1",
+        "android_client_info": {
+          "package_name": "com.example.liveasy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693150012196-hppogcge3ajul245cfgghlv6q63b4kmr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.liveasy",
+            "certificate_hash": "583f11521c2d8722440798e635a782e803deef93"
+          }
+        },
+        {
+          "client_id": "693150012196-0jev871og3v9rrft343j5r9d3qij7a1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ7rcxVAMvP4gNFshDkGOwb-_jgbdslt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693150012196-0jev871og3v9rrft343j5r9d3qij7a1n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "693150012196-7rdb8412svm4ouavdc2pfi809vsa2p23.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.traveler"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693150012196:android:0f1d829f7ed18aaebd19b1",
+        "android_client_info": {
+          "package_name": "com.example.traveler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693150012196-0jev871og3v9rrft343j5r9d3qij7a1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ7rcxVAMvP4gNFshDkGOwb-_jgbdslt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693150012196-0jev871og3v9rrft343j5r9d3qij7a1n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "693150012196-7rdb8412svm4ouavdc2pfi809vsa2p23.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.traveler"
+              }
             }
           ]
         }
