@@ -10,12 +10,18 @@ import '../../providers/user_provider.dart';
 import '../../widgets/dialogs.dart';
 
 class Profile extends StatefulWidget {
+  String? userid;Profile(this.userid);
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   TabController? tabController;
+  @override
+  void didChangeDependencies() {
+  // final randomuser=ModalRoute.of(context)!.settings.arguments as Map<String,dynamic>;print(randomuser["userid"]);
+    super.didChangeDependencies();
+  }
   @override
   void initState() {
     tabController = TabController(
@@ -30,7 +36,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
-    bool isowner = user.uid == owner ? true : false;
+    bool isowner = user.uid == owner ? true : false; print(widget.userid);
 
     return Scaffold(
       backgroundColor: AThemes.universalcolor,
@@ -63,7 +69,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                     image: AssetImage('assets/noimage.png'),
                                   )
                                 : DecorationImage(
-                                    opacity: 0.75,
+                                    // opacity: 0.75,
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
                                       user.profileurl!,

@@ -43,7 +43,7 @@ class PostTile extends StatelessWidget {
             leading: GestureDetector(
               onTap: () {
                if(post.userID == owner){
-                  Navigator.pushNamed(context, RouteName.profilescreen);
+                  Navigator.pushNamed(context, RouteName.profilescreen,arguments: post.userID);
                }
                else{
                  Navigator.push(

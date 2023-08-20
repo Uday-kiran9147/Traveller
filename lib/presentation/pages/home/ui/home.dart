@@ -71,7 +71,7 @@ class _MyHomeState extends State<MyHome> {
       HomeScreen(homeBlocBloc: widget.homeBlocBloc),
       ExploreScreen(),
       GridScreen(),
-      Profile(),
+      Profile(null),
     ];
     super.initState();
   }
