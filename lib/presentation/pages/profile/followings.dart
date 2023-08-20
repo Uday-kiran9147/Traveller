@@ -1,12 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/data/repository/database.dart';
 import 'package:traveler/domain/usecases/get_follow_user.dart';
-import 'package:traveler/presentation/providers/user_provider.dart';
 
 import '../home/ui/home_screen.dart';
 
@@ -14,8 +12,12 @@ class FollowingScreen extends StatefulWidget {
   const FollowingScreen({
     Key? key,
     required this.index,
+    required this.userid,
+    required this.username,
   }) : super(key: key);
   final int index;
+  final String userid;
+  final String username;
 
   @override
   State<FollowingScreen> createState() => _FollowingScreenState();
@@ -30,9 +32,8 @@ class _FollowingScreenState extends State<FollowingScreen> {
   }
 
   getus() async {
-    GetFollow getFollow =GetFollow();
+    GetFollow getFollow =GetFollow(userid: widget.userid);
     List<List<UserRegister>?> users = await getFollow.getfollowList();
-    print(users);
     setState(() {
       biglist = users;
     });
@@ -42,7 +43,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user.username;
+    // final user = Provider.of<UserProvider>(context).user.username;
     return DefaultTabController(
       length: 2,
       initialIndex: widget.index,
@@ -52,7 +53,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
           backgroundColor: AThemes.universalcolor,
           automaticallyImplyLeading: false, // hides leading widget (Back button)
           title: Text(
-            user,textAlign: TextAlign.end,
+            widget.username,textAlign: TextAlign.end,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           bottom: TabBar(labelColor: Colors.teal,

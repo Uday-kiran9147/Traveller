@@ -2,7 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:traveler/config/theme/apptheme.dart';
-import 'package:traveler/presentation/pages/profile/random_profile.dart';
+import 'package:traveler/utils/routes/route_names.dart';
 import '../../../domain/models/post.dart';
 import '../../widgets/dialogs.dart';
 import '../explore/ui/widgets/comment_Box.dart';
@@ -60,7 +60,7 @@ class _PostScreenState extends State<PostScreen> {
           ),
           leading: GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => RandomProfile(uid: post.userID),));
+              Navigator.pushNamed(context,RouteName.profilescreen,arguments: post.userID);
             },
             child: CircleAvatar(
               child: Text(post.username.toUpperCase().substring(0, 2)),

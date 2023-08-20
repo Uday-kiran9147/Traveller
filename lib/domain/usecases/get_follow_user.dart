@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/user.dart';
 
 class GetFollow{
+  final String userid;GetFollow({required this.userid});
     Future<List<List<UserRegister>?>> getfollowList() async {
     List<List<UserRegister>?> biglist = List.empty(growable: true);
     List following = [];
@@ -12,7 +12,7 @@ class GetFollow{
     var ers;
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(userid)
         .get()
         .then((value) async {
       UserRegister user = UserRegister.fromMap(value);
