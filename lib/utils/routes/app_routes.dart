@@ -21,7 +21,8 @@ class AppRoutes {
         // case RouteName.newpost:
         // return MaterialPageRoute(builder: (context) =>NewPostScreen());
         case RouteName.profilescreen:
-        return MaterialPageRoute(builder: (context) =>Profile());
+        final args= settings.arguments as String;
+        return MaterialPageRoute(builder: (context) =>Profile(args.toString()));
         case RouteName.editprofile:
         return MaterialPageRoute(builder: (context) =>UserInfoForm());
       default:
