@@ -33,14 +33,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   }
 
   UserRegister? randomuser;
-  init2() {
-    if (widget.userid == null) {
-      print('available user');
-      randomuser = Provider.of<UserProvider>(context).user;
-    } else {
-      getRandomuser();
-    }
-  }
 
   Future<UserRegister> getRandomuser() async {
     if (widget.userid == null) {
@@ -63,9 +55,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   String owner = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
-    // final randomuser = Provider.of<UserProvider>(context).user;
-    print(widget.userid);
-
     return Scaffold(
       backgroundColor: AThemes.universalcolor,
       body: FutureBuilder<UserRegister>(
