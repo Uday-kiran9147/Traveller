@@ -26,7 +26,8 @@ class _AddStoryState extends State<AddStory> {
   List<File>? _images = [];
   Future<void> _pickImages() async {
     List<XFile>? selectedImages =
-        await ImagePicker().pickMultiImage(imageQuality: 85);
+        await ImagePicker().pickMultiImage(imageQuality: 70,
+      maxWidth: 250,);
     for (int i = 0; i < selectedImages.length; i++) {
       setState(() {
         _images!.add(File(selectedImages[i].path));

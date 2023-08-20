@@ -54,7 +54,7 @@ class SavePost {
       print("database created");
       return true;
     } catch (e) {
-      print("error in saving post ");
+      print(e.toString());
       return false;
     }
   }

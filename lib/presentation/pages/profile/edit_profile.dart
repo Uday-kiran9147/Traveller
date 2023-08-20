@@ -49,8 +49,8 @@ class _UserInfoFormState extends State<UserInfoForm> {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 100,
-      maxWidth: 400,
+      imageQuality: 70,
+      maxWidth: 250,
     );
     if (pickedImage != null) {
       setState(() {
