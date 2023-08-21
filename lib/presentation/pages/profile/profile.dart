@@ -165,16 +165,14 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 ? Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                        Icon(Icons.person_add_alt_1,size: 20,color: Colors.blue,),
-                                        Text('  follow'),
-                                      ])
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
                                       Icon(Icons.person_remove_alt_1,size: 20,color: Colors.teal,),
                                       Text('  unfollow'),
-                                    ],
-                                  )),
+                                    ]):Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                        Icon(Icons.person_add_alt_1,size: 20,color: Colors.blue,),
+                                        Text('  follow'),
+                                      ])),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
