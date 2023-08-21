@@ -41,31 +41,33 @@ class _AddStoryState extends State<AddStory> {
         // backgroundColor: Colors.grey,
         appBar: AppBar(
           actions: [
-            IconButton(
-                onPressed: () async {
-                  var user = Provider.of<UserProvider>(context, listen: false);
-                  UploadTravelStory story = UploadTravelStory(
-                      userName: user.user.username,
-                      userid: user.user.uid,
-                      storyTitle: _titleController.text,
-                      created_at: DateTime.now().toString(),
-                      travelStory: _storyController.text,
-                      destinationRating: null,
-                      photos: _images);
-                  await story.uploadStory().then((value) {
-                    if (value) {
-                      customSnackbarMessage(
-                          'Story uploaded successfully', context, Colors.green);
-                      Navigator.pop(context);
-                    } else {
-                      customSnackbarMessage(
-                          'story uploaded successfully', context, Colors.green);
-                    }
-                  }).catchError((e) {
-                    customSnackbarMessage(e.toString(), context, Colors.green);
-                  });
-                },
-                icon: Icon(Icons.save))
+            Tooltip(message: "Upload story",
+              child: IconButton(
+                  onPressed: () async {
+                    var user = Provider.of<UserProvider>(context, listen: false);
+                    UploadTravelStory story = UploadTravelStory(
+                        userName: user.user.username,
+                        userid: user.user.uid,
+                        storyTitle: _titleController.text,
+                        created_at: DateTime.now().toString(),
+                        travelStory: _storyController.text,
+                        destinationRating: null,
+                        photos: _images);
+                    await story.uploadStory().then((value) {
+                      if (value) {
+                        customSnackbarMessage(
+                            'Story uploaded successfully', context, Colors.green);
+                        Navigator.pop(context);
+                      } else {
+                        customSnackbarMessage(
+                            'story uploaded successfully', context, Colors.green);
+                      }
+                    }).catchError((e) {
+                      customSnackbarMessage(e.toString(), context, Colors.green);
+                    });
+                  },
+                  icon: Icon(Icons.upload_rounded)),
+            )
           ],
         ),
         body: ListView(padding: EdgeInsets.only(top: 26.0),
