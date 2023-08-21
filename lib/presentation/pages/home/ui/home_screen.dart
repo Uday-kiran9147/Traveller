@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: AnimatedTextKit(
                     animatedTexts: [
                       ColorizeAnimatedText(
-                        'Recent stories.....',
+                        ' Recent stories.....',
                         textStyle: TextStyle(
                           fontSize: 30.0,
                         ),
@@ -259,7 +259,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('Tap to read story',style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.grey),textAlign: TextAlign.center,),
+                  child: InkWell(onTap: () =>{
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StoryListScreen(),
+                            ))},
+                      child: Text('Load more stories?',style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.grey),textAlign: TextAlign.center,)),
                 )
               ],
             ),

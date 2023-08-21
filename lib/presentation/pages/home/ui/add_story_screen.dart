@@ -86,20 +86,18 @@ class _AddStoryState extends State<AddStory> {
                       },
                     ),
                   ):
-            Expanded(
-              child: Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey)),
-                  child: GestureDetector(
-                      onTap: _pickImages,
-                      child: Icon(
-                        Icons.image_search_rounded,
-                        color: Colors.grey,
-                        size: 120,
-                      )),
-                ),
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.grey)),
+                child: GestureDetector(
+                    onTap: _pickImages,
+                    child: Icon(
+                      Icons.image_search_rounded,
+                      color: Colors.grey,
+                      size: 120,
+                    )),
               ),
             ),SizedBox(height: 16.0),TextButton(onPressed: _pickImages, child: Text('choose')),
             Padding(
