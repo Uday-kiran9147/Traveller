@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -46,24 +45,26 @@ class _NewPostScreenState extends State<NewPostScreen> {
   String? address;
   String? fulladdress;
 
+  // Function gets the List of addresses from the latitude and longitude
   Future<List<Placemark>> getaddressfromlatlong(Position position) async {
-    /* 
-     {"name":"5VFJ+PQ3","street":"5VFJ+PQ3","isoCountryCode":"IN","country":"India","postalCode":"501501","administrativeArea":"Telangana","subAdministrativeArea":"","locality":"Pargi","subLocality":"Teacher's Colony","thoroughfare":"","subThoroughfare":""}
-     */
+    // Sample Placemark object
+    // {"name":"5VFJ+PQ3","street":"5VFJ+PQ3","isoCountryCode":"IN","country":"India","postalCode":"501501","administrativeArea":"Telangana","subAdministrativeArea":"","locality":"Pargi","subLocality":"Teacher's Colony","thoroughfare":"","subThoroughfare":""}
+
     List<Placemark>? placelist;
+    
+    // Returns a list of Approximate placemarks from the latitude and longitude
     await placemarkFromCoordinates(
             _currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
+      Placemark place = placemarks[0];  // Assigns the first placemark to place variable
       placelist = placemarks;
       setState(() {
         address = """${place.locality}, ${place.subLocality}, """;
         fulladdress =
             """${place.locality}, ${place.subLocality}, ${place.administrativeArea}, ${place.country}""";
-        print(json.encode(place));
       });
       setState(() {
-        waitingforlocation = false;
+        waitingforlocation = false;   // Stops the progress indicator in UI
       });
       return placelist;
       // ignore: body_might_complete_normally_catch_error
@@ -73,28 +74,35 @@ class _NewPostScreenState extends State<NewPostScreen> {
     return placelist!;
   }
 
-  Future getCurrentPosition() async {
+  // Function Gets the current position of device
+  Future<void> getCurrentPosition() async {
     final haspermission = await handleLocationPermission();
     if (!haspermission) return;
     setState(() {
-      waitingforlocation = true;
+      waitingforlocation =
+          true; // Loads the progress indicator while waiting for location
     });
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
       setState(() {
-        _currentPosition = position;
+        _currentPosition =
+            position; // Assigns the current position to _currentPosition
         getaddressfromlatlong(_currentPosition!);
         waitingforlocation = false;
       });
     });
   }
 
+  // Function Requests for location permission
   Future<bool> handleLocationPermission() async {
     bool serviceEnabled;
+    // permission Represents the possible Location Permission states
     LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    serviceEnabled = await Geolocator
+        .isLocationServiceEnabled(); // Check if location services are enabled
     if (!serviceEnabled) {
+      // SnackBar will be displayed location services are disabled
       customSnackbarMessage(
           'Location services are disabled. Please enable the services',
           context,
@@ -104,20 +112,22 @@ class _NewPostScreenState extends State<NewPostScreen> {
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
+      permission = await Geolocator
+          .requestPermission(); // Request for location permissions In Application
       if (permission == LocationPermission.denied) {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Location permissions are denied')));
         return false;
       }
     }
-    if (permission == LocationPermission.deniedForever) {
-      customSnackbarMessage(
-          'Location permissions are permanently denied, we cannot request permissions.',
-          context,
-          Color.fromARGB(255, 202, 122, 0));
-      return false;
-    }
+    // If permissions are denied forever, we cannot request permissions.
+    // if (permission == LocationPermission.deniedForever) {
+    //   customSnackbarMessage(
+    //       'Location permissions are permanently denied, we cannot request permissions.',
+    //       context,
+    //       Color.fromARGB(255, 202, 122, 0));
+    //   return false;
+    // }
     return true;
   }
 
@@ -181,7 +191,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                   ),
                 ),
-              ),SizedBox(height: 16.0),
+              ),
+              SizedBox(height: 16.0),
               TextField(
                 controller: _locationController,
                 decoration: InputDecoration(
@@ -204,8 +215,13 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 ],
               ),
               Center(
-                child: Container(width: MediaQuery.of(context).size.width*0.50,
-                  child: ElevatedButton(style: ButtonStyle(elevation: MaterialStateProperty.all(10),overlayColor: MaterialStateColor.resolveWith((states) => Colors.green)),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.50,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(10),
+                        overlayColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.green)),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         // Form is valid, process the data

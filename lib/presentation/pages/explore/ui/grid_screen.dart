@@ -40,73 +40,99 @@ class _GridScreenState extends State<GridScreen> {
     collectioncount = 0;
     super.dispose();
   }
-
+TextEditingController _searcheController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // List<Post> _postCollection=
     return Scaffold(
-        backgroundColor: Colors.black,
-        body: Container(
-          height: double.maxFinite,
-          decoration: BoxDecoration(),
-          child: GridView.custom(
-              gridDelegate: SliverQuiltedGridDelegate(
-                crossAxisCount: 4,
-                mainAxisSpacing: 1,
-                crossAxisSpacing: 1,
-                repeatPattern: QuiltedGridRepeatPattern.mirrored,
-                pattern: [
-                  QuiltedGridTile(2, 1),
-                  QuiltedGridTile(2, 1),
-                  QuiltedGridTile(1, 1),
-                  QuiltedGridTile(1, 1),
-                ],
+        backgroundColor: Color.fromARGB(229, 59, 55, 55),
+        body: ListView(
+          children: [
+            Container(
+              child: SizedBox(
+                height:50,width: 70,
+                child: TextFormField(controller:_searcheController ,decoration: InputDecoration(
+                  hintText: "Search",
+                  hintStyle: TextStyle(color: Colors.grey),
+                  prefixIcon: Icon(Icons.search,color: Colors.grey,),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Colors.white)
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Colors.white)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Colors.white)
+                  ),
+                ),),
               ),
-              childrenDelegate: SliverChildBuilderDelegate(
-                childCount: collectioncount,
-                (context, index) => StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection("posts")
-                        .orderBy("date", descending: true)
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.data.toString().isEmpty) {
-                        return const Center(child: Text('No posts yet'));
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(child: LoadingProgress());
-                      } else if (snapshot.hasError) {
-                        return const Center(
-                            child: Text('Something went wrong'));
-                      }
-                      List<DocumentSnapshot> documents = snapshot.data!.docs;
-                      if (documents.isEmpty) {
-                        return const Center(child: Text('No posts yet'));
-                      }
-                      final data =
-                          documents[index].data() as Map<String, dynamic>;
-                      return InkWell(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PostScreen(
-                                      post: Post(
-                                          id: data['id'],
-                                          username: data["username"],
-                                          popularity: data["popularity"],
-                                          imageURL: data["imageurl"],
-                                          description: data["description"],
-                                          userID: data["userid"],
-                                          location: data["location"],
-                                          date: data["date"]),
-                                    ))),
-                        child: Image.network(
-                          data["imageurl"],
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    }),
-              )),
+            ),
+            Container(
+              height: double.maxFinite,
+              decoration: BoxDecoration(),
+              child: GridView.custom(
+                  gridDelegate: SliverQuiltedGridDelegate(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 1,
+                    crossAxisSpacing: 1,
+                    repeatPattern: QuiltedGridRepeatPattern.mirrored,
+                    pattern: [
+                      QuiltedGridTile(2, 1),
+                      QuiltedGridTile(2, 1),
+                      QuiltedGridTile(1, 1),
+                      QuiltedGridTile(1, 1),
+                    ],
+                  ),
+                  childrenDelegate: SliverChildBuilderDelegate(
+                    childCount: collectioncount,
+                    (context, index) => StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection("posts")
+                            .orderBy("date", descending: true)
+                            .snapshots(),
+                        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.data.toString().isEmpty) {
+                            return const Center(child: Text('No posts yet'));
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(child: LoadingProgress());
+                          } else if (snapshot.hasError) {
+                            return const Center(
+                                child: Text('Something went wrong'));
+                          }
+                          List<DocumentSnapshot> documents = snapshot.data!.docs;
+                          if (documents.isEmpty) {
+                            return const Center(child: Text('No posts yet'));
+                          }
+                          final data =
+                              documents[index].data() as Map<String, dynamic>;
+                          return InkWell(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PostScreen(
+                                          post: Post(
+                                              id: data['id'],
+                                              username: data["username"],
+                                              popularity: data["popularity"],
+                                              imageURL: data["imageurl"],
+                                              description: data["description"],
+                                              userID: data["userid"],
+                                              location: data["location"],
+                                              date: data["date"]),
+                                        ))),
+                            child: Image.network(
+                              data["imageurl"],
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        }),
+                  )),
+            ),
+          ],
         ));
   }
 }
