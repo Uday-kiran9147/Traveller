@@ -1,8 +1,8 @@
-part of 'home_bloc_bloc.dart';
+// part of 'home_bloc_bloc.dart';
 
-@immutable
-abstract class HomeBlocEvent {}
+// @immutable
+// abstract class HomeBlocEvent {}
 
-class HomeInitialEvent extends HomeBlocEvent {}
+// class HomeInitialEvent extends HomeBlocEvent {}
 
-class NavigateToExploreEvent extends HomeBlocEvent {}
+// class NavigateToExploreEvent extends HomeBlocEvent {}

@@ -2,11 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/config/theme/apptheme.dart';
-import 'package:traveler/presentation/pages/explore/ui/grid_screen.dart';
+import 'package:traveler/presentation/pages/explore/ui/explore_grid_screen.dart';
+import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
 import 'package:traveler/presentation/pages/profile/profile.dart';
-import 'package:traveler/utils/routes/route_names.dart';
-import '../../explore/ui/explore.dart';
-import '../bloc/home_bloc_bloc.dart';
+import '../../explore/ui/following_screen.dart';
 import 'home_screen.dart';
 
 class HomeBloc extends StatefulWidget {
@@ -15,33 +14,14 @@ class HomeBloc extends StatefulWidget {
 }
 
 class _HomeBlocState extends State<HomeBloc> {
-  HomeBlocBloc homeBlocBloc = HomeBlocBloc();
-
-  @override
-  void initState() {
-    super.initState();
-    homeBlocBloc.add(HomeInitialEvent());
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeBlocBloc, HomeBlocState>(
-
-
-
-      bloc: homeBlocBloc,
-      listenWhen: (previous, current) => current is HomeActionState,
-      
-      buildWhen: (previous, current) => current is! HomeActionState,
-      listener: (context, state) {
-        if (state is NavigateToExploreActionState) {
-          Navigator.pushNamed(context, RouteName.explore);
-        }
-      },
+    return BlocConsumer<HomeCubitCubit, HomeCubitState>(
+      listener: (context, state) {},
       builder: (context, state) {
         switch (state.runtimeType) {
-          case HomeSuccessState:
-            return MyHome(homeBlocBloc: homeBlocBloc);
+          case HomeCubitInitial:
+            return MyHome();
           default:
             return SizedBox();
         }
@@ -52,23 +32,19 @@ class _HomeBlocState extends State<HomeBloc> {
 
 // ignore: must_be_immutable
 class MyHome extends StatefulWidget {
-  MyHome({
-    Key? key,
-    required this.homeBlocBloc,
-  }) : super(key: key);
-  HomeBlocBloc homeBlocBloc;
+  MyHome({Key? key}) : super(key: key);
   @override
   State<MyHome> createState() => _MyHomeState();
 }
 
 class _MyHomeState extends State<MyHome> {
-  int index = 0;   // initial index of the [BottomNavigationBar] is 0.
+  int index = 0; // initial index of the [BottomNavigationBar] is 0.
   List<Widget> _page = [];
 
   @override
   void initState() {
     _page = [
-      HomeScreen(homeBlocBloc: widget.homeBlocBloc),
+      HomeScreen(),
       ExploreScreen(),
       GridScreen(),
       Profile(null),
@@ -81,7 +57,8 @@ class _MyHomeState extends State<MyHome> {
     return Scaffold(
         body: _page[index],
         bottomNavigationBar: BottomNavigationBar(
-          selectedIconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+          selectedIconTheme:
+              IconThemeData(color: Theme.of(context).primaryColor),
           type: BottomNavigationBarType.fixed,
           iconSize: 16,
           elevation: 5,
@@ -95,11 +72,12 @@ class _MyHomeState extends State<MyHome> {
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.follow_the_signs_outlined), label: "following"),
+                icon: Icon(Icons.follow_the_signs_outlined),
+                label: "following"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.explore), label: "explore"),
-                // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar] 
-                // so, I had to use type property of [BottomNavigationBar] to [BottomNavigationBarType.fixed].
+            // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar]
+            // so, I had to use type property of [BottomNavigationBar] to [BottomNavigationBarType.fixed].
             BottomNavigationBarItem(
                 icon: Icon(Icons.person_2_rounded), label: "profile"),
           ],

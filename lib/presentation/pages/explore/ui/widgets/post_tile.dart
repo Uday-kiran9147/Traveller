@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/domain/usecases/incrememt_reputation.dart';
 import 'package:traveler/presentation/pages/explore/ui/widgets/comment_Box.dart';
+import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 import '../../../../../domain/models/post.dart';
-import '../../../../providers/user_provider.dart';
 import '../../../../widgets/dialogs.dart';
 
 // ignore: must_be_immutable
@@ -125,7 +125,7 @@ class PostTile extends StatelessWidget {
                       onTap: () async {
                         IncrementReputation incr=IncrementReputation(post.id);
                         await incr.incrementReputation();
-                        await Provider.of<UserProvider>(context, listen: false)
+                        await BlocProvider.of<HomeCubitCubit>(context, listen: false).state
                             .getuser();
                       },
                       child: Padding(

@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 import 'package:traveler/utils/routes/route_names.dart';
-import '../bloc/auth_bloc.dart';
+import '../../home/ui/home.dart';
 import 'widgets/account_ui.dart';
 
 class AuthenticationScreen extends StatefulWidget {
@@ -14,57 +15,43 @@ class AuthenticationScreen extends StatefulWidget {
 }
 
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
-  AuthBloc authBloc = AuthBloc();
-
-  @override
-  void initState() {
-    super.initState();
-    authBloc.add(AuthInitialEvent());
-  }
+  AuthCubitCubit authBloc = AuthCubitCubit();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
-      bloc: authBloc,
-      listenWhen: (previous, current) => current is AuthActionState,
-      buildWhen: (previous, current) => current is! AuthActionState,
+    return BlocConsumer<AuthCubitCubit, AuthCubitState>(
       listener: (context, state) {
-        if (state is NavigateToHomeScreenState) {
-          Navigator.pushReplacementNamed(context, RouteName.home);
+        if (state is RegisterSuccessState) {
+          Navigator.pushReplacementNamed(context, RouteName.authentication);
         }
         if (state is LoginFailureState) {
-          customSnackbarMessage("Wrong email,password provided",
-              context, Theme.of(context).colorScheme.error);
+          customSnackbarMessage("Wrong email,password provided", context,
+              Theme.of(context).colorScheme.error);
         }
         if (state is LoginSuccessState) {
+          Navigator.pushReplacementNamed(context, RouteName.home);
+
           customSnackbarMessage(
-              "You have successfully loggedin ${state.SuccessMsg}", context, Colors.green);
+              "You have successfully loggedin ${state.SuccessMsg}",
+              context,
+              Colors.green);
         }
-        if(state is RegisterFailureState){
-          customSnackbarMessage(state.failMsg, context, Theme.of(context).colorScheme.error);
+        if (state is RegisterFailureState) {
+          customSnackbarMessage(
+              state.failMsg, context, Theme.of(context).colorScheme.error);
         }
-        if(state is RegisterSuccessState){
+        if (state is RegisterSuccessState) {
           customSnackbarMessage(state.SuccessMsg, context, Colors.green);
         }
       },
       builder: (context, state) {
         switch (state.runtimeType) {
-          case ShowAuthScreenState:
-            return AuthAccounts(
-              authBloc: authBloc,
-            );
-          case RegisterSuccessState:
-            return AuthAccounts(
-              authBloc: authBloc,
-            );
-            case RegisterFailureState:
-            return AuthAccounts(
-              authBloc: authBloc,
-            );
-
-          default:
-            return SizedBox();
+          case AuthScreenState:
+            return AuthAccounts(authBloc: authBloc);
+          case LoginSuccessState:
+          return HomeBloc();
         }
+        return AuthAccounts(authBloc: authBloc);
       },
     );
   }

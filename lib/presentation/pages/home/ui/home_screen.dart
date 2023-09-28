@@ -1,149 +1,73 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:traveler/config/theme/apptheme.dart';
-import 'package:traveler/domain/models/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/domain/usecases/signout.dart';
 import 'package:traveler/presentation/pages/home/ui/story_list.dart';
-import 'package:traveler/presentation/providers/user_provider.dart';
 import '../../../../data/datasources/local/urls.dart';
 import '../../../../domain/models/travel_story.dart';
+import '../../../../domain/models/user.dart';
 import '../../../../utils/routes/route_names.dart';
-import '../bloc/home_bloc_bloc.dart';
+import '../cubit/home_cubit_cubit.dart';
 import 'story_detail_screen.dart';
 import 'widgets/destination_box.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
-  HomeBlocBloc homeBlocBloc;
-  HomeScreen({
-    Key? key,
-    required this.homeBlocBloc,
-  }) : super(key: key);
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isloading = false;
-  UserRegister? user;
   /* 
    initialization based on inherited widgets can be placed in the didChangeDependencies method,
    which is called after initState and whenever the dependencies change thereafter.
    */
   @override
-  void didChangeDependencies() {
+  void initState() {
     getuser();
-    super.didChangeDependencies();
+    super.initState();
   }
 
   StoryListScreen storyListScreen = StoryListScreen();
   Stream<QuerySnapshot> _travelstorytstream =
       FirebaseFirestore.instance.collection("travelstory").snapshots();
   getuser() async {
-    Provider.of<UserProvider>(context, listen: true).getuser();
-    user = Provider.of<UserProvider>(context).user;
+    await BlocProvider.of<HomeCubitCubit>(context, listen: false)
+        .state
+        .getuser();
   }
 
   @override
   Widget build(BuildContext context) {
-    return isloading || user == null || user!.username.isEmpty
-        ? Scaffold(
-            backgroundColor: AThemes.universalcolor,
-            body: Center(
-              child: LoadingProgress(),
-            ),
-          )
-        : Scaffold(
-            endDrawer: Drawer(
-              backgroundColor: Colors.grey.shade200,
-              elevation: 15,
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  DrawerHeader(
-                    decoration: BoxDecoration(color: Colors.grey.shade300),
-                    child: Column(
-                      children: [
-                        (user!.profileurl == null ||
-                                user!.profileurl!.startsWith('http') == false)
-                            ? CircleAvatar(
-                                radius: 55,
-                                backgroundImage:
-                                    AssetImage('assets/noimage.png'),
-                              )
-                            : CircleAvatar(
-                                radius: 55,
-                                backgroundImage:
-                                    NetworkImage(user!.profileurl!)),
-                        Text(
-                          user!.username,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                  ListTile(
-                      onTap: () async {
-                        bool isSignout = await SignOut.signoutuser();
-                        if (isSignout) {
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              RouteName.authentication, (route) => false);
-                        } // remove the drawer
-                      },
-                      leading: Icon(
-                        Icons.logout_outlined,
-                        color: Colors.red,
-                      ),
-                      title: Text("logout",
-                          style: TextStyle(
-                            color: Colors.red,
-                          ))),
-                  ListTile(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => StoryListScreen(),
-                            ));
-                      },
-                      leading: Icon(
-                        Icons.bubble_chart,
-                        color: Colors.blue,
-                      ),
-                      title: Text(
-                        "Stories",
-                        style: TextStyle(color: Colors.blue),
-                      )),
-                  ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(context, RouteName.addstory);
-                      },
-                      leading: Icon(
-                        Icons.bubble_chart,
-                        color: Colors.blue,
-                      ),
-                      title: Text(
-                        "Add story",
-                        style: TextStyle(color: Colors.blue),
-                      )),
-                ],
+    return BlocConsumer<HomeCubitCubit, HomeCubitState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+          endDrawer: Drawer(
+            backgroundColor: Colors.grey.shade200,
+            elevation: 15,
+            child: _buildDrawer(context, state),
+          ),
+          body: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(scrolledUnderElevation: 20,
+                title:  FutureBuilder(
+                future: state.getuser(),
+                builder: (context, AsyncSnapshot<UserRegister> snapshot) {
+                  final counterstate = context.select((HomeCubitCubit value) => value.state.user);
+                  return Text(
+                    "Hi, ${counterstate.username}",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  );
+                }),
+                elevation: 5,
+                floating: true,snap: true,
+                // onStretchTrigger:// for refreshing page
               ),
-            ),
-            appBar: AppBar(
-              // backgroundColor: AThemes.universalcolor,
-              title: Text(
-                "Hi, ${user?.username}",
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-            // backgroundColor: AThemes.universalcolor,
-            body: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                Container(
+              SliverToBoxAdapter(
+                child: Container(
                   height: 140,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -161,7 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-                SizedBox(
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
                   height: 50,
                   child: AnimatedTextKit(
                     animatedTexts: [
@@ -170,29 +96,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         textStyle: TextStyle(
                           fontSize: 30.0,
                         ),
-                        colors: [
-                          Colors.blue,
-                          Colors.yellow,
-                          Colors.green
-                        ],
+                        colors: [Colors.blue,Colors.purple,Colors.indigo,Colors.orange,],
                       ),
                     ],
                     isRepeatingAnimation: true,
                     onTap: () {},
                   ),
                 ),
-                Container(
-                  height: 390,
+              ),
+              SliverToBoxAdapter(
+                child: Container(
+                  height: 450,
                   width: double.infinity,
                   child: StreamBuilder<QuerySnapshot>(
                       stream: _travelstorytstream,
-                      builder:
-                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.data.toString().isEmpty) {
                           return const Center(child: Text('No posts yet'));
                         }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return const Center(child: LoadingProgress());
                         }
                         if (snapshot.hasError) {
@@ -222,8 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 created_at: data['created_at'],
                                                 likes: data['likes'],
                                                 photos: data['photos'],
-                                                travelStory:
-                                                    data['travelStory'],
+                                                travelStory: data['travelStory'],
                                                 destinationRating:
                                                     data['destinationRating'],
                                                 id: data['id']))));
@@ -257,19 +178,105 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       }),
                 ),
-                Padding(
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: InkWell(onTap: () =>{
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => StoryListScreen(),
-                            ))},
-                      child: Text('Load more stories?',style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.grey),textAlign: TextAlign.center,)),
-                )
-              ],
+                  child: InkWell(
+                      onTap: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StoryListScreen(),
+                                ))
+                          },
+                      child: Text(
+                        'Load more stories?',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: Colors.grey),
+                        textAlign: TextAlign.center,
+                      )),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  ListView _buildDrawer(BuildContext context, HomeCubitState state) {
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        DrawerHeader(
+          decoration: BoxDecoration(color: Colors.grey.shade300),
+          child: Column(
+            children: [
+              (state.user.profileurl == null ||
+                      state.user.profileurl!.startsWith('http') == false)
+                  ? CircleAvatar(
+                      radius: 55,
+                      backgroundImage: AssetImage('assets/noimage.png'),
+                    )
+                  : CircleAvatar(
+                      radius: 55,
+                      backgroundImage: NetworkImage(state.user.profileurl!)),
+              Text(
+                state.user.username,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+        ListTile(
+            onTap: () async {
+              bool isSignout = await SignOut.signoutuser();
+              if (isSignout) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RouteName.authentication, (route) => false);
+              } // remove the drawer
+            },
+            leading: Icon(
+              Icons.logout_outlined,
+              color: Colors.red,
             ),
-          );
+            title: Text("logout",
+                style: TextStyle(
+                  color: Colors.red,
+                ))),
+        ListTile(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => StoryListScreen(),
+                  ));
+            },
+            leading: Icon(
+              Icons.bubble_chart,
+              color: Colors.blue,
+            ),
+            title: Text(
+              "Stories",
+              style: TextStyle(color: Colors.blue),
+            )),
+        ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, RouteName.addstory);
+            },
+            leading: Icon(
+              Icons.bubble_chart,
+              color: Colors.blue,
+            ),
+            title: Text(
+              "Add story",
+              style: TextStyle(color: Colors.blue),
+            )),
+      ],
+    );
   }
 }
 

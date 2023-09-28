@@ -67,4 +67,9 @@ class UserRegister {
         followers: map['followers'],
         following: map['following']);
   }
+
+  @override
+  String toString() {
+    return 'UserRegister(username: $username, email: $email, password: $password, profileurl: $profileurl, bio: $bio, tag: $tag, upcomingtrips: $upcomingtrips, uid: $uid, reputation: $reputation, followers: $followers, following: $following)';
+  }
 }

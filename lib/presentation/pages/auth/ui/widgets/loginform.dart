@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:traveler/domain/models/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/domain/usecases/reset_password.dart';
-import 'package:traveler/presentation/pages/auth/bloc/auth_bloc.dart';
+import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
 
 class LoginForm extends StatefulWidget {
-  final AuthBloc authBloc;
+  final AuthCubitCubit authBloc;
   LoginForm({
     Key? key,
     required this.authBloc,
@@ -63,11 +63,9 @@ class _LoginFormState extends State<LoginForm> {
             ),
             child: const Text("Login"),
             onPressed: () async {
-              widget.authBloc.add(AuthLoginEvent(
-                  userlogin: Userlogin(
-                      email: _emailController.text,
-                      password: _passwordController.text)));
-              print("login event added");
+              BlocProvider.of<AuthCubitCubit>(context).authLoginEvent(
+                  _emailController.text, _passwordController.text);
+              print("function called");
             },
           ),
           TextButton(

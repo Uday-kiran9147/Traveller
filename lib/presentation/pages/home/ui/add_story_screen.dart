@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 import 'package:traveler/domain/usecases/upload_story.dart';
-import 'package:traveler/presentation/providers/user_provider.dart';
+import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
 import '../../../../config/theme/apptheme.dart';
@@ -44,7 +44,7 @@ class _AddStoryState extends State<AddStory> {
             Tooltip(message: "Upload story",
               child: IconButton(
                   onPressed: () async {
-                    var user = Provider.of<UserProvider>(context, listen: false);
+                    var user = BlocProvider.of<HomeCubitCubit>(context, listen: false).state;
                     UploadTravelStory story = UploadTravelStory(
                         userName: user.user.username,
                         userid: user.user.uid,

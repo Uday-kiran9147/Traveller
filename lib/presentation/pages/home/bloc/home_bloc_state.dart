@@ -1,14 +1,14 @@
-part of 'home_bloc_bloc.dart';
+// part of 'home_bloc_bloc.dart';
 
-@immutable
-abstract class HomeBlocState {}
+// @immutable
+// abstract class HomeBlocState {}
 
-abstract class HomeActionState extends HomeBlocState {}
+// abstract class HomeActionState extends HomeBlocState {}
 
-class HomeBlocInitial extends HomeBlocState {}
+// class HomeBlocInitial extends HomeBlocState {}
 
-class HomeLoadingState extends HomeBlocState {}
+// class HomeLoadingState extends HomeBlocState {}
 
-class HomeSuccessState extends HomeBlocState {}
+// class HomeSuccessState extends HomeBlocState {}
 
-class NavigateToExploreActionState extends HomeActionState {}
+// class NavigateToExploreActionState extends HomeActionState {}

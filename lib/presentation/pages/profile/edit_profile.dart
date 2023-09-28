@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 import 'package:traveler/data/repository/database.dart';
 import 'package:traveler/domain/usecases/edit_profile.dart';
-import 'package:traveler/presentation/providers/user_provider.dart';
+import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
+import 'package:traveler/presentation/pages/profile/cubit/profile_cubit.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
 class UserInfoForm extends StatefulWidget {
@@ -101,8 +102,8 @@ class _UserInfoFormState extends State<UserInfoForm> {
                           await EditProfile.saveprofilepicture(_image!)
                               .then((value) async {
                             if (value) {
-                              await Provider.of<UserProvider>(context,
-                                      listen: false)
+                              await BlocProvider.of<HomeCubitCubit>(context,
+                                      listen: false).state
                                   .getuser();
                               customSnackbarMessage("Profile image updated ",
                                   context, Colors.green);
@@ -156,12 +157,8 @@ class _UserInfoFormState extends State<UserInfoForm> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Save the user information to your database or use it as needed.
-                    EditProfile editprofile =
-                        EditProfile(username.text, bio.text, tag.text);
-                    var response = await editprofile.editPtofile();
+                    var response = await BlocProvider.of<ProfileCubit>(context).editProfile(username.text, bio.text, tag.text);
                     if (response) {
-                      await Provider.of<UserProvider>(context, listen: false)
-                          .getuser();
                       Navigator.pop(context);
                       customSnackbarMessage("success!", context, Colors.green);
                     } else {

@@ -1,16 +1,19 @@
 import 'dart:io';
 
+import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:traveler/data/repository/database.dart';
 
-class EditProfile {
+class EditProfile extends Equatable {
   final String username;
   final String bio;
   final String tag;
 
   EditProfile(this.username, this.bio, this.tag);
-  Future<bool> editPtofile() async {
+    @override
+  List<Object?> get props =>[this.bio, this.tag,this.username];
+  Future<bool> editProfile() async {
     try {
       await DatabaseService.userCollection
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -39,4 +42,6 @@ class EditProfile {
       return false;
     }
   }
+  
+
 }

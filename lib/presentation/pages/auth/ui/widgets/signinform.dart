@@ -1,15 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:traveler/domain/models/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
-import '../../bloc/auth_bloc.dart';
 
 class SignupForm extends StatefulWidget {
   const SignupForm({
     Key? key,
     required this.authBloc,
   }) : super(key: key);
-  final AuthBloc authBloc;
+  final AuthCubitCubit authBloc;
   @override
   State<SignupForm> createState() => _SignupFormState();
 }
@@ -89,19 +89,7 @@ class _SignupFormState extends State<SignupForm> {
             child: const Text("Signup"),
             onPressed: () {
               if (_confirmPasswordController.text == _passwordController.text) {
-                widget.authBloc.add(AuthRegisterEvent(
-                    userregister: UserRegister(
-                        profileurl: '',
-                        uid: '',
-                        bio: '',
-                        followers: [],
-                        following: [],
-                        upcomingtrips: [],
-                        tag: null,
-                        reputation: 0,
-                        username: _userNameController.text,
-                        email: _emailController.text,
-                        password: _passwordController.text)));
+                BlocProvider.of<AuthCubitCubit>(context).authRegisterEvent(_userNameController.text, _emailController.text, _passwordController.text);
               } else {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 customSnackbarMessage("Passwords do not match, please check", context, Colors.red);

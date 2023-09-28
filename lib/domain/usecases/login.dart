@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../data/repository/database.dart';
 import '../../utils/constants/sharedprefs.dart';
 
 class Login {
@@ -15,7 +14,8 @@ class Login {
       // print(user.user!);
       await SHP.saveEmailSP(email);
       await SHP.saveUserLoggedinStatusSP(true);
-      await DatabaseService.getcurrUser(FirebaseAuth.instance.currentUser!.uid);
+      // gets the current user uid from sharedpreferences
+      // await DatabaseService.getcurrUser(FirebaseAuth.instance.currentUser!.uid);
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

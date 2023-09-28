@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:traveler/domain/usecases/add_travel_list.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../config/theme/apptheme.dart';
-import '../providers/user_provider.dart';
+import '../pages/profile/cubit/profile_cubit.dart';
 
 Future<dynamic> destinationDialog(BuildContext context, String? destination) {
   return showDialog(
@@ -29,11 +28,8 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
           TextButton(
               onPressed: () async {
                 if (destination != null || destination!.isNotEmpty) {
-                  AddTravelItem add_Travel_list = AddTravelItem(destination: destination!);
-                  await add_Travel_list.addTravelList();
                   print(destination);
-                  await Provider.of<UserProvider>(context, listen: false)
-                      .getuser();
+                  await BlocProvider.of<ProfileCubit>(context,).addDestinationList(destination!);
                   Navigator.pop(context);
                 } else {
                   Navigator.pop(context);
@@ -95,7 +91,7 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
-                .copyWith(color: AThemes.universalcolor)),
+                .copyWith(color:  Theme.of(context).colorScheme.error)),
         actions: [
           TextButton(
               onPressed: () async {
@@ -104,6 +100,7 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
                     .doc(postid)
                     .delete();
                 Navigator.pop(context);
+                Navigator.pop(context);
               },
               child: Text(
                 "Yes",
@@ -111,6 +108,7 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
               )),
           TextButton(
               onPressed: () {
+                Navigator.pop(context);
                 Navigator.pop(context);
               },
               child: Text(

@@ -32,10 +32,10 @@ class CommentBox extends StatelessWidget {
                   onPressed: () async {
                     if (_commentController.text.isNotEmpty) {
                       AddComment addComment = AddComment(
-                          comment: _commentController.text,
-                          postid: post.id);
-                      await addComment.addComment();
+                          comment: _commentController.text, postid: post.id);
                       _commentController.clear();
+
+                      await addComment.addComment();
                     }
                   },
                   icon: Icon(Icons.send),
@@ -49,7 +49,7 @@ class CommentBox extends StatelessWidget {
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: LinearProgressIndicator());
+                return const Center();
               }
               if (snapshot.hasError) {
                 return const Center(child: Text('Something went wrong'));

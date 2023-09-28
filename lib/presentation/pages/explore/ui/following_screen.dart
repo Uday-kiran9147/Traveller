@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/config/theme/apptheme.dart';
-import 'package:traveler/presentation/pages/explore/bloc/explore_bloc_bloc.dart';
-import 'package:traveler/presentation/pages/explore/ui/newpost.dart';
+import 'package:traveler/presentation/pages/explore/ui/newpost_screen.dart';
 import 'package:traveler/presentation/pages/home/ui/home_screen.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 import '../../../../domain/models/post.dart';
+import '../cubit/explore_cubit.dart';
 import 'widgets/post_tile.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -15,12 +15,6 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
-  ExploreBloc expbloc = ExploreBloc();
-  @override
-  void initState() {
-    expbloc.add(ExploreInitialEvent());
-    super.initState();
-  }
 
   Stream<QuerySnapshot> _poststream = FirebaseFirestore.instance
       .collection("posts")
@@ -28,19 +22,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
       .snapshots();
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ExploreBloc, ExploreState>(
-      bloc: expbloc,
+    return BlocConsumer<ExploreCubit, ExploreState>(
       listenWhen: (previous, current) => current is ExploreActionState,
       buildWhen: (previous, current) => current is! ExploreActionState,
       listener: (context, state) {
         if (state is PostPostingSuccessState) {
-          Navigator.pop(context);
+          customSnackbarMessage('Post uploaded successfully', context,Colors.green);
+          print("success and poped");
+          Navigator.of(context).pop();
         }
         if (state is NavigateToNewPostScreenActionState) {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NewPostScreen(exploreBloc: expbloc),
+                builder: (context) => NewPostScreen(),
               ));
         }
         if (state is PostPostingFailedState) {
@@ -52,9 +47,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
         switch (state.runtimeType) {
           case NavigateToNewPostScreenActionState:
             return NewPostScreen(
-              exploreBloc: expbloc,
             );
-
+          case PostingLoadingState:
+            return Scaffold(body: const Center(child: LoadingProgress()));
           case ExploreInitialState:
             return Scaffold(
                 backgroundColor: AThemes.universalcolor,
@@ -100,13 +95,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     }),
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
-                    expbloc.add(NavigateToNewPostScreenEvent());
+                    Navigator.push(context, MaterialPageRoute(builder:((context) {
+                      return NewPostScreen();
+                    })));
                   },
                   child: const Icon(Icons.add),
                 ));
 
           default:
-            return SizedBox();
+            return Placeholder();
         }
       },
     );

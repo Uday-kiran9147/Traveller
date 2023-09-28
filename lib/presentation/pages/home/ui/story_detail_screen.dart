@@ -1,20 +1,20 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
-import 'package:provider/provider.dart';
 import 'package:traveler/domain/models/travel_story.dart';
 import 'package:traveler/domain/usecases/delete_travelstory.dart';
+import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
-import '../../../providers/user_provider.dart';
 
 class StoryDetail extends StatelessWidget {
   TravelStory travelStory;
   StoryDetail({Key? key, required this.travelStory}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var curuser = Provider.of<UserProvider>(context).user;
+    var curuser = BlocProvider.of<HomeCubitCubit>(context).state.user;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
 import '../../../../../data/repository/authentication.dart';
-import '../../bloc/auth_bloc.dart';
 import 'loginform.dart';
 import 'signinform.dart';
 
@@ -9,7 +9,7 @@ class AuthAccounts extends StatefulWidget {
     Key? key,
     required this.authBloc,
   }) : super(key: key);
-  final AuthBloc authBloc;
+  final AuthCubitCubit authBloc;
 
   @override
   _AuthAccountsState createState() => _AuthAccountsState();
