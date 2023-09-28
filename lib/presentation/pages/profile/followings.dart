@@ -33,7 +33,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
   }
 
   getus() async {
-    GetFollow getFollow =GetFollow(userid: widget.userid);
+    GetFollow getFollow = GetFollow(userid: widget.userid);
     List<List<UserRegister>?> users = await getFollow.getfollowList();
     setState(() {
       biglist = users;
@@ -49,25 +49,35 @@ class _FollowingScreenState extends State<FollowingScreen> {
       length: 2,
       initialIndex: widget.index,
       child: Scaffold(
-        backgroundColor: AThemes.universalcolor,
+        // backgroundColor: AThemes.universalcolor,
         appBar: AppBar(
           backgroundColor: AThemes.universalcolor,
-          automaticallyImplyLeading: false, // hides leading widget (Back button)
+          automaticallyImplyLeading:
+              false, // hides leading widget (Back button)
           title: Text(
-            widget.username,textAlign: TextAlign.end,
+            widget.username,
+            textAlign: TextAlign.end,
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          bottom: TabBar(labelColor: Colors.teal,
+          bottom: TabBar(
+            labelColor: Theme.of(context).primaryColor,
             indicator: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                Colors.grey.shade300,
-                Colors.blue.shade300,
-                ]),
-                // borderRadius: BorderRadius.circular(40), // Creates border
-                ),
+              borderRadius: BorderRadius.circular(40),
+              gradient: LinearGradient(
+                  colors: widget.index == 0
+                      ? [
+                          Colors.white,
+                          Colors.grey.shade300,
+                        ]
+                      : [
+                          Colors.grey.shade300,
+                          Colors.white,
+                        ]),
+              // borderRadius: BorderRadius.circular(40), // Creates border
+            ),
             tabs: [
-              Tab(text: 'Following'),
-              Tab(text: 'Followers'),
+              Tab(text: '   Following   '),
+              Tab(text: '   Followers   '),
             ],
           ),
         ),
@@ -75,7 +85,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
           children: [
             Container(
               child: Center(
-                child: biglist![0] == null 
+                child: biglist![0] == null
                     ? LoadingProgress()
                     : biglist![0]!.isEmpty
                         ? Center(
@@ -121,16 +131,18 @@ class FollowList extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                Colors.grey.shade300,
-                Colors.blue.shade300,
+                Colors.grey.shade200,
+                Colors.white,
               ]),
               color: AThemes.universalcolor,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: Colors.green,
-              ),
             ),
-            child: ListTile(onTap: () => Navigator.pushNamed(context, RouteName.profilescreen,arguments: user.uid,),
+            child: ListTile(
+              onTap: () => Navigator.pushNamed(
+                context,
+                RouteName.profilescreen,
+                arguments: user.uid,
+              ),
               leading: user.profileurl!.startsWith('http') == false
                   ? CircleAvatar(
                       backgroundImage: AssetImage('assets/noimage.png'),
