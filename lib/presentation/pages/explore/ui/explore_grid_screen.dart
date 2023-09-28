@@ -45,29 +45,22 @@ class _GridScreenState extends State<GridScreen> {
   Widget build(BuildContext context) {
     // List<Post> _postCollection=
     return Scaffold(
-        backgroundColor: Color.fromARGB(229, 59, 55, 55),
-        body: ListView(
-          children: [
-            Container(
-              child: SizedBox(
-                height:50,width: 70,
-                child: TextFormField(controller:_searcheController ,decoration: InputDecoration(
-                  hintText: "Search",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  prefixIcon: Icon(Icons.search,color: Colors.grey,),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.white)
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.white)
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.white)
-                  ),
-                ),),
+        backgroundColor: Colors.black,
+        body: Container(
+          height: double.maxFinite,
+          decoration: BoxDecoration(),
+          child: GridView.custom(
+              gridDelegate: SliverQuiltedGridDelegate(
+                crossAxisCount: 4,
+                mainAxisSpacing: 1,
+                crossAxisSpacing: 1,
+                repeatPattern: QuiltedGridRepeatPattern.mirrored,
+                pattern: [
+                  QuiltedGridTile(2, 1),
+                  QuiltedGridTile(2, 1),
+                  QuiltedGridTile(1, 1),
+                  QuiltedGridTile(1, 1),
+                ],
               ),
               childrenDelegate: SliverChildBuilderDelegate(
                 childCount: collectioncount,
@@ -114,6 +107,6 @@ class _GridScreenState extends State<GridScreen> {
                       );
                     }),
               )),
-        ]));
+        ));
   }
 }
