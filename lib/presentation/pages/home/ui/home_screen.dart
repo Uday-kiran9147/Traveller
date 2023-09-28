@@ -218,11 +218,11 @@ class _HomeScreenState extends State<HomeScreen> {
               (state.user.profileurl == null ||
                       state.user.profileurl!.startsWith('http') == false)
                   ? CircleAvatar(
-                      radius: 55,
+                      radius: 53,
                       backgroundImage: AssetImage('assets/noimage.png'),
                     )
                   : CircleAvatar(
-                      radius: 55,
+                      radius: 53,
                       backgroundImage: NetworkImage(state.user.profileurl!)),
               Text(
                 state.user.username,
