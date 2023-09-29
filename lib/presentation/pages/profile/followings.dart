@@ -75,7 +75,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                         ]),
               // borderRadius: BorderRadius.circular(40), // Creates border
             ),
-            tabs: [
+            tabs: const [
               Tab(text: '   Following   '),
               Tab(text: '   Followers   '),
             ],
@@ -86,9 +86,9 @@ class _FollowingScreenState extends State<FollowingScreen> {
             Container(
               child: Center(
                 child: biglist![0] == null
-                    ? LoadingProgress()
+                    ? const LoadingProgress()
                     : biglist![0]!.isEmpty
-                        ? Center(
+                        ? const Center(
                             child: Text('No following yet'),
                           )
                         : FollowList(biglist: biglist![0]),
@@ -97,9 +97,9 @@ class _FollowingScreenState extends State<FollowingScreen> {
             Container(
               child: Center(
                 child: biglist![1] == null
-                    ? LoadingProgress()
+                    ? const LoadingProgress()
                     : biglist![1]!.isEmpty
-                        ? Center(
+                        ? const Center(
                             child: Text('No followers yet'),
                           )
                         : FollowList(biglist: biglist![1]),
@@ -144,7 +144,7 @@ class FollowList extends StatelessWidget {
                 arguments: user.uid,
               ),
               leading: user.profileurl!.startsWith('http') == false
-                  ? CircleAvatar(
+                  ? const CircleAvatar(
                       backgroundImage: AssetImage('assets/noimage.png'),
                     )
                   : CircleAvatar(

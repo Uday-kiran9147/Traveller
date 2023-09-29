@@ -8,7 +8,7 @@ import 'package:traveler/domain/usecases/add_comment.dart';
 
 // ignore: must_be_immutable
 class CommentBox extends StatelessWidget {
-  TextEditingController _commentController = TextEditingController();
+  final TextEditingController _commentController = TextEditingController();
 
   final Post post;
   CommentBox({
@@ -20,10 +20,10 @@ class CommentBox extends StatelessWidget {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 20),
             height: 80,
             width: 500,
-            margin: EdgeInsets.only(left: 20),
+            margin: const EdgeInsets.only(left: 20),
             child: TextFormField(
               controller: _commentController,
               decoration: InputDecoration(
@@ -38,7 +38,7 @@ class CommentBox extends StatelessWidget {
                       await addComment.addComment();
                     }
                   },
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                 ),
               ),
             )),
@@ -70,13 +70,13 @@ class CommentBox extends StatelessWidget {
                           if (data['userID'] ==
                               FirebaseAuth.instance.currentUser!.uid) {
                             DocumentReference<Map<String, dynamic>> id =
-                                await FirebaseFirestore.instance
+                                FirebaseFirestore.instance
                                     .collection("comment")
                                     .doc(data['id']);
                             await id.delete();
                           }
                         },
-                        leading: CircleAvatar(),
+                        leading: const CircleAvatar(),
                         title: Text("${data['username']}"),
                         subtitle: Text(
                           data['comment'],

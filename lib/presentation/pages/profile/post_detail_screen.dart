@@ -13,7 +13,7 @@ import '../explore/ui/widgets/comment_Box.dart';
 import '../home/cubit/home_cubit_cubit.dart';
 
 class PostScreen extends StatefulWidget {
-  PostScreen({
+  const PostScreen({
     Key? key,
     required this.post,
   }) : super(key: key);
@@ -26,6 +26,7 @@ class _PostScreenState extends State<PostScreen> {
   double imageRatio_height = 0.0;
   double imageRatio_width = 0.0;
 
+  @override
   void initState() {
     super.initState();
     getImageRatio();
@@ -34,7 +35,7 @@ class _PostScreenState extends State<PostScreen> {
   void getImageRatio() {
     Image image = Image.network(widget.post.imageURL);
 
-    image.image.resolve(ImageConfiguration()).addListener(
+    image.image.resolve(const ImageConfiguration()).addListener(
       ImageStreamListener((ImageInfo info, bool _) {
         setState(() {
           imageRatio_height = info.image.height.toDouble();
@@ -51,16 +52,17 @@ class _PostScreenState extends State<PostScreen> {
         backgroundColor: AThemes.universalcolor,
         body: SingleChildScrollView(
           child: Column(children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             ListTile(
               trailing: IconButton(
                 onPressed: () {
-                  if (post.userID == FirebaseAuth.instance.currentUser!.uid)
+                  if (post.userID == FirebaseAuth.instance.currentUser!.uid) {
                     showBottomSheetCustom(context, post.description!, post.id);
+                  }
                 },
-                icon: Icon(Icons.more_vert),
+                icon: const Icon(Icons.more_vert),
               ),
               leading: GestureDetector(
                 onTap: () {
@@ -74,13 +76,13 @@ class _PostScreenState extends State<PostScreen> {
               title: Row(
                 children: [
                   Text(
-                    post.username + "",
+                    post.username,
                     overflow: TextOverflow.clip,
                   ),
                   Container(
                     height: 15,
                     width: 15,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                       image: AssetImage(
                         "assets/verified.png",
@@ -107,14 +109,14 @@ class _PostScreenState extends State<PostScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
                     height: 50,
                     width: 50,
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Column(
                       children: [
                         GestureDetector(
@@ -127,7 +129,7 @@ class _PostScreenState extends State<PostScreen> {
                                   .getuser();
                               print("incremented");
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.favorite_border,
                               color: Colors.red,
                             )),
@@ -138,7 +140,7 @@ class _PostScreenState extends State<PostScreen> {
                       ],
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: 50,
                     width: 50,
                     child: Column(
@@ -169,23 +171,23 @@ class _PostScreenState extends State<PostScreen> {
                                 },
                               );
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.comment,
                               color: Colors.purple,
                             )),
-                        Text("--")
+                        const Text("--")
                       ],
                     ),
                   ),
                    Container(
                         height: 50,
                         width: 50,
-                        decoration: BoxDecoration(),
+                        decoration: const BoxDecoration(),
                         child: Column(
                           children: [
                             GestureDetector(
                                 onTap: () async {},
-                                child: Icon(
+                                child: const Icon(
                                   Icons.share,
                                   color: Colors.black,
                                 )),
@@ -196,12 +198,12 @@ class _PostScreenState extends State<PostScreen> {
                           ],
                         ),
                       ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: [
                       IconButton(
                           onPressed: () {},
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.bookmark_border,
                             color: Colors.black,
                           )),
@@ -210,16 +212,16 @@ class _PostScreenState extends State<PostScreen> {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               thickness: 1,
             ),
             Container(
-              padding: EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               child: Row(
                 children: [
                   Text(
-                    post.username + ": ",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    "${post.username}: ",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(post.description!),
                 ],
@@ -232,7 +234,7 @@ class _PostScreenState extends State<PostScreen> {
 
 // Figure out Why Function reference is not working
 class IconText extends StatelessWidget {
-  IconText({
+  const IconText({
     Key? key,
     required this.post,
     this.ontap,

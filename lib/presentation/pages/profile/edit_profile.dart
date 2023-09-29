@@ -12,6 +12,8 @@ import 'package:traveler/presentation/pages/profile/cubit/profile_cubit.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
 class UserInfoForm extends StatefulWidget {
+  const UserInfoForm({super.key});
+
   @override
   _UserInfoFormState createState() => _UserInfoFormState();
 }
@@ -25,6 +27,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
   String? imageurl;
   DatabaseService db = DatabaseService();
 
+  @override
   void initState() {
     super.initState();
     fetchUserData();
@@ -72,12 +75,12 @@ class _UserInfoFormState extends State<UserInfoForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile'),
+        title: const Text('Edit Profile'),
       ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -87,13 +90,13 @@ class _UserInfoFormState extends State<UserInfoForm> {
                       ? _image != null
                           ? CircleAvatar(
                               radius: 50, backgroundImage: FileImage(_image!))
-                          : CircleAvatar(
+                          : const CircleAvatar(
                               backgroundImage: AssetImage('assets/noimage.png'),
                               radius: 50)
                       : CircleAvatar(
                           radius: 50, backgroundImage: NetworkImage(imageurl!)),
                   IconButton.outlined(
-                      onPressed: _getImage, icon: Icon(Icons.edit)),
+                      onPressed: _getImage, icon: const Icon(Icons.edit)),
                   TextButton(
                       onPressed: () async {
                         if (_image != null) {
@@ -116,16 +119,16 @@ class _UserInfoFormState extends State<UserInfoForm> {
                           });
                         } else {}
                       },
-                      child: Text('save image'))
+                      child: const Text('save image'))
                 ],
-              ),SizedBox(height: 20,),
+              ),const SizedBox(height: 20,),
               SizedBox(height: 300,
                 child: Flex(
                   direction: Axis.vertical,
                   children: [
                     Expanded(flex: 1,
                       child: TextFormField(
-                        decoration: InputDecoration(labelText: 'Username'),
+                        decoration: const InputDecoration(labelText: 'Username'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a username';
@@ -137,13 +140,13 @@ class _UserInfoFormState extends State<UserInfoForm> {
                     ),
                     Expanded(flex: 1,
                       child: TextFormField(
-                        decoration: InputDecoration(labelText: 'tag'),
+                        decoration: const InputDecoration(labelText: 'tag'),
                         controller: tag,
                       ),
                     ),
                     Expanded(flex: 1,
                       child: TextFormField(
-                        decoration: InputDecoration(labelText: 'bio'),
+                        decoration: const InputDecoration(labelText: 'bio'),
                         controller: bio,
                       ),
                     ),
@@ -152,7 +155,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
               ),
               // Add more text fields for other user information here.
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -169,7 +172,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
                     }
                   }
                 },
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ],
           ),

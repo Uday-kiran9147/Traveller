@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -15,6 +14,8 @@ import 'package:traveler/presentation/widgets/snackbars.dart';
 
 // ignore: must_be_immutable
 class NewPostScreen extends StatefulWidget {
+  const NewPostScreen({super.key});
+
   @override
   _NewPostScreenState createState() => _NewPostScreenState();
 }
@@ -22,8 +23,8 @@ class NewPostScreen extends StatefulWidget {
 class _NewPostScreenState extends State<NewPostScreen> {
   File? _image;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _locationController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
 
   Future<void> _getImage() async {
     final picker = ImagePicker();
@@ -44,21 +45,28 @@ class _NewPostScreenState extends State<NewPostScreen> {
   String? address;
   String? fulladdress;
   bool isloading = false;
+
+
+  // Function gets the List of addresses from the latitude and longitude
   Future<List<Placemark>> getaddressfromlatlong(Position position) async {
     /* 
+    Sample Placemark object
      {"name":"5VFJ+PQ3","street":"5VFJ+PQ3","isoCountryCode":"IN","country":"India","postalCode":"501501","administrativeArea":"Telangana","subAdministrativeArea":"","locality":"Pargi","subLocality":"Teacher's Colony","thoroughfare":"","subThoroughfare":""}
-     */
+   */
     List<Placemark>? placelist;
+
+    // Below function Returns a list of Approximate placemarks from the latitude and longitude
     await placemarkFromCoordinates(
             _currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
+      
+      // Assigns the first placemark to place variable
       Placemark place = placemarks[0];
       placelist = placemarks;
       setState(() {
         address = """${place.locality}, ${place.subLocality} """;
         fulladdress =
             """${place.locality}, ${place.subLocality}, ${place.administrativeArea}, ${place.country}""";
-        print(json.encode(place));
       });
       setState(() {
         waitingforlocation = false;
@@ -71,27 +79,31 @@ class _NewPostScreenState extends State<NewPostScreen> {
     return placelist!;
   }
 
+  // Function Gets the current Position of Device
   Future getCurrentPosition() async {
     final haspermission = await handleLocationPermission();
     if (!haspermission) return;
     setState(() {
-      waitingforlocation = true; 
+      waitingforlocation = true; // Loads the progress indicator while waiting for location
     });
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
       setState(() {
-        _currentPosition = position;
+        _currentPosition = position; // Assigns the current position to _currentPosition variable
         getaddressfromlatlong(_currentPosition!);
         waitingforlocation = false;
       });
     });
   }
 
+  // Function Requests for location permission
   Future<bool> handleLocationPermission() async {
     bool serviceEnabled;
-    LocationPermission permission;
+    LocationPermission permission;// permission Represents the possible Location Permission states
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    // Check if location services are enabled
     if (!serviceEnabled) {
       customSnackbarMessage(
           'Location services are disabled. Please enable the services',
@@ -102,18 +114,20 @@ class _NewPostScreenState extends State<NewPostScreen> {
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
+      permission = await Geolocator.requestPermission();// Request for location permissions In Application
       if (permission == LocationPermission.denied) {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Location permissions are denied')));
         return false;
       }
     }
+
+    // If permissions are denied forever, we cannot request permissions.
     if (permission == LocationPermission.deniedForever) {
       customSnackbarMessage(
           'Location permissions are permanently denied, we cannot request permissions.',
           context,
-          Color.fromARGB(255, 202, 122, 0));
+          const Color.fromARGB(255, 202, 122, 0));
       return false;
     }
     return true;
@@ -142,11 +156,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
             key: _formKey,
             child: Container(
               height:MediaQuery.of(context).size.height,
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  waitingforlocation ? LinearProgressIndicator() : Container(),
+                  waitingforlocation ? const LinearProgressIndicator() : Container(),
                   _image != null
                       ? Expanded(flex: 2,
                           child: GestureDetector(
@@ -171,48 +185,48 @@ class _NewPostScreenState extends State<NewPostScreen> {
                               border: Border.all(color: Colors.grey)),
                           child: GestureDetector(
                               onTap: _getImage,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.image_search_rounded,
                                 color: Colors.grey,
                                 size: 120,
                               )),
-                        ))),SizedBox(height: 16.0),
+                        ))),const SizedBox(height: 16.0),
                   TextField(
                     controller: _descriptionController,
                     decoration: InputDecoration(
                       hintText: "description.....",
                       fillColor: Colors.grey.shade200,
                       filled: true,
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         borderSide: BorderSide.none,
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
-                  ),SizedBox(height: 16.0),
+                  ),const SizedBox(height: 16.0),
                   TextField(
                     controller: _locationController,
                     decoration: InputDecoration(
                       hintText: "location (Ladhak, India)",
                       fillColor: Colors.grey.shade200,
                       filled: true,
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         borderSide: BorderSide.none,
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   Row(
                     children: [
-                      Icon(Icons.location_on_outlined,color: Colors.orange,),
+                      const Icon(Icons.location_on_outlined,color: Colors.orange,),
                       TextButton(
                           onPressed:() async {await getCurrentPosition();_locationController.text=address!;},
-                          child: Text("get current location")),
+                          child: const Text("get current location")),
                     ],
                   ),
                   Center(
-                    child:isloading?LoadingProgress():  Container(width: MediaQuery.of(context).size.width*0.70,
-                      child:ElevatedButton(style: ButtonStyle(backgroundColor:_image!=null? MaterialStatePropertyAll(Colors.green):MaterialStatePropertyAll(Colors.grey),elevation: MaterialStateProperty.all(10),overlayColor: MaterialStateColor.resolveWith((states) => const Color.fromARGB(255, 5, 160, 11))),
+                    child:isloading?const LoadingProgress():  SizedBox(width: MediaQuery.of(context).size.width*0.70,
+                      child:ElevatedButton(style: ButtonStyle(backgroundColor:_image!=null? const MaterialStatePropertyAll(Colors.green):const MaterialStatePropertyAll(Colors.grey),elevation: MaterialStateProperty.all(10),overlayColor: MaterialStateColor.resolveWith((states) => const Color.fromARGB(255, 5, 160, 11))),
                         onPressed:_image == null? null:() async {
                           if (_formKey.currentState!.validate()) {
                             // Form is valid, process the data
@@ -233,7 +247,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             }
                           }
                         },
-                        child: Text('Post'),
+                        child: const Text('Post'),
                       ),
                     ),
                   ),

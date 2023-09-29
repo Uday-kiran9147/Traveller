@@ -43,7 +43,7 @@ class SavePost {
         "date": date,
       });
       final ref = FirebaseStorage.instance.ref().child("userPost").child(
-          "Traveller-posts-${username}-${postdocumentReference.id}.jpeg");
+          "Traveller-posts-$username-${postdocumentReference.id}.jpeg");
       await ref.putFile(image!);
       final imageurl = await ref.getDownloadURL();
 

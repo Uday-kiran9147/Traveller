@@ -22,7 +22,7 @@ class StoryDetail extends StatelessWidget {
           children: [
             ListView(
               children: [
-                travelStory.photos.length > 0
+                travelStory.photos.isNotEmpty
                     ? SizedBox(
                         height: 300,
                         child: Swiper(
@@ -49,7 +49,7 @@ class StoryDetail extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('@' + travelStory.userName,
+                      Text('@${travelStory.userName}',
                           style: Theme.of(context).textTheme.labelMedium),
                       Text(travelStory.created_at,
                           style: Theme.of(context).textTheme.labelMedium),
@@ -62,8 +62,8 @@ class StoryDetail extends StatelessWidget {
                       cursorHeight: 30,
                       style: Theme.of(context).textTheme.bodyLarge),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text('Rating'),
                 ),
                travelStory.destinationRating==null?Container(): SizedBox(
@@ -79,7 +79,7 @@ class StoryDetail extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 66,
                 )
               ],
@@ -92,7 +92,7 @@ class StoryDetail extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Colors.grey[300],
                     border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                    borderRadius: const BorderRadius.all(Radius.circular(10))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -116,16 +116,16 @@ class StoryDetail extends StatelessWidget {
                                       Navigator.pop(context);
                                 });
                               },
-                              icon: Icon(Icons.delete_outlined),color: Colors.red),
+                              icon: const Icon(Icons.delete_outlined),color: Colors.red),
                         )
                         : Container(),
                     Expanded(
                       child: IconButton(
-                          onPressed: () {}, icon: Icon(Icons.share_outlined),color: Colors.blue),
+                          onPressed: () {}, icon: const Icon(Icons.share_outlined),color: Colors.blue),
                     ),
                     Expanded(
                       child: IconButton(
-                          onPressed: () {}, icon: Icon(Icons.comment_outlined)),
+                          onPressed: () {}, icon: const Icon(Icons.comment_outlined)),
                     ),
                     Expanded(
                       child: Row(
@@ -135,7 +135,7 @@ class StoryDetail extends StatelessWidget {
                               onPressed: () {
                                 // travelStory.likes.add('1');
                               },
-                              icon: Icon(Icons.favorite_border_outlined)),
+                              icon: const Icon(Icons.favorite_border_outlined)),
                           Text(
                             travelStory.likes.toString(),
                             style: Theme.of(context).textTheme.bodySmall,

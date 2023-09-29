@@ -23,8 +23,8 @@ class PostTile extends StatelessWidget {
     bool isowner = post.userID == owner ? true : false;
 
     return Container(
-      margin: EdgeInsets.only(bottom: 8),
-      decoration: BoxDecoration(
+      margin: const EdgeInsets.only(bottom: 8),
+      decoration: const BoxDecoration(
           // border: Border.all(color: Colors.red),
           ),
       child: Column(
@@ -37,7 +37,7 @@ class PostTile extends StatelessWidget {
                     ? showBottomSheetCustom(context, post.description!, post.id)
                     : null;
               },
-              icon: Icon(Icons.more_vert),
+              icon: const Icon(Icons.more_vert),
             ),
             leading: GestureDetector(
               onTap: () {
@@ -55,13 +55,13 @@ class PostTile extends StatelessWidget {
             title: Row(
               children: [
                 Text(
-                  post.username + "",
+                  post.username,
                   overflow: TextOverflow.clip,
                 ),
                 Container(
                   height: 15,
                   width: 15,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                     image: AssetImage(
                       "assets/verified.png",
@@ -78,7 +78,7 @@ class PostTile extends StatelessWidget {
                 child: Container(
                   height: 400,
                   decoration: BoxDecoration(border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                       image: DecorationImage(
                           fit: BoxFit.fitWidth,
                           image: NetworkImage(post.imageURL))),
@@ -142,10 +142,10 @@ class PostTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              "  " + post.description!,
+              "  ${post.description!}",
             ),
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
     );
@@ -165,25 +165,25 @@ String convertToKNotation(int number) {
     double value = number / 1000;
     String result = value.toStringAsFixed(1);
     if (result.endsWith('.0')) {
-      return result.substring(0, result.length - 2) + 'k';
+      return '${result.substring(0, result.length - 2)}k';
     } else {
-      return result + 'k';
+      return '${result}k';
     }
   } else if (number >= 1000000 && number < 1000000000) {
     double value = number / 1000000;
     String result = value.toStringAsFixed(1);
     if (result.endsWith('.0')) {
-      return result.substring(0, result.length - 2) + 'M';
+      return '${result.substring(0, result.length - 2)}M';
     } else {
-      return result + 'M';
+      return '${result}M';
     }
   } else if (number >= 1000000000) {
     double value = number / 1000000000;
     String result = value.toStringAsFixed(1);
     if (result.endsWith('.0')) {
-      return result.substring(0, result.length - 2) + 'B';
+      return '${result.substring(0, result.length - 2)}B';
     } else {
-      return result + 'B';
+      return '${result}B';
     }
   }
   return number.toString();

@@ -16,11 +16,10 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   addDestinationList(String destination) async {
-    AddTravelItem add_Travel_list = AddTravelItem(destination: destination);
-    await add_Travel_list.addTravelList().then((value) {
+    AddTravelItem addTravelList = AddTravelItem(destination: destination);
+    await addTravelList.addTravelList().then((value) {
       if (value) {}
     });
-    ;
   }
 
   Future<bool> editProfile(String username, String bio, String tag) async {

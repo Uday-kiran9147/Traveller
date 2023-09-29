@@ -9,6 +9,8 @@ import '../../explore/ui/following_screen.dart';
 import 'home_screen.dart';
 
 class HomeBloc extends StatefulWidget {
+  const HomeBloc({super.key});
+
   @override
   State<HomeBloc> createState() => _HomeBlocState();
 }
@@ -21,9 +23,9 @@ class _HomeBlocState extends State<HomeBloc> {
       builder: (context, state) {
         switch (state.runtimeType) {
           case HomeCubitInitial:
-            return MyHome();
+            return const MyHome();
           default:
-            return SizedBox();
+            return const SizedBox();
         }
       },
     );
@@ -32,7 +34,7 @@ class _HomeBlocState extends State<HomeBloc> {
 
 // ignore: must_be_immutable
 class MyHome extends StatefulWidget {
-  MyHome({Key? key}) : super(key: key);
+  const MyHome({Key? key}) : super(key: key);
   @override
   State<MyHome> createState() => _MyHomeState();
 }
@@ -44,9 +46,9 @@ class _MyHomeState extends State<MyHome> {
   @override
   void initState() {
     _page = [
-      HomeScreen(),
-      ExploreScreen(),
-      GridScreen(),
+      const HomeScreen(),
+      const ExploreScreen(),
+      const GridScreen(),
       Profile(null),
     ];
     super.initState();
@@ -69,7 +71,7 @@ class _MyHomeState extends State<MyHome> {
           onTap: (value) => setState(() {
             index = value;
           }),
-          items: [
+          items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.follow_the_signs_outlined),

@@ -26,13 +26,13 @@ class GoogleAuth {
       return false;
     }
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? userdata =
+    final GoogleSignInAuthentication userdata =
         await googleUser.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
-      accessToken: userdata?.accessToken,
-      idToken: userdata?.idToken,
+      accessToken: userdata.accessToken,
+      idToken: userdata.idToken,
     );
     // print(googleUser!.displayName);
     // print(googleUser.email);

@@ -27,7 +27,7 @@ class SHP {
   
   static Future<bool?> getUserLoggedinStatusSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.getBool(userloggedinkey);
+    return prefs.getBool(userloggedinkey);
   }
 
   static Future<String?> getUserEmailSP() async {

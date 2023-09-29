@@ -12,7 +12,7 @@ class SwiperWidget extends StatelessWidget {
   SwiperWidget({
     super.key,
   });
-Stream<QuerySnapshot> _travelpoststream = FirebaseFirestore.instance
+final Stream<QuerySnapshot> _travelpoststream = FirebaseFirestore.instance
       .collection("travelstory")
       .snapshots();
   @override
@@ -37,12 +37,12 @@ Stream<QuerySnapshot> _travelpoststream = FirebaseFirestore.instance
           return Swiper(scrollDirection: Axis.horizontal,
               scale: 0.9,
               viewportFraction: 0.8,
-              pagination: SwiperPagination(),
+              pagination: const SwiperPagination(),
               itemCount: documents.length,
               itemBuilder: (context, index) {
                 var storyItem = documents[index].data() as Map<String, dynamic>;
                 print(storyItem['id']);
-                return Text("storyItem['storyTitle']");
+                return const Text("storyItem['storyTitle']");
               });
         });
   }

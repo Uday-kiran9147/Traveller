@@ -11,20 +11,20 @@ class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteName.addstory:
-      return MaterialPageRoute(builder: (context) => AddStory());
+      return MaterialPageRoute(builder: (context) => const AddStory());
       case RouteName.home:
-        return MaterialPageRoute(builder: (context) => HomeBloc());
+        return MaterialPageRoute(builder: (context) => const HomeBloc());
       case RouteName.authentication:
-        return MaterialPageRoute(builder: (context) => AuthenticationScreen());
+        return MaterialPageRoute(builder: (context) => const AuthenticationScreen());
       case RouteName.explore:
-        return MaterialPageRoute(builder: (context) => ExploreScreen());
+        return MaterialPageRoute(builder: (context) => const ExploreScreen());
         // case RouteName.newpost:
         // return MaterialPageRoute(builder: (context) =>NewPostScreen());
         case RouteName.profilescreen:
         final args= settings.arguments;
-        return MaterialPageRoute(builder: (context) =>Profile(args==null?null:args.toString()));
+        return MaterialPageRoute(builder: (context) =>Profile(args?.toString()));
         case RouteName.editprofile:
-        return MaterialPageRoute(builder: (context) =>UserInfoForm());
+        return MaterialPageRoute(builder: (context) =>const UserInfoForm());
       default:
         return MaterialPageRoute(
             builder: (context) => const Scaffold(

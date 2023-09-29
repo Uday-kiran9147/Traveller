@@ -8,7 +8,7 @@ import '../../home/ui/home.dart';
 import 'widgets/account_ui.dart';
 
 class AuthenticationScreen extends StatefulWidget {
-  AuthenticationScreen({super.key});
+  const AuthenticationScreen({super.key});
 
   @override
   State<AuthenticationScreen> createState() => _AuthenticationScreenState();
@@ -49,7 +49,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
           case AuthScreenState:
             return AuthAccounts(authBloc: authBloc);
           case LoginSuccessState:
-          return HomeBloc();
+          return const HomeBloc();
         }
         return AuthAccounts(authBloc: authBloc);
       },

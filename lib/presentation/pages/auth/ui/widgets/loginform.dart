@@ -6,7 +6,7 @@ import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
 
 class LoginForm extends StatefulWidget {
   final AuthCubitCubit authBloc;
-  LoginForm({
+  const LoginForm({
     Key? key,
     required this.authBloc,
   }) : super(key: key);
@@ -18,17 +18,17 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   bool showresetfield = false;
 
-  TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _resetEmailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _resetEmailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 88, 3, 85),
+        color: const Color.fromARGB(255, 88, 3, 85),
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: ListView(
@@ -37,7 +37,7 @@ class _LoginFormState extends State<LoginForm> {
         children: <Widget>[
           TextField(
             controller: _emailController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Enter email",
               border: OutlineInputBorder(),
             ),
@@ -46,7 +46,7 @@ class _LoginFormState extends State<LoginForm> {
           TextField(
             controller: _passwordController,
             obscureText: true,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Enter password",
               border: OutlineInputBorder(),
             ),
@@ -54,7 +54,7 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: 10.0),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 43, 8, 42),
+              backgroundColor: const Color.fromARGB(255, 43, 8, 42),
               foregroundColor: Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -74,13 +74,13 @@ class _LoginFormState extends State<LoginForm> {
                   showresetfield = !showresetfield;
                 });
               },
-              child: Text("Forgot Password?")),
+              child: const Text("Forgot Password?")),
           showresetfield
               ? Column(
                   children: [
                     TextField(
                       controller: _resetEmailController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Enter reset-email",
                         border: OutlineInputBorder(),
                       ),

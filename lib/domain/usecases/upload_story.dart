@@ -39,10 +39,10 @@ class UploadTravelStory {
 
       List<String> images = [];
 
-      if (photos != null || photos!.length > 0) {
+      if (photos != null || photos!.isNotEmpty) {
         for (int i = 0; i < photos!.length; i++) {
-          var ref = await FirebaseStorage.instance.ref().child('storypost').child(
-              "Traveller-storypost${userName}-${travelStoryreference.id}${i + 1}");
+          var ref = FirebaseStorage.instance.ref().child('storypost').child(
+              "Traveller-storypost$userName-${travelStoryreference.id}${i + 1}");
           await ref.putFile(photos![i]);
           var currentImage = await ref.getDownloadURL();
           images.add(currentImage);
