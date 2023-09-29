@@ -9,7 +9,7 @@ class TravelStory {
   final int likes;
   final List<dynamic> photos;
   final String travelStory;
-  double? destinationRating=null;
+  double? destinationRating;
   TravelStory({
     required this.uid,
     required this.id,

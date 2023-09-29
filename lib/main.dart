@@ -19,7 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
-        options: FirebaseOptions(
+        options: const FirebaseOptions(
             apiKey: "AIzaSyA4nhUPA-B_8q8e_jcBJXMA4vkntbke638",
             appId: "1:1075481555757:web:8abaa2cf364cd6947d19a4",
             messagingSenderId: "1075481555757",
@@ -31,8 +31,8 @@ void main() async {
 await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((value) => runApp(MyApp()));
-  runApp(MyApp());
+  ]).then((value) => runApp(const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -105,10 +105,10 @@ class _MyAppState extends State<MyApp> {
                   color: Colors.black,
                   fontWeight: FontWeight.w400),
             ),
-          ),scrollBehavior: ScrollBehavior(),
+          ),scrollBehavior: const ScrollBehavior(),
           home: ResponsiveLayout(
-              webS: WebAuth(),
-              mobileS: isloggedin != true?  AuthenticationScreen():  HomeBloc()),
+              webS: const WebAuth(),
+              mobileS: isloggedin != true?  const AuthenticationScreen():  const HomeBloc()),
           debugShowCheckedModeBanner: false,
 
           // this troubled me a lot

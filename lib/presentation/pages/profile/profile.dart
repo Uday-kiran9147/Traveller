@@ -15,7 +15,7 @@ import '../../widgets/dialogs.dart';
 
 class Profile extends StatefulWidget {
   String? userid;
-  Profile(this.userid);
+  Profile(this.userid, {super.key});
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -73,10 +73,10 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   listener: (context, state) {},
                   builder: (context, state) {
                     return ListView(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       children: [
                         Text(
-                          "${randomuser.username}",
+                          randomuser.username,
                           style: Theme.of(context).textTheme.headlineLarge,
                         ),
                         Row(
@@ -94,7 +94,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                 randomuser.profileurl!
                                                         .startsWith('http') ==
                                                     false)
-                                            ? DecorationImage(
+                                            ? const DecorationImage(
                                                 // opacity: 0.75,
                                                 fit: BoxFit.cover,
                                                 image: AssetImage(
@@ -112,7 +112,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                           Navigator.pushNamed(
                                               context, RouteName.editprofile);
                                         },
-                                        icon: Icon(Icons.edit))
+                                        icon: const Icon(Icons.edit))
                                     : Container()
                               ],
                             ),
@@ -131,7 +131,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                         .textTheme
                                         .bodyMedium!),
                                 TextSpan(
-                                  text: '${randomuser.tag!}',
+                                  text: randomuser.tag!,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -165,7 +165,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   await follow.follow();
                                 },
                                 child: randomuser.followers.contains(owner)
-                                    ? Row(
+                                    ? const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
@@ -176,7 +176,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                             ),
                                             Text('  unfollow'),
                                           ])
-                                    : Row(
+                                    : const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
@@ -190,19 +190,19 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Upcoming....."),
+                            const Text("Upcoming....."),
                             isowner
                                 ? TextButton(
                                     onPressed: () {
                                       String? destination;
                                       destinationDialog(context, destination);
                                     },
-                                    child: Text('Add'))
+                                    child: const Text('Add'))
                                 : Container()
                           ],
                         ),
-                        randomuser.upcomingtrips.length == 0
-                            ? Container(
+                        randomuser.upcomingtrips.isEmpty
+                            ? SizedBox(
                                 height: 30,
                                 width: 300,
                                 child: Text(
@@ -213,7 +213,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             : SizedBox(
                                 height: 90,
                                 child: ListView.builder(
-                                  physics: BouncingScrollPhysics(),
+                                  physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
                                   itemCount: randomuser.upcomingtrips.length,
@@ -225,7 +225,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                         children: [
                                           Container(
                                             decoration: BoxDecoration(
-                                                color: Color.fromARGB(
+                                                color: const Color.fromARGB(
                                                     141, 135, 134, 134),
                                                 border: Border.all(
                                                   width: 1,
@@ -293,7 +293,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                     print(value);
                                                   });
                                                 },
-                                                child: Icon(
+                                                child: const Icon(
                                                   Icons.close_rounded,
                                                   color: Colors.black45,
                                                 )),
@@ -304,7 +304,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   },
                                 ),
                               ),
-                        Container(
+                        SizedBox(
                           height: 60,
                           width: double.maxFinite,
                           child: Align(
@@ -326,10 +326,10 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                         .labelColor,
                                   ),
                                 ),
-                                Tab(
+                                const Tab(
                                   icon: Icon(Icons.person_pin),
                                 ),
-                                Tab(
+                                const Tab(
                                   icon: Icon(Icons.bookmark_border),
                                 ),
                               ],
@@ -337,13 +337,13 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 400,
                           child:
                               TabBarView(controller: tabController, children: [
                             posts(randomuser),
-                            Center(child: Text('Empty,\nComing soon!')),
-                            Center(child: Text('Empty,\nComing soon!')),
+                            const Center(child: Text('Empty,\nComing soon!')),
+                            const Center(child: Text('Empty,\nComing soon!')),
                           ]),
                         ),
                       ],
@@ -352,16 +352,16 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 ),
               );
             }
-            return Center(child: LoadingProgress());
+            return const Center(child: LoadingProgress());
           }),
     );
   }
 
   GridView posts(UserRegister user) {
     return GridView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 30 / 13,
           crossAxisCount: 2,
           crossAxisSpacing: 20,
@@ -402,7 +402,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.red),
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
       ),
       width: 70,
       child: Column(
@@ -414,7 +414,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 }
 
 class DecoratedContainer extends StatelessWidget {
-  DecoratedContainer({
+  const DecoratedContainer({
     Key? key,
     this.URL,
     required this.text,
@@ -426,7 +426,7 @@ class DecoratedContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           boxShadow: [BoxShadow(color: Colors.white, blurRadius: 12)],
           color: Colors.cyan,
           borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -435,14 +435,7 @@ class DecoratedContainer extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              // child: Image.network(
-              //   "https://wallpapers.com/images/featured/ibk7fgrvtvhs7qzg.jpg",
-              //   fit: BoxFit.cover,
-              // )
-            ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Colors.purple,
                   Colors.red,
@@ -451,13 +444,20 @@ class DecoratedContainer extends StatelessWidget {
                 color: Colors.red,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             width: double.infinity,
+            child: const ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              // child: Image.network(
+              //   "https://wallpapers.com/images/featured/ibk7fgrvtvhs7qzg.jpg",
+              //   fit: BoxFit.cover,
+              // )
+            ),
           ),
           Positioned(
               bottom: 30,
               left: 20,
               child: Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.bold),

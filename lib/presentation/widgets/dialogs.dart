@@ -20,7 +20,7 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
             destination = val;
           },
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             color: Colors.grey.shade100,
           ),
         ),
@@ -35,7 +35,7 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
                   Navigator.pop(context);
                 }
               },
-              child: Text(
+              child: const Text(
                 "Add",
                 style: TextStyle(color: Colors.green),
               )),
@@ -43,7 +43,7 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 "Back",
                 style: TextStyle(),
               ))
@@ -68,7 +68,7 @@ Future<dynamic> showBottomSheetCustom(
           child: Column(
             children: [
               ListTile(
-                  title: Text("Delete",
+                  title: const Text("Delete",
                       style: TextStyle(
                         color: Colors.red,
                       )),
@@ -111,7 +111,7 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 "No",
                 style: TextStyle(color: Colors.green),
               )),

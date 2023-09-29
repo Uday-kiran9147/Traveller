@@ -16,10 +16,10 @@ class DestinationCard extends StatelessWidget {
       ),
       width: 76,
       height: 100,
-      margin: EdgeInsets.only(right: 10, bottom: 10, top: 10),
+      margin: const EdgeInsets.only(right: 10, bottom: 10, top: 10),
       child: Container(
         child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
             child: Image.network(
               imageurl,
               fit: BoxFit.cover,

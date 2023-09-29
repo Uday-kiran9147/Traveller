@@ -10,9 +10,9 @@ class EditProfile extends Equatable {
   final String bio;
   final String tag;
 
-  EditProfile(this.username, this.bio, this.tag);
+  const EditProfile(this.username, this.bio, this.tag);
     @override
-  List<Object?> get props =>[this.bio, this.tag,this.username];
+  List<Object?> get props =>[bio, tag,username];
   Future<bool> editProfile() async {
     try {
       await DatabaseService.userCollection
@@ -29,7 +29,7 @@ class EditProfile extends Equatable {
   }
     static Future<bool> saveprofilepicture(File image) async {
     try {
-      final ref = await FirebaseStorage.instance.ref().child("userProfile").child(
+      final ref = FirebaseStorage.instance.ref().child("userProfile").child(
           "Traveller-profile-${DatabaseService.userCollection.id}-${FirebaseAuth.instance.currentUser!.uid}");
       await ref.putFile(image);
       final imageurl = await ref.getDownloadURL();

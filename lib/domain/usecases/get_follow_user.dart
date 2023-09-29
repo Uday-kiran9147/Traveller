@@ -8,8 +8,8 @@ class GetFollow{
     List<List<UserRegister>?> biglist = List.empty(growable: true);
     List following = [];
     List followers = [];
-    var ing;
-    var ers;
+    List<UserRegister> ing;
+    List<UserRegister> ers;
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userid)
@@ -29,12 +29,12 @@ class GetFollow{
     return biglist;
   }
 
-  Future<List<UserRegister>> getusers(List uid_list) async {
+  Future<List<UserRegister>> getusers(List uidList) async {
     List<UserRegister>? users=[];
-    if(uid_list.isEmpty) return users;
+    if(uidList.isEmpty) return users;
     await FirebaseFirestore.instance
         .collection('users')
-        .where('uid', whereIn: uid_list)
+        .where('uid', whereIn: uidList)
         .get()
         .then((value) {
       users = value.docs.map((e) => UserRegister.fromMap(e)).toList();

@@ -15,7 +15,7 @@ class DatabaseService {
 
   static Future<DocumentSnapshot?> getcurrUser(String uid) async {
     print("getting user");
-    final docRef = await userCollection.doc(uid);
+    final docRef = userCollection.doc(uid);
     docRef.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         print('Document data: ${documentSnapshot["username"]}');

@@ -11,7 +11,7 @@ import '../../../../config/theme/apptheme.dart';
 
 // ignore: must_be_immutable
 class AddStory extends StatefulWidget {
-  AddStory({super.key});
+  const AddStory({super.key});
 
   @override
   State<AddStory> createState() => _AddStoryState();
@@ -20,17 +20,17 @@ class AddStory extends StatefulWidget {
 class _AddStoryState extends State<AddStory> {
   ScrollController scrollController = ScrollController();
 
-  TextEditingController _titleController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
 
-  TextEditingController _storyController = TextEditingController();
-  List<File>? _images = [];
+  final TextEditingController _storyController = TextEditingController();
+  final List<File> _images = [];
   Future<void> _pickImages() async {
     List<XFile>? selectedImages =
         await ImagePicker().pickMultiImage(imageQuality: 70,
       maxWidth: 250,);
     for (int i = 0; i < selectedImages.length; i++) {
       setState(() {
-        _images!.add(File(selectedImages[i].path));
+        _images.add(File(selectedImages[i].path));
       });
     }
   }
@@ -66,23 +66,23 @@ class _AddStoryState extends State<AddStory> {
                       customSnackbarMessage(e.toString(), context, Colors.green);
                     });
                   },
-                  icon: Icon(Icons.upload_rounded)),
+                  icon: const Icon(Icons.upload_rounded)),
             )
           ],
         ),
-        body: ListView(padding: EdgeInsets.only(top: 26.0),
+        body: ListView(padding: const EdgeInsets.only(top: 26.0),
           children: [
-            _images != null && _images!.length > 0
+            _images.isNotEmpty
                 ? SizedBox(
                     height: 350,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: _images!.length,
+                      itemCount: _images.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(decoration: BoxDecoration(border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(20)),
-                            child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(20)),child: Image.file(_images![index])),
+                            child: ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(20)),child: Image.file(_images[index])),
                           ),
                         );
                       },
@@ -95,13 +95,13 @@ class _AddStoryState extends State<AddStory> {
                     border: Border.all(color: Colors.grey)),
                 child: GestureDetector(
                     onTap: _pickImages,
-                    child: Icon(
+                    child: const Icon(
                       Icons.image_search_rounded,
                       color: Colors.grey,
                       size: 120,
                     )),
               ),
-            ),SizedBox(height: 16.0),TextButton(onPressed: _pickImages, child: Text('choose')),
+            ),const SizedBox(height: 16.0),TextButton(onPressed: _pickImages, child: const Text('choose')),
             Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomTextForm(titleController: _titleController)),
@@ -120,9 +120,9 @@ class _AddStoryState extends State<AddStory> {
                   hintText: "Tell us your story",
                   fillColor: AThemes.universalcolor,
                   filled: true,
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                     borderSide: BorderSide.none,
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                 ),
               ),
@@ -153,9 +153,9 @@ class CustomTextForm extends StatelessWidget {
         hintText: "story Title",
         fillColor: AThemes.universalcolor,
         filled: true,
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
       ),
     );

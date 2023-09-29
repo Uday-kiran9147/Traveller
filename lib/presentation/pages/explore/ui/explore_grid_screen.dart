@@ -7,7 +7,7 @@ import '../../../../domain/models/post.dart';
 import '../../home/ui/home_screen.dart';
 
 class GridScreen extends StatefulWidget {
-  GridScreen({
+  const GridScreen({
     Key? key,
   }) : super(key: key);
   @override
@@ -23,7 +23,7 @@ class _GridScreenState extends State<GridScreen> {
   }
 
   getcount() async {
-    Stream<QuerySnapshot<Map<String, dynamic>>> docs = await FirebaseFirestore
+    Stream<QuerySnapshot<Map<String, dynamic>>> docs = FirebaseFirestore
         .instance
         .collection("posts")
         .orderBy("date", descending: true)
@@ -48,7 +48,7 @@ class _GridScreenState extends State<GridScreen> {
         backgroundColor: Colors.black,
         body: Container(
           height: double.maxFinite,
-          decoration: BoxDecoration(),
+          decoration: const BoxDecoration(),
           child: GridView.custom(
               gridDelegate: SliverQuiltedGridDelegate(
                 crossAxisCount: 4,
@@ -56,10 +56,10 @@ class _GridScreenState extends State<GridScreen> {
                 crossAxisSpacing: 1,
                 repeatPattern: QuiltedGridRepeatPattern.mirrored,
                 pattern: [
-                  QuiltedGridTile(2, 1),
-                  QuiltedGridTile(2, 1),
-                  QuiltedGridTile(1, 1),
-                  QuiltedGridTile(1, 1),
+                  const QuiltedGridTile(2, 1),
+                  const QuiltedGridTile(2, 1),
+                  const QuiltedGridTile(1, 1),
+                  const QuiltedGridTile(1, 1),
                 ],
               ),
               childrenDelegate: SliverChildBuilderDelegate(

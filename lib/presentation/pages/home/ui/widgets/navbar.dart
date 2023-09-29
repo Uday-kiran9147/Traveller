@@ -28,14 +28,14 @@ class NavBarHome extends StatelessWidget {
         // BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)
         // ], // tab button shadow
         curve: Curves.linear, // tab animation curves
-        duration: Duration(milliseconds: 500), // tab animation duration
+        duration: const Duration(milliseconds: 500), // tab animation duration
         gap: 8, // the tab button gap between icon and text
         color: Colors.white70, // unselected icon color
         activeColor: Colors.black, // selected icon and text color
         iconSize: 24, // tab button icon size
         tabBackgroundColor: Colors.white, // selected tab background color
-        padding: EdgeInsets.all(15), // navigation bar padding
-        tabs: [
+        padding: const EdgeInsets.all(15), // navigation bar padding
+        tabs: const [
           GButton(
             icon: Icons.home,
             text: 'Home',

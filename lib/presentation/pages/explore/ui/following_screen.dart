@@ -10,13 +10,15 @@ import '../cubit/explore_cubit.dart';
 import 'widgets/post_tile.dart';
 
 class ExploreScreen extends StatefulWidget {
+  const ExploreScreen({super.key});
+
   @override
   State<ExploreScreen> createState() => _ExploreScreenState();
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
 
-  Stream<QuerySnapshot> _poststream = FirebaseFirestore.instance
+  final Stream<QuerySnapshot> _poststream = FirebaseFirestore.instance
       .collection("posts")
       .orderBy("date", descending: true)
       .snapshots();
@@ -35,7 +37,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NewPostScreen(),
+                builder: (context) => const NewPostScreen(),
               ));
         }
         if (state is PostPostingFailedState) {
@@ -46,10 +48,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
       builder: (context, state) {
         switch (state.runtimeType) {
           case NavigateToNewPostScreenActionState:
-            return NewPostScreen(
+            return const NewPostScreen(
             );
           case PostingLoadingState:
-            return Scaffold(body: const Center(child: LoadingProgress()));
+            return const Scaffold(body: Center(child: LoadingProgress()));
           case ExploreInitialState:
             return Scaffold(
                 backgroundColor: AThemes.universalcolor,
@@ -71,7 +73,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         return const Center(child: Text('No posts yet'));
                       }
                       return ListView.builder(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           final data =
                               documents[index].data() as Map<String, dynamic>;
@@ -96,14 +98,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder:((context) {
-                      return NewPostScreen();
+                      return const NewPostScreen();
                     })));
                   },
                   child: const Icon(Icons.add),
                 ));
 
           default:
-            return Placeholder();
+            return const Placeholder();
         }
       },
     );

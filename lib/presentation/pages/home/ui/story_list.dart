@@ -10,7 +10,7 @@ import 'story_detail_screen.dart';
 class StoryListScreen extends StatelessWidget {
   StoryListScreen({super.key});
 
-   Stream<QuerySnapshot> _travelstorytstream = FirebaseFirestore.instance
+   final Stream<QuerySnapshot> _travelstorytstream = FirebaseFirestore.instance
       .collection("travelstory")
       .snapshots();
 
@@ -56,7 +56,7 @@ class StoryListScreen extends StatelessWidget {
                   },
                   child: Stack(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       build_Card(data['photos'].length==0?null:data['photos'][0]),
@@ -86,7 +86,7 @@ class StoryListScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: 250,
               height: 150,
               child: Text(
@@ -108,13 +108,13 @@ class StoryListScreen extends StatelessWidget {
       child: Container(
         width: 50,
         height: 50,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('14'), Text('Dec')],
-        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('14'), Text('Dec')],
         ),
       ),
     );

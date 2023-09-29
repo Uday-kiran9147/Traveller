@@ -39,7 +39,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
           ),
       child: Stack(
         children: <Widget>[
-          Container(
+          SizedBox(
             height: double.infinity,
             width: double.infinity,
             child: Image.asset('assets/onb1.jpg',fit: BoxFit.cover,),
@@ -49,9 +49,9 @@ class _AuthAccountsState extends State<AuthAccounts> {
             child: Column(
               children: <Widget>[
                 const SizedBox(height: kToolbarHeight + 40),
-                Expanded(
+                const Expanded(
                   child: Column(
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text(
                         "Welcome",
                         style: TextStyle(
@@ -79,7 +79,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:  Color.fromARGB(255, 43, 8, 42),
+                          backgroundColor:  const Color.fromARGB(255, 43, 8, 42),
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -99,7 +99,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:  Color.fromARGB(255, 43, 8, 42),
+                          backgroundColor:  const Color.fromARGB(255, 43, 8, 42),
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -157,7 +157,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
                                     ? Colors.white
                                     : Colors.black,
                                 backgroundColor: _formsIndex == 1
-                                    ?  Color.fromARGB(255, 43, 8, 42)
+                                    ?  const Color.fromARGB(255, 43, 8, 42)
                                     : Colors.grey[300],
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0)),
@@ -176,7 +176,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
                                     ? Colors.white
                                     : Colors.black,
                                 backgroundColor: _formsIndex == 2
-                                    ?  Color.fromARGB(255, 43, 8, 42)
+                                    ?  const Color.fromARGB(255, 43, 8, 42)
                                     : Colors.grey[300],
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0)),

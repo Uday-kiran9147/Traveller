@@ -5,8 +5,8 @@ customSnackbarMessage(String message, BuildContext context, Color color) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: color,
       behavior: SnackBarBehavior.floating,
-      duration: Duration(seconds: 10),
+      duration: const Duration(seconds: 10),
       elevation: 8,
-      margin: EdgeInsets.all(12),
+      margin: const EdgeInsets.all(12),
       content: Text(message)));
 }

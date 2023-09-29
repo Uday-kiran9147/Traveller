@@ -14,6 +14,8 @@ import 'widgets/destination_box.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -31,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   StoryListScreen storyListScreen = StoryListScreen();
-  Stream<QuerySnapshot> _travelstorytstream =
+  final Stream<QuerySnapshot> _travelstorytstream =
       FirebaseFirestore.instance.collection("travelstory").snapshots();
   getuser() async {
     await BlocProvider.of<HomeCubitCubit>(context, listen: false)
@@ -67,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // onStretchTrigger:// for refreshing page
               ),
               SliverToBoxAdapter(
-                child: Container(
+                child: SizedBox(
                   height: 140,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -93,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     animatedTexts: [
                       ColorizeAnimatedText(
                         ' Recent stories.....',
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 30.0,
                         ),
                         colors: [Colors.blue,Colors.purple,Colors.indigo,Colors.orange,],
@@ -105,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: Container(
+                child: SizedBox(
                   height: 450,
                   width: double.infinity,
                   child: StreamBuilder<QuerySnapshot>(
@@ -126,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return const Center(child: Text('No posts yet'));
                         }
                         return ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: 1,
                           itemBuilder: (context, index) {
                             var data =
@@ -151,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               child: Stack(
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   storyListScreen.build_Card(
@@ -217,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               (state.user.profileurl == null ||
                       state.user.profileurl!.startsWith('http') == false)
-                  ? CircleAvatar(
+                  ? const CircleAvatar(
                       radius: 53,
                       backgroundImage: AssetImage('assets/noimage.png'),
                     )
@@ -239,11 +241,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     context, RouteName.authentication, (route) => false);
               } // remove the drawer
             },
-            leading: Icon(
+            leading: const Icon(
               Icons.logout_outlined,
               color: Colors.red,
             ),
-            title: Text("logout",
+            title: const Text("logout",
                 style: TextStyle(
                   color: Colors.red,
                 ))),
@@ -255,11 +257,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context) => StoryListScreen(),
                   ));
             },
-            leading: Icon(
+            leading: const Icon(
               Icons.bubble_chart,
               color: Colors.blue,
             ),
-            title: Text(
+            title: const Text(
               "Stories",
               style: TextStyle(color: Colors.blue),
             )),
@@ -267,11 +269,11 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               Navigator.pushNamed(context, RouteName.addstory);
             },
-            leading: Icon(
+            leading: const Icon(
               Icons.bubble_chart,
               color: Colors.blue,
             ),
-            title: Text(
+            title: const Text(
               "Add story",
               style: TextStyle(color: Colors.blue),
             )),
@@ -287,7 +289,7 @@ class LoadingProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CircularProgressIndicator(
+    return const CircularProgressIndicator(
       backgroundColor: Colors.greenAccent,
       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
     );
