@@ -1,0 +1,2 @@
+
+const webScr=600;
