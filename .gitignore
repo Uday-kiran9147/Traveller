@@ -1,5 +1,7 @@
 *lib/firebase_options.dart
-*lib/utils/keys.dart
+*android/app/google-services.json
+*pubspec.lock
+
 *android
 *ios
 *server
