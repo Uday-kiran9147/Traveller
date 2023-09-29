@@ -1,2 +1,0 @@
-
-const webScr=600;
