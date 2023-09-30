@@ -216,15 +216,26 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  ListView _buildDrawer(BuildContext context, HomeCubitState state) {
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        DrawerHeader(
-          decoration: BoxDecoration(color: Colors.grey.shade300),
-          child: Column(
-            children: [
-              (state.user.profileurl == null ||
+ListView _buildDrawer(BuildContext context, HomeCubitState state) {
+  return ListView(
+    padding: EdgeInsets.zero,
+    children: [
+      DrawerHeader(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+        ),
+        child: Column(
+          children: [
+            Container(
+              width: 100,
+              height: 99,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white,
+                  width: 2.0,
+                ),),
+               child:  (state.user.profileurl == null ||
                       state.user.profileurl!.startsWith('http') == false)
                   ? const CircleAvatar(
                       radius: 53,
@@ -233,60 +244,85 @@ class _HomeScreenState extends State<HomeScreen> {
                   : CircleAvatar(
                       radius: 53,
                       backgroundImage: NetworkImage(state.user.profileurl!)),
-              Text(
-                state.user.username,
-                textAlign: TextAlign.center,
+                
               ),
-            ],
+    
+            const SizedBox(height: 10),
+            Text(
+              state.user.username,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+      ListTile(
+        onTap: () async {
+          bool isSignout = await SignOut.signoutuser();
+          if (isSignout) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              RouteName.authentication,
+              (route) => false,
+            );
+          } // remove the drawer
+        },
+        leading: const Icon(
+          Icons.logout_outlined,
+          color: Colors.red,
+        ),
+        title: const Text(
+          "Logout",
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 16,
           ),
         ),
-        ListTile(
-            onTap: () async {
-              bool isSignout = await SignOut.signoutuser();
-              if (isSignout) {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, RouteName.authentication, (route) => false);
-              } // remove the drawer
-            },
-            leading: const Icon(
-              Icons.logout_outlined,
-              color: Colors.red,
+      ),
+      ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StoryListScreen(),
             ),
-            title: const Text("logout",
-                style: TextStyle(
-                  color: Colors.red,
-                ))),
-        ListTile(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => StoryListScreen(),
-                  ));
-            },
-            leading: const Icon(
-              Icons.bubble_chart,
-              color: Colors.blue,
-            ),
-            title: const Text(
-              "Stories",
-              style: TextStyle(color: Colors.blue),
-            )),
-        ListTile(
-            onTap: () {
-              Navigator.pushNamed(context, RouteName.addstory);
-            },
-            leading: const Icon(
-              Icons.bubble_chart,
-              color: Colors.blue,
-            ),
-            title: const Text(
-              "Add story",
-              style: TextStyle(color: Colors.blue),
-            )),
-      ],
-    );
-  }
+          );
+        },
+        leading: const Icon(
+          Icons.bubble_chart,
+          color: Colors.blue,
+        ),
+        title: const Text(
+          "Stories",
+          style: TextStyle(
+            color: Colors.blue,
+            fontSize: 16,
+          ),
+        ),
+      ),
+      ListTile(
+        onTap: () {
+          Navigator.pushNamed(context, RouteName.addstory);
+        },
+        leading: const Icon(
+          Icons.add_circle,
+          color: Colors.green,
+        ),
+        title: const Text(
+          "Add Story",
+          style: TextStyle(
+            color: Colors.green,
+            fontSize: 16,
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
 }
 
 class LoadingProgress extends StatelessWidget {
