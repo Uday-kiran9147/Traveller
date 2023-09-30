@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
+import 'package:intl/intl.dart';
 import 'package:traveler/domain/models/travel_story.dart';
 import 'package:traveler/domain/usecases/delete_travelstory.dart';
 import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
@@ -51,8 +52,14 @@ class StoryDetail extends StatelessWidget {
                     children: [
                       Text('@${travelStory.userName}',
                           style: Theme.of(context).textTheme.labelMedium),
-                      Text(travelStory.created_at,
-                          style: Theme.of(context).textTheme.labelMedium),
+                      Text(
+                    DateFormat.yMd()
+                        .format(DateTime.parse(travelStory.created_at)),
+                    style:const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                    ),
+                  ),
                     ],
                   ),
                 ),
@@ -90,7 +97,7 @@ class StoryDetail extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.95,
                 height: 66,
                 decoration: BoxDecoration(
-                    color: Colors.grey[300],
+                    color: Colors.grey.shade100,
                     border: Border.all(color: Colors.grey),
                     borderRadius: const BorderRadius.all(Radius.circular(10))),
                 child: Row(
