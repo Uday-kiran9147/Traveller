@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:traveler/presentation/pages/profile/post_detail_screen.dart';
 import '../../../../domain/models/post.dart';
-import '../../home/ui/home_screen.dart';
 
 class GridScreen extends StatefulWidget {
   const GridScreen({
@@ -70,15 +69,15 @@ class _GridScreenState extends State<GridScreen> {
                         .orderBy("date", descending: true)
                         .get(),
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.data.toString().isEmpty) {
-                        return const Center(child: Text('No posts yet'));
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(child: LoadingProgress());
-                      } else if (snapshot.hasError) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (snapshot.hasError) {
                         return const Center(
                             child: Text('Something went wrong'));
                       }
+
                       List<DocumentSnapshot> documents = snapshot.data!.docs;
                       if (documents.isEmpty) {
                         return const Center(child: Text('No posts yet'));
