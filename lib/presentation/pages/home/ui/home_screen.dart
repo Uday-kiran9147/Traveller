@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           body: CustomScrollView(
             slivers: <Widget>[
-              SliverAppBar(scrolledUnderElevation: 20,
+              SliverAppBar(scrolledUnderElevation: 20,backgroundColor: Theme.of(context).primaryColor,
                 title:  FutureBuilder(
                 future: state.getuser(),
                 builder: (context, AsyncSnapshot<UserRegister> snapshot) {
@@ -192,14 +192,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                   builder: (context) => StoryListScreen(),
                                 ))
                           },
+                      child:Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        color: Colors.blue,
+                      ),
                       child: Text(
                         'Load more stories?',
                         style: Theme.of(context)
                             .textTheme
-                            .bodyLarge!
-                            .copyWith(color: Colors.grey),
+                            .bodyText1!
+                            .copyWith(color: Colors.white),
                         textAlign: TextAlign.center,
-                      )),
+                      ),
+                    ),)
                 ),
               )
             ],

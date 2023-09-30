@@ -70,15 +70,15 @@ class _GridScreenState extends State<GridScreen> {
                         .orderBy("date", descending: true)
                         .get(),
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.data.toString().isEmpty) {
-                        return const Center(child: Text('No posts yet'));
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(child: LoadingProgress());
-                      } else if (snapshot.hasError) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (snapshot.hasError) {
                         return const Center(
                             child: Text('Something went wrong'));
                       }
+
                       List<DocumentSnapshot> documents = snapshot.data!.docs;
                       if (documents.isEmpty) {
                         return const Center(child: Text('No posts yet'));
