@@ -20,11 +20,10 @@ class GetFollow{
       ing = await getusers(following);
       followers = user.followers;
       ers = await getusers(followers);
-      biglist = [ing??[], ers??[]];
+      biglist = [ing, ers];
       return biglist;
       // ignore: body_might_complete_normally_catch_error
     }).catchError((e) {
-      print("Error Occured uday: $e");
     });
     return biglist;
   }

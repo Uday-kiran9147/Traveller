@@ -202,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         'Load more stories?',
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText1!
+                            .bodyLarge!
                             .copyWith(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),

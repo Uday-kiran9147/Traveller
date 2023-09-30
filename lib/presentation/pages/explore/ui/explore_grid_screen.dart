@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:traveler/presentation/pages/profile/post_detail_screen.dart';
 import '../../../../domain/models/post.dart';
-import '../../home/ui/home_screen.dart';
 
 class GridScreen extends StatefulWidget {
   const GridScreen({
