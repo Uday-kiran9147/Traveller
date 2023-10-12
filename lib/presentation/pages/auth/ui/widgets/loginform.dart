@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:traveler/domain/usecases/reset_password.dart';
 import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
 
@@ -35,22 +36,9 @@ class _LoginFormState extends State<LoginForm> {
         shrinkWrap: true,
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(
-              hintText: "Enter email",
-              border: OutlineInputBorder(),
-            ),
-          ),
+          TextFieldCustom(controller: _emailController,hint:"Enter email",icon: Icons.email,),
           const SizedBox(height: 10.0),
-          TextField(
-            controller: _passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-              hintText: "Enter password",
-              border: OutlineInputBorder(),
-            ),
-          ),
+          TextFieldCustom(controller: _passwordController,hint:"Enter password",icon: Icons.lock,),
           const SizedBox(height: 10.0),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -65,7 +53,6 @@ class _LoginFormState extends State<LoginForm> {
             onPressed: () async {
               BlocProvider.of<AuthCubitCubit>(context).authLoginEvent(
                   _emailController.text, _passwordController.text);
-              print("function called");
             },
           ),
           TextButton(
@@ -74,20 +61,14 @@ class _LoginFormState extends State<LoginForm> {
                   showresetfield = !showresetfield;
                 });
               },
-              child: const Text("Forgot Password?")),
+              child: const Text("Forgot Password?",style: TextStyle(color: Colors.orange),)),
           showresetfield
               ? Column(
                   children: [
-                    TextField(
-                      controller: _resetEmailController,
-                      decoration: const InputDecoration(
-                        hintText: "Enter reset-email",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
+          TextFieldCustom(controller: _resetEmailController,hint:"Enter reset-email",icon: Icons.restore,),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
+                          backgroundColor: Colors.green,
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -99,12 +80,38 @@ class _LoginFormState extends State<LoginForm> {
                           ResetPassword resetPassword =
                               ResetPassword(_resetEmailController.text);
                           resetPassword.resetPassword();
-                          print("Password reset link sent to your email");
+                          // print("Password reset link sent to your email");
                         })
                   ],
                 )
               : Container(),
         ],
+      ),
+    );
+  }
+}
+
+class TextFieldCustom extends StatelessWidget {
+
+  final TextEditingController controller;
+  final String hint;
+  final IconData icon;
+  final bool obscureText;
+  const TextFieldCustom({
+    Key? key,
+    this.obscureText=false,
+    required this.controller,
+    required this.hint,
+    required this.icon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(obscureText:obscureText ,
+      controller: controller,
+      decoration:  InputDecoration(prefixIcon: Icon(icon,color: Colors.green,),
+        hintText: hint,hintStyle:const TextStyle(color: Colors.white,),
+        border:const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),
       ),
     );
   }
