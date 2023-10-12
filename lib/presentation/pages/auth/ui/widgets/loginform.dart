@@ -38,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
         children: <Widget>[
           TextFieldCustom(controller: _emailController,hint:"Enter email",icon: Icons.email,),
           const SizedBox(height: 10.0),
-          TextFieldCustom(controller: _passwordController,hint:"Enter password",icon: Icons.lock,),
+          TextFieldCustom(controller: _passwordController,hint:"Enter password",icon: Icons.lock,obscureText: true),
           const SizedBox(height: 10.0),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
