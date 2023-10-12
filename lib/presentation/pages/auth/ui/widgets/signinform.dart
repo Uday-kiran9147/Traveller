@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
+import 'package:traveler/presentation/pages/auth/ui/widgets/loginform.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
 class SignupForm extends StatefulWidget {
@@ -44,39 +45,13 @@ class _SignupFormState extends State<SignupForm> {
         shrinkWrap: true,
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(
-              hintText: "Enter email",
-              border: OutlineInputBorder(),
-            ),
-          ),
+          TextFieldCustom(controller: _emailController, hint: 'Enter email', icon: Icons.email),
           const SizedBox(height: 10.0),
-          TextField(
-            controller: _userNameController,
-            decoration: const InputDecoration(
-              hintText: "Enter username",
-              border: OutlineInputBorder(),
-            ),
-          ),
+          TextFieldCustom(controller: _userNameController,hint: "Enter username",icon: Icons.person,),
           const SizedBox(height: 10.0),
-          TextField(
-            controller: _passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-              hintText: "Enter password",
-              border: OutlineInputBorder(),
-            ),
-          ),
+          TextFieldCustom(controller: _passwordController,hint: "Enter password",icon: Icons.remove_red_eye,obscureText: true,),
           const SizedBox(height: 10.0),
-          TextField(
-            controller: _confirmPasswordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-              hintText: "Confirm password",
-              border: OutlineInputBorder(),
-            ),
-          ),
+          TextFieldCustom(controller: _confirmPasswordController,hint: "Enter confirm password",icon: Icons.password,obscureText: true,),
           const SizedBox(height: 10.0),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
