@@ -46,8 +46,8 @@ class _MyHomeState extends State<MyHome> {
   void initState() {
     _page = [
       const HomeScreen(),
-      // const ExploreScreen(),
-      // const GridScreen(),
+      const ExploreScreen(),
+      const GridScreen(),
       Profile(null),
     ];
     super.initState();
@@ -72,11 +72,11 @@ class _MyHomeState extends State<MyHome> {
           }),
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            // BottomNavigationBarItem(
-            //     icon: Icon(Icons.follow_the_signs_outlined),
-            //     label: "following"),
-            // BottomNavigationBarItem(
-            //     icon: Icon(Icons.explore), label: "explore"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.follow_the_signs_outlined),
+                label: "following"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.explore), label: "explore"),
             // // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar]
             // // so, I had to use type property of [BottomNavigationBar] to [BottomNavigationBarType.fixed].
             BottomNavigationBarItem(
