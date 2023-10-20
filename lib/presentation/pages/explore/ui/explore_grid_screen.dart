@@ -42,13 +42,11 @@ class _GridScreenState extends State<GridScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // List<Post> _postCollection=
     return Scaffold(
-        backgroundColor: Colors.black,
         body: Container(
           height: double.maxFinite,
           decoration: const BoxDecoration(),
-          child: GridView.custom(
+          child: GridView.custom(physics:const BouncingScrollPhysics(),
               gridDelegate: SliverQuiltedGridDelegate(
                 crossAxisCount: 4,
                 mainAxisSpacing: 1,

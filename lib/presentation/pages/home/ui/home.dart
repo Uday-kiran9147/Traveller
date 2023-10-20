@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/explore/ui/explore_grid_screen.dart';
 import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
 import 'package:traveler/presentation/pages/profile/profile.dart';
@@ -61,10 +60,10 @@ class _MyHomeState extends State<MyHome> {
         bottomNavigationBar: BottomNavigationBar(
           selectedIconTheme:
               IconThemeData(color: Theme.of(context).primaryColor),
-          type: BottomNavigationBarType.fixed,
+          type: BottomNavigationBarType.fixed, // shifting type creates conflict with backgroundcolor
           iconSize: 16,
           elevation: 5,
-          backgroundColor: AThemes.universalcolor,
+          backgroundColor:const Color.fromARGB(255, 236, 236, 236) ,
           unselectedItemColor: Colors.grey,
           selectedItemColor: Theme.of(context).primaryColor,
           currentIndex: index,
@@ -78,8 +77,8 @@ class _MyHomeState extends State<MyHome> {
                 label: "following"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.explore), label: "explore"),
-            // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar]
-            // so, I had to use type property of [BottomNavigationBar] to [BottomNavigationBarType.fixed].
+            // // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar]
+            // // so, I had to use type property of [BottomNavigationBar] to [BottomNavigationBarType.fixed].
             BottomNavigationBarItem(
                 icon: Icon(Icons.person_2_rounded), label: "profile"),
           ],

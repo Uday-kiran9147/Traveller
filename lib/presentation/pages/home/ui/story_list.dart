@@ -16,7 +16,7 @@ class StoryListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Set your background color
+      backgroundColor: Theme.of(context).colorScheme.primary, // Set your background color
       appBar: AppBar(
         title: const Text(
           "Travel Stories",
