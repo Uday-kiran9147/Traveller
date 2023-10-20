@@ -49,20 +49,20 @@ class _FollowingScreenState extends State<FollowingScreen> {
       length: 2,
       initialIndex: widget.index,
       child: Scaffold(
-        // backgroundColor: AThemes.universalcolor,
-        appBar: AppBar(
-          backgroundColor: AThemes.universalcolor,
+        appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.primary,
           automaticallyImplyLeading:
-              false, // hides leading widget (Back button)
+              true, // hides leading widget (Back button)
           title: Text(
             widget.username,
             textAlign: TextAlign.end,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           bottom: TabBar(
+            padding:const EdgeInsets.only(left: 30,right: 30),// padding Around Left and Right Tab
+            dividerColor: Theme.of(context).colorScheme.primary,indicatorSize: TabBarIndicatorSize.tab,
             labelColor: Theme.of(context).primaryColor,
             indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(40),
+              borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
                   colors: widget.index == 0
                       ? [
@@ -150,7 +150,7 @@ class FollowList extends StatelessWidget {
                   : CircleAvatar(
                       backgroundImage: NetworkImage(user.profileurl!),
                     ),
-              title: Text(biglist![index].username),
+              title: Text(biglist![index].username), subtitle: Text(biglist![index].bio!.isEmpty?"--":biglist![index].bio!),
             ),
           ),
         );

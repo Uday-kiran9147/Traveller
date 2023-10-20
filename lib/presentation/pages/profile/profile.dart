@@ -53,7 +53,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AThemes.universalcolor,
+      backgroundColor: AThemes.mainTheme,
       body: StreamBuilder<UserRegister>(
           stream: FirebaseFirestore.instance
               .collection('users')
@@ -136,7 +136,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                       .textTheme
                                       .bodyMedium!
                                       .copyWith(
-                                        color: Colors.greenAccent,
+                                        color: AThemes.gradient3,
                                       ),
                                 ),
                               ],
@@ -278,7 +278,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                               ],
                                             ),
                                           ),
-                                          Positioned(
+                                         isowner? Positioned(
                                             right: 2,
                                             top: 2,
                                             child: GestureDetector(
@@ -297,7 +297,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                   Icons.close_rounded,
                                                   color: Colors.black45,
                                                 )),
-                                          )
+                                          ):Container()
                                         ],
                                       ),
                                     );
@@ -416,11 +416,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 class DecoratedContainer extends StatelessWidget {
   const DecoratedContainer({
     Key? key,
-    this.URL,
+    this.url,
     required this.text,
   }) : super(key: key);
 
-  final String? URL;
+  final String? url;
   final String text;
 
   @override

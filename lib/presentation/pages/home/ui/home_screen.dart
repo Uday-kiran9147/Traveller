@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           body: CustomScrollView(
             slivers: <Widget>[
-              SliverAppBar(scrolledUnderElevation: 20,backgroundColor: Theme.of(context).primaryColor,
+              SliverAppBar(scrolledUnderElevation: 20,backgroundColor: Theme.of(context).colorScheme.primary,
                 title:  FutureBuilder(
                 future: state.getuser(),
                 builder: (context, AsyncSnapshot<UserRegister> snapshot) {

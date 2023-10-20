@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:traveler/app/responsive.dart';
+import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
 import 'package:traveler/presentation/pages/auth/ui/authentication.dart';
 import 'package:traveler/presentation/pages/auth/ui/web_auth.dart';
@@ -77,9 +78,23 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             // Define the default brightness and colors.
             // brightness: Brightness.dark,
-            primarySwatch: Colors.teal,useMaterial3: true,
+            useMaterial3: true,
             //splash color is a color that appears behind a button's label when the button is tapped.
-            splashColor: Colors.white,
+            splashColor: AThemes.mainTheme,colorScheme:ColorScheme.light(
+              primary: AThemes.mainThemeDark,
+              // primaryVariant: AThemes.mainThemeDark,
+              secondary: AThemes.mainTheme,
+              // secondaryVariant: AThemes.universalcolorlight,
+              surface: Colors.white,
+              background: AThemes.mainTheme,
+              error: Colors.red,
+              onPrimary: Colors.white,
+              onSecondary: Colors.black,
+              onSurface: Colors.black,
+              onBackground: Colors.black,
+              onError: Colors.white,
+              brightness: Brightness.light,
+            ),
             /* This sample creates a MaterialApp with a Theme whose ColorScheme is based on Colors.blue, but with the color scheme's ColorScheme.secondary color overridden to be green. The AppBar widget uses the color scheme's ColorScheme.primary as its default background color and the FloatingActionButton widget uses the color scheme's ColorScheme.secondary for its default background. By default, the Text widget uses TextTheme.bodyMedium, and the color of that TextStyle has been changed to purple. */
             // textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.purple)),
 
