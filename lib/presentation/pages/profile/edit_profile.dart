@@ -158,7 +158,7 @@ class _UserInfoFormState extends State<UserInfoForm> {
               // Add more text fields for other user information here.
 
               const SizedBox(height: 16),
-              ElevatedButton(
+              ElevatedButton(key: const Key('submit'),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Save the user information to your database or use it as needed.

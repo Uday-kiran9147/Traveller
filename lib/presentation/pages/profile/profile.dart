@@ -121,26 +121,28 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text.rich(
-                            textAlign: TextAlign.center,
-                            TextSpan(
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: '${randomuser.username} • ',
+                          child: FittedBox(fit: BoxFit.contain,
+                            child: Text.rich(
+                              textAlign: TextAlign.center,
+                              TextSpan(
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: '${randomuser.username} • ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!),
+                                  TextSpan(
+                                    text: randomuser.tag!,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyMedium!),
-                                TextSpan(
-                                  text: randomuser.tag!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        color: AThemes.gradient3,
-                                      ),
-                                ),
-                              ],
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: AThemes.gradient3,
+                                        ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

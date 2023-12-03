@@ -57,7 +57,7 @@ class _MyHomeState extends State<MyHome> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: _page[index],
-        bottomNavigationBar: BottomNavigationBar(
+        bottomNavigationBar: BottomNavigationBar(key: const Key('bottom_nav_bar'),
           selectedIconTheme:
               IconThemeData(color: Theme.of(context).primaryColor),
           type: BottomNavigationBarType.fixed, // shifting type creates conflict with backgroundcolor

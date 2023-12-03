@@ -77,7 +77,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
                   children: <Widget>[
                     const SizedBox(width: 10.0),
                     Expanded(
-                      child: ElevatedButton(
+                      child: ElevatedButton(key: const Key('loginButton'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor:  const Color.fromARGB(255, 43, 8, 42),
                           foregroundColor: Colors.white,

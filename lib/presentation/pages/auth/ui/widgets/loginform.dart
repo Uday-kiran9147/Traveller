@@ -23,7 +23,8 @@ class _LoginFormState extends State<LoginForm> {
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _resetEmailController = TextEditingController();
-
+  final emailKey = const Key('email_field');
+  final passwordKey = const Key('password_field');
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,11 +37,11 @@ class _LoginFormState extends State<LoginForm> {
         shrinkWrap: true,
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          TextFieldCustom(controller: _emailController,hint:"Enter email",icon: Icons.email,),
+          TextFieldCustom(controller: _emailController,hint:"Enter email",icon: Icons.email,key: emailKey,),
           const SizedBox(height: 10.0),
-          TextFieldCustom(controller: _passwordController,hint:"Enter password",icon: Icons.lock,obscureText: true),
+          TextFieldCustom(controller: _passwordController,hint:"Enter password",icon: Icons.lock,obscureText: true,key: passwordKey,),
           const SizedBox(height: 10.0),
-          ElevatedButton(
+          ElevatedButton(key: const Key('login'),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color.fromARGB(255, 43, 8, 42),
               foregroundColor: Colors.white,
