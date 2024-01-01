@@ -1,4 +1,4 @@
-# traveler
+# traveller
 
 A new Flutter project.
 
