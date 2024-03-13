@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/explore/ui/explore_grid_screen.dart';
 import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
 import 'package:traveler/presentation/pages/profile/profile.dart';
@@ -57,29 +58,29 @@ class _MyHomeState extends State<MyHome> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: _page[index],
-        bottomNavigationBar: BottomNavigationBar(key: const Key('bottom_nav_bar'),
-          selectedIconTheme:
-              IconThemeData(color: Theme.of(context).primaryColor),
-          type: BottomNavigationBarType.fixed, // shifting type creates conflict with backgroundcolor
-          iconSize: 16,
+        bottomNavigationBar: NavigationBar(key: const Key('bottom_nav_bar'),
+          // selectedIconTheme:
+              // IconThemeData(color: Theme.of(context).primaryColor),
+          // type: BottomNavigationBarType.fixed, // shifting type creates conflict with backgroundcolor
+          // iconSize: 16,
           elevation: 5,
-          backgroundColor:const Color.fromARGB(255, 236, 236, 236) ,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Theme.of(context).primaryColor,
-          currentIndex: index,
-          onTap: (value) => setState(() {
+          backgroundColor: AThemes.primaryBackgroundLight ,
+          // unselectedItemColor: Colors.grey,
+          indicatorColor: Theme.of(context).primaryColor.withOpacity(0.5),
+          selectedIndex: index,
+          onDestinationSelected: (value) => setState(() {
             index = value;
           }),
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(
+          destinations: const [
+            NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+            NavigationDestination(
                 icon: Icon(Icons.follow_the_signs_outlined),
                 label: "following"),
-            BottomNavigationBarItem(
+            NavigationDestination(
                 icon: Icon(Icons.explore), label: "explore"),
-            // // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar]
-            // // so, I had to use type property of [BottomNavigationBar] to [BottomNavigationBarType.fixed].
-            BottomNavigationBarItem(
+            // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar]
+            // so, I had to use type property of [BottomNavigationBar] to [BottomNavigationBarType.fixed].
+            NavigationDestination(
                 icon: Icon(Icons.person_2_rounded), label: "profile"),
           ],
         ));

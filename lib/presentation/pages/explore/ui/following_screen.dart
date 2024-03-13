@@ -17,7 +17,6 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
-
   final Stream<QuerySnapshot> _poststream = FirebaseFirestore.instance
       .collection("posts")
       .orderBy("date", descending: true)
@@ -29,7 +28,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
       buildWhen: (previous, current) => current is! ExploreActionState,
       listener: (context, state) {
         if (state is PostPostingSuccessState) {
-          customSnackbarMessage('Post uploaded successfully', context,Colors.green);
+          customSnackbarMessage(
+              'Post uploaded successfully', context, Colors.green);
           print("success and poped");
           Navigator.of(context).pop();
         }
@@ -48,8 +48,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       builder: (context, state) {
         switch (state.runtimeType) {
           case NavigateToNewPostScreenActionState:
-            return const NewPostScreen(
-            );
+            return const NewPostScreen();
           case PostingLoadingState:
             return const Scaffold(body: Center(child: LoadingProgress()));
           case ExploreInitialState:
@@ -96,8 +95,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       );
                     }),
                 floatingActionButton: FloatingActionButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder:((context) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) {
                       return const NewPostScreen();
                     })));
                   },

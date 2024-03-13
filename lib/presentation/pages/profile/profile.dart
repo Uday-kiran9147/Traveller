@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/presentation/pages/home/ui/home_screen.dart';
@@ -54,7 +55,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AThemes.mainTheme,
       body: StreamBuilder<UserRegister>(
           stream: FirebaseFirestore.instance
               .collection('users')
@@ -121,7 +121,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: FittedBox(fit: BoxFit.contain,
+                          child: Container(
+                            constraints: const BoxConstraints(maxWidth: 150,minWidth: 80),
                             child: Text.rich(
                               textAlign: TextAlign.center,
                               TextSpan(
@@ -138,7 +139,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                         .textTheme
                                         .bodyMedium!
                                         .copyWith(
-                                          color: AThemes.gradient3,
+                                          color: AThemes.appThemeOrange,
                                         ),
                                   ),
                                 ],
@@ -158,7 +159,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             : TextButton(
                                 style: TextButton.styleFrom(
                                   foregroundColor: Colors.white,
-                                  backgroundColor: Colors.grey[800],
+                                  backgroundColor: Colors.blueAccent,
                                 ),
                                 onPressed: () async {
                                   FollowUser follow = FollowUser(
@@ -218,7 +219,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 child: TravelListWIdget(randomuser: randomuser, isowner: isowner),
                               ),
                         SizedBox(
-                          height: 60,
+                          height: 40,
                           width: double.maxFinite,
                           child: Align(
                             alignment: Alignment.center,
@@ -228,7 +229,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               indicator: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
                                       50), // Creates border
-                                  color: Colors.greenAccent),
+                                  color: AThemes.primaryColor.withOpacity(0.1)),
                               automaticIndicatorColorAdjustment: true,
                               tabs: [
                                 Tab(

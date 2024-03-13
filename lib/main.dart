@@ -15,17 +15,12 @@ import 'package:traveler/presentation/pages/home/ui/home.dart';
 import 'package:traveler/presentation/pages/profile/cubit/profile_cubit.dart';
 import 'package:traveler/utils/constants/sharedprefs.dart';
 import 'package:traveler/utils/routes/app_routes.dart';
-
+import './firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            apiKey: "AIzaSyA4nhUPA-B_8q8e_jcBJXMA4vkntbke638",
-            appId: "1:1075481555757:web:8abaa2cf364cd6947d19a4",
-            messagingSenderId: "1075481555757",
-            projectId: "traveller-fd5a3",
-            storageBucket: "traveller-fd5a3.appspot.com"));
+        options: DefaultFirebaseOptions.currentPlatform);
   } else {
     await Firebase.initializeApp();
   }
@@ -78,15 +73,16 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             // Define the default brightness and colors.
             // brightness: Brightness.dark,
+            scaffoldBackgroundColor: AThemes.primaryBackgroundLight,
             useMaterial3: true,
             //splash color is a color that appears behind a button's label when the button is tapped.
-            splashColor: AThemes.mainTheme,colorScheme:ColorScheme.light(
-              primary: AThemes.mainThemeDark,
+            splashColor: AThemes.primaryColor,colorScheme:ColorScheme.light(
+              primary: AThemes.primaryColor,
               // primaryVariant: AThemes.mainThemeDark,
-              secondary: AThemes.mainTheme,
+              secondary: AThemes.primaryBackgroundLight,
               // secondaryVariant: AThemes.universalcolorlight,
               surface: Colors.white,
-              background: AThemes.mainTheme,
+              background: AThemes.primaryColor,
               error: Colors.red,
               onPrimary: Colors.white,
               onSecondary: Colors.black,

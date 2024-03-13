@@ -154,7 +154,7 @@ class _PostScreenState extends State<PostScreen> {
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(30),
                                         topRight: Radius.circular(30))),
-                                backgroundColor: Theme.of(context).canvasColor,
+                                backgroundColor: AThemes.primaryBackgroundLight,
                                 context: context,
                                 builder: (context) {
                                   return CommentBox(
@@ -171,33 +171,33 @@ class _PostScreenState extends State<PostScreen> {
                                 },
                               );
                             },
-                            child: const Icon(
-                              Icons.comment,
-                              color: Colors.purple,
+                            child: Icon(
+                              Icons.mode_comment_outlined,
+                              color: AThemes.appThemeOrange,
                             )),
                         const Text("--")
                       ],
                     ),
                   ),
-                   Container(
-                        height: 50,
-                        width: 50,
-                        decoration: const BoxDecoration(),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                                onTap: () async {},
-                                child: const Icon(
-                                  Icons.share,
-                                  color: Colors.black,
-                                )),
-                            Text(
-                              "",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: const BoxDecoration(),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                            onTap: () async {},
+                            child: const Icon(
+                              Icons.share,
+                              color: Colors.black,
+                            )),
+                        Text(
+                          "",
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
-                      ),
+                      ],
+                    ),
+                  ),
                   const Spacer(),
                   Row(
                     children: [

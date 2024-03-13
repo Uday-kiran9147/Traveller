@@ -130,12 +130,16 @@ class FollowList extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Colors.grey.shade200,
-                Colors.white,
-              ]),
+              // gradient: LinearGradient(colors: [
+              //   Colors.grey.shade200,
+              //   Colors.grey,
+              // ]),
               color: AThemes.universalcolor,
               borderRadius: BorderRadius.circular(12),
+              border: Border.symmetric(
+                horizontal: BorderSide(color: Colors.grey.shade300),
+                // vertical: BorderSide(color: Colors.blueGrey.shade300),
+              ),
             ),
             child: ListTile(
               onTap: () => Navigator.pushNamed(

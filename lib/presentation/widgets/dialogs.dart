@@ -10,11 +10,11 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
     context: context,
     builder: (context) {
       return AlertDialog(
+        backgroundColor: AThemes.primaryBackgroundLight,
         title: Text("Next Destination",
             style: Theme.of(context)
                 .textTheme
-                .bodyMedium!
-                .copyWith(color: AThemes.comment_Box)),
+                .bodyMedium),
         content: CupertinoTextField(
           onChanged: (val) {
             destination = val;
@@ -25,11 +25,13 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
           ),
         ),
         actions: [
-          TextButton(
+          ElevatedButton(
               onPressed: () async {
                 if (destination != null || destination!.isNotEmpty) {
                   print(destination);
-                  await BlocProvider.of<ProfileCubit>(context,).addDestinationList(destination!);
+                  await BlocProvider.of<ProfileCubit>(
+                    context,
+                  ).addDestinationList(destination!);
                   Navigator.pop(context);
                 } else {
                   Navigator.pop(context);
@@ -45,7 +47,7 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
               },
               child: const Text(
                 "Back",
-                style: TextStyle(),
+                style: TextStyle(color: Colors.redAccent),
               ))
         ],
       );
@@ -61,7 +63,6 @@ Future<dynamic> showBottomSheetCustom(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-      backgroundColor: Theme.of(context).canvasColor,
       context: context,
       builder: (context) {
         return SingleChildScrollView(
@@ -91,7 +92,7 @@ Future<dynamic> showDialogCustom(BuildContext context, String postid) {
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
-                .copyWith(color:  Theme.of(context).colorScheme.error)),
+                .copyWith(color: Theme.of(context).colorScheme.error)),
         actions: [
           TextButton(
               onPressed: () async {

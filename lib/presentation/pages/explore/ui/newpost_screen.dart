@@ -160,7 +160,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  waitingforlocation ? const LinearProgressIndicator() : Container(),
+                  
                   _image != null
                       ? Expanded(flex: 2,
                           child: GestureDetector(
@@ -216,6 +216,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     ),
                   ),
                   const SizedBox(height: 16.0),
+                  waitingforlocation ? const LinearProgressIndicator() : Container(),
                   Row(
                     children: [
                       const Icon(Icons.location_on_outlined,color: Colors.orange,),
