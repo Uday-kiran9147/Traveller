@@ -16,15 +16,17 @@ import 'package:traveler/presentation/pages/profile/cubit/profile_cubit.dart';
 import 'package:traveler/utils/constants/sharedprefs.dart';
 import 'package:traveler/utils/routes/app_routes.dart';
 import './firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb) {
+  // if (kIsWeb) {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-  } else {
+  // } else {
     await Firebase.initializeApp();
-  }
-await SystemChrome.setPreferredOrientations([
+  // }
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
@@ -42,7 +44,7 @@ class _MyAppState extends State<MyApp> {
   bool? isloggedin = false;
   @override
   void initState() {
-    getuserLoggedinStatus();
+    // getuserLoggedinStatus();
     super.initState();
   }
 
@@ -76,7 +78,8 @@ class _MyAppState extends State<MyApp> {
             scaffoldBackgroundColor: AThemes.primaryBackgroundLight,
             useMaterial3: true,
             //splash color is a color that appears behind a button's label when the button is tapped.
-            splashColor: AThemes.primaryColor,colorScheme:ColorScheme.light(
+            splashColor: AThemes.primaryColor,
+            colorScheme: ColorScheme.light(
               primary: AThemes.primaryColor,
               // primaryVariant: AThemes.mainThemeDark,
               secondary: AThemes.primaryBackgroundLight,
@@ -116,11 +119,22 @@ class _MyAppState extends State<MyApp> {
                   color: Colors.black,
                   fontWeight: FontWeight.w400),
             ),
-          ),scrollBehavior: const ScrollBehavior(),
-          home: ResponsiveLayout(
-              webS: const WebAuth(),
-              mobileS: isloggedin != true?  const AuthenticationScreen():  const HomeBloc()),
-          debugShowCheckedModeBanner: false,
+          ),debugShowCheckedModeBanner: false,
+          scrollBehavior: const ScrollBehavior(),
+          home: FutureBuilder(
+            future: FirebaseAuth.instance.authStateChanges().first,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // return const SplashScreen();
+                return const CircularProgressIndicator();
+              }
+              if (!snapshot.hasData) {
+                return const AuthenticationScreen();
+              }
+              return const ResponsiveLayout(
+                  webS:  WebAuth(), mobileS:  HomeBloc());
+            },
+          ),
 
           // this troubled me a lot
           // initialRoute: isloggedin! ? RouteName.home : RouteName.authentication,
