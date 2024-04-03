@@ -46,7 +46,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
   String? fulladdress;
   bool isloading = false;
 
-
   // Function gets the List of addresses from the latitude and longitude
   Future<List<Placemark>> getaddressfromlatlong(Position position) async {
     /* 
@@ -59,7 +58,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
     await placemarkFromCoordinates(
             _currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
-      
       // Assigns the first placemark to place variable
       Placemark place = placemarks[0];
       placelist = placemarks;
@@ -81,25 +79,29 @@ class _NewPostScreenState extends State<NewPostScreen> {
 
   // Function Gets the current Position of Device
   Future getCurrentPosition() async {
+    debugPrint('getCurrentPosition');
     final haspermission = await handleLocationPermission();
     if (!haspermission) return;
     setState(() {
-      waitingforlocation = true; // Loads the progress indicator while waiting for location
+      waitingforlocation =
+          true; // Loads the progress indicator while waiting for location
     });
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
+        .then((Position position) async {
       setState(() {
-        _currentPosition = position; // Assigns the current position to _currentPosition variable
-        getaddressfromlatlong(_currentPosition!);
+        _currentPosition =
+            position; // Assigns the current position to _currentPosition variable
         waitingforlocation = false;
       });
+      await getaddressfromlatlong(_currentPosition!);
     });
   }
 
   // Function Requests for location permission
   Future<bool> handleLocationPermission() async {
     bool serviceEnabled;
-    LocationPermission permission;// permission Represents the possible Location Permission states
+    LocationPermission
+        permission; // permission Represents the possible Location Permission states
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
@@ -114,7 +116,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();// Request for location permissions In Application
+      permission = await Geolocator
+          .requestPermission(); // Request for location permissions In Application
       if (permission == LocationPermission.denied) {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Location permissions are denied')));
@@ -150,115 +153,149 @@ class _NewPostScreenState extends State<NewPostScreen> {
         ),
       ),
       backgroundColor: AThemes.universalcolor,
-      body: ListView(
-        children: [
-          Form(
-            key: _formKey,
-            child: Container(
-              height:MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  
-                  _image != null
-                      ? Expanded(flex: 2,
-                          child: GestureDetector(
-                            onDoubleTap: () {
-                              setState(() {
-                                _image = null;
-                              });
-                            },
-                            child: Image.file(
-                              scale: 1.0,
-                              _image!,
-                              height: double.infinity,
-                              width: double.infinity,
-                            ),
-                          ),
-                        )
-                      : Expanded(flex: 2,
-                          child: Center(
-                              child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.grey)),
-                          child: GestureDetector(
-                              onTap: _getImage,
-                              child: const Icon(
-                                Icons.image_search_rounded,
-                                color: Colors.grey,
-                                size: 120,
-                              )),
-                        ))),const SizedBox(height: 16.0),
-                  TextField(
-                    controller: _descriptionController,
-                    decoration: InputDecoration(
-                      hintText: "description.....",
-                      fillColor: Colors.grey.shade200,
-                      filled: true,
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                  ),const SizedBox(height: 16.0),
-                  TextField(
-                    controller: _locationController,
-                    decoration: InputDecoration(
-                      hintText: "location (Ladhak, India)",
-                      fillColor: Colors.grey.shade200,
-                      filled: true,
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16.0),
-                  waitingforlocation ? const LinearProgressIndicator() : Container(),
-                  Row(
+      body: Center(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 450),
+          child: ListView(
+            children: [
+              Form(
+                key: _formKey,
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.location_on_outlined,color: Colors.orange,),
-                      TextButton(
-                          onPressed:() async {await getCurrentPosition();_locationController.text=address!;},
-                          child: const Text("get current location")),
+                      _image != null
+                          ? Expanded(
+                              flex: 2,
+                              child: GestureDetector(
+                                onDoubleTap: () {
+                                  setState(() {
+                                    _image = null;
+                                  });
+                                },
+                                child: Image.file(
+                                  scale: 1.0,
+                                  _image!,
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                ),
+                              ),
+                            )
+                          : Expanded(
+                              flex: 2,
+                              child: Center(
+                                  child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(color: Colors.grey)),
+                                child: GestureDetector(
+                                    onTap: _getImage,
+                                    child: const Icon(
+                                      Icons.image_search_rounded,
+                                      color: Colors.grey,
+                                      size: 120,
+                                    )),
+                              ))),
+                      const SizedBox(height: 16.0),
+                      TextField(
+                        controller: _descriptionController,
+                        decoration: InputDecoration(
+                          hintText: "description.....",
+                          fillColor: Colors.grey.shade200,
+                          filled: true,
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextField(
+                        controller: _locationController,
+                        decoration: InputDecoration(
+                          hintText: "location (Ladhak, India)",
+                          fillColor: Colors.grey.shade200,
+                          filled: true,
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16.0),
+                      waitingforlocation
+                          ? const LinearProgressIndicator()
+                          : Container(),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.location_on_outlined,
+                            color: Colors.orange,
+                          ),
+                          TextButton(
+                              onPressed: () async {
+                                await getCurrentPosition();
+                                _locationController.text = address!;
+                              },
+                              child: const Text("get current location")),
+                        ],
+                      ),
+                      Center(
+                        child: isloading
+                            ? const LoadingProgress()
+                            : SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.70,
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor: _image != null
+                                          ? const MaterialStatePropertyAll(
+                                              Colors.green)
+                                          : const MaterialStatePropertyAll(
+                                              Colors.grey),
+                                      elevation: MaterialStateProperty.all(10),
+                                      overlayColor: MaterialStateColor.resolveWith(
+                                          (states) => const Color.fromARGB(
+                                              255, 5, 160, 11))),
+                                  onPressed: _image == null
+                                      ? null
+                                      : () async {
+                                          if (_formKey.currentState!.validate()) {
+                                            // Form is valid, process the data
+                                            if (_image != null) {
+                                              setState(() {
+                                                isloading = true;
+                                              });
+                                              await BlocProvider.of<ExploreCubit>(
+                                                      context)
+                                                  .postingPostEvent(
+                                                      post: SavePost(
+                                                description:
+                                                    _descriptionController.text,
+                                                location: _locationController.text,
+                                                date: DateTime.now().toString(),
+                                                image: _image!,
+                                              ));
+                                              setState(() {
+                                                isloading = false;
+                                              });
+                                            }
+                                          }
+                                        },
+                                  child: const Text('Post'),
+                                ),
+                              ),
+                      ),
+                      Text('ADDRESS: ${address ?? ""}'),
+                      Text('Full adddress: ${fulladdress ?? ""}'),
                     ],
                   ),
-                  Center(
-                    child:isloading?const LoadingProgress():  SizedBox(width: MediaQuery.of(context).size.width*0.70,
-                      child:ElevatedButton(style: ButtonStyle(backgroundColor:_image!=null? const MaterialStatePropertyAll(Colors.green):const MaterialStatePropertyAll(Colors.grey),elevation: MaterialStateProperty.all(10),overlayColor: MaterialStateColor.resolveWith((states) => const Color.fromARGB(255, 5, 160, 11))),
-                        onPressed:_image == null? null:() async {
-                          if (_formKey.currentState!.validate()) {
-                            // Form is valid, process the data
-                            if (_image != null) {
-                              setState(() {
-                                isloading = true;
-                              });
-                            await  BlocProvider.of<ExploreCubit>(context).postingPostEvent(
-                                post: SavePost(
-                                description: _descriptionController.text,
-                                location:_locationController.text,
-                                date: DateTime.now().toString(),
-                                image: _image!,
-                              ));
-                              setState(() {
-                                isloading = false;
-                              });
-                            }
-                          }
-                        },
-                        child: const Text('Post'),
-                      ),
-                    ),
-                  ),
-                  Text('ADDRESS: ${address ?? ""}'),
-                  Text('Full adddress: ${fulladdress ?? ""}'),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -47,9 +47,9 @@ class _MyHomeState extends State<MyHome> {
   void initState() {
     _page = [
       const HomeScreen(),
-      const ExploreScreen(),
+      // const ExploreScreen(),
       const GridScreen(),
-      Profile(null),
+      ProfileScreen(null),
     ];
     super.initState();
   }
@@ -57,7 +57,12 @@ class _MyHomeState extends State<MyHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _page[index],
+      backgroundColor:  Theme.of(context).secondaryHeaderColor,
+        body: Center(
+          child: Container(
+            constraints:const BoxConstraints(maxWidth: 450),
+            child: _page[index]),
+        ),
         bottomNavigationBar: NavigationBar(key: const Key('bottom_nav_bar'),
           // selectedIconTheme:
               // IconThemeData(color: Theme.of(context).primaryColor),
@@ -73,9 +78,9 @@ class _MyHomeState extends State<MyHome> {
           }),
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-            NavigationDestination(
-                icon: Icon(Icons.follow_the_signs_outlined),
-                label: "following"),
+            // NavigationDestination(
+            //     icon: Icon(Icons.follow_the_signs_outlined),
+            //     label: "following"),
             NavigationDestination(
                 icon: Icon(Icons.explore), label: "explore"),
             // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar]

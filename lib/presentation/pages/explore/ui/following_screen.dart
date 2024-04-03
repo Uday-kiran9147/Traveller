@@ -52,9 +52,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
           case PostingLoadingState:
             return const Scaffold(body: Center(child: LoadingProgress()));
           case ExploreInitialState:
-            return Scaffold(
-                backgroundColor: AThemes.universalcolor,
-                body: StreamBuilder<QuerySnapshot>(
+            return Container(
+                // backgroundColor: AThemes.universalcolor,
+                child: StreamBuilder<QuerySnapshot>(
                     stream: _poststream,
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.data.toString().isEmpty) {
@@ -72,6 +72,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         return const Center(child: Text('No posts yet'));
                       }
                       return ListView.builder(
+                        shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           final data =
@@ -94,17 +95,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         itemCount: documents.length,
                       );
                     }),
-                floatingActionButton: FloatingActionButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) {
-                      return const NewPostScreen();
-                    })));
-                  },
-                  child: const Icon(Icons.add),
-                ));
+                );
 
           default:
             return const Placeholder();

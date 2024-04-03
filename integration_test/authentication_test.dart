@@ -60,7 +60,7 @@ group('Driver test', () {
     await tester.tap(find.byIcon(Icons.person_2_rounded));
     await Future.delayed(const Duration(seconds: 2));
     await tester.pumpAndSettle();
-    expect(find.byType(Profile), findsWidgets);
+    expect(find.byType(ProfileScreen), findsWidgets);
     await Future.delayed(const Duration(seconds: 3));
     // Navigate to edit profile
     await tester.tap(find.byIcon(Icons.edit));

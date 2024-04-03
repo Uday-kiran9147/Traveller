@@ -131,8 +131,7 @@ class _MyAppState extends State<MyApp> {
               if (!snapshot.hasData) {
                 return const AuthenticationScreen();
               }
-              return const ResponsiveLayout(
-                  webS:  WebAuth(), mobileS:  HomeBloc());
+              return const   HomeBloc();
             },
           ),
 

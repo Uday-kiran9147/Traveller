@@ -15,14 +15,14 @@ import '../../../config/theme/apptheme.dart';
 import '../../../domain/usecases/follow_user.dart';
 import '../../widgets/dialogs.dart';
 
-class Profile extends StatefulWidget {
+class ProfileScreen extends StatefulWidget {
   String? userid;
-  Profile(this.userid, {super.key});
+  ProfileScreen(this.userid, {super.key});
   @override
-  State<Profile> createState() => _ProfileState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
   TabController? tabController;
   @override
   void initState() {
@@ -55,6 +55,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
       body: StreamBuilder<UserRegister>(
           stream: FirebaseFirestore.instance
               .collection('users')

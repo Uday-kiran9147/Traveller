@@ -4,8 +4,7 @@ class DestinationCard extends StatelessWidget {
   final String imageurl;
 
   const DestinationCard(
-      {Key? key, required this.imageurl})
-      : super(key: key);
+      {super.key, required this.imageurl});
 
   @override
   Widget build(BuildContext context) {

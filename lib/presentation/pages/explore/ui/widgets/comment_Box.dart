@@ -76,13 +76,17 @@ class CommentBox extends StatelessWidget {
                             await id.delete();
                           }
                         },
-                        leading: const CircleAvatar(),
-                        title: Text("${data['username']}"),
+                        leading:  CircleAvatar(
+                          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.3),
+                          child: Text(data['username'].toString().substring(0,1)),),
+                        title: Text("${data['comment']}",style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!),
                         subtitle: Text(
-                          data['comment'],
+                          "   ~ "+data['username'],
                           style: Theme.of(context)
                               .textTheme
-                              .bodyMedium!
+                              .bodySmall!
                               .copyWith(color: Colors.black),
                         ),
                       );

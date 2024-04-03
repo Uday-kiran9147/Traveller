@@ -124,7 +124,7 @@ class _PostScreenState extends State<PostScreen> {
                               IncrementReputation incr =
                                   IncrementReputation(post.id);
                               await incr.incrementReputation();
-                              await BlocProvider.of<HomeCubitCubit>(context)
+                              await BlocProvider.of<HomeCubitCubit>(context,listen: false)
                                   .state
                                   .getuser();
                               print("incremented");

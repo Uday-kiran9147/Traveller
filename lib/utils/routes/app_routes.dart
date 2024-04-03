@@ -6,12 +6,12 @@ import 'package:traveler/presentation/pages/profile/edit_profile.dart';
 import 'package:traveler/presentation/pages/profile/profile.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 
-import '../../presentation/pages/home/ui/add_story_screen.dart';
+import '../../presentation/pages/home/ui/drawer/add_story_screen.dart';
 class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteName.addstory:
-      return MaterialPageRoute(builder: (context) => const AddStory());
+      return MaterialPageRoute(builder: (context) => const AddStoryScreen());
       case RouteName.home:
         return MaterialPageRoute(builder: (context) => const HomeBloc());
       case RouteName.authentication:
@@ -22,7 +22,7 @@ class AppRoutes {
         // return MaterialPageRoute(builder: (context) =>NewPostScreen());
         case RouteName.profilescreen:
         final args= settings.arguments;
-        return MaterialPageRoute(builder: (context) =>Profile(args?.toString()));
+        return MaterialPageRoute(builder: (context) =>ProfileScreen(args?.toString()));
         case RouteName.editprofile:
         return MaterialPageRoute(builder: (context) =>const UserInfoForm());
       default:
