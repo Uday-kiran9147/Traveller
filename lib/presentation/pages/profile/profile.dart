@@ -22,7 +22,8 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
   TabController? tabController;
   @override
   void initState() {
@@ -35,33 +36,17 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   UserRegister? randomuser;
 
-  // Future<UserRegister> getRandomuser() async {
-  //   if (widget.userid == null) {
-  //     randomuser = BlocProvider.of<HomeCubitCubit>(context).state.user;
-  //     return randomuser!;
-  //   } else {
-  //     UserRegister getuser = await FirebaseFirestore.instance
-  //         .collection('users')
-  //         .doc(widget.userid)
-  //         .get()
-  //         .then((value) => UserRegister.fromMap(value));
-  //     setState(() {
-  //       randomuser = getuser;
-  //     });
-  //     return getuser;
-  //   }
-  // }
   String owner = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
-      body: StreamBuilder<UserRegister>(
-          stream: FirebaseFirestore.instance
+      body: FutureBuilder<UserRegister>(
+          future: FirebaseFirestore.instance
               .collection('users')
               .doc(widget.userid ?? owner)
-              .snapshots()
-              .map((event) => UserRegister.fromMap(event)),
+              .get().then((value) => UserRegister.fromMap(value)),
+              // .map((event) => UserRegister.fromMap(event)),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text('${snapshot.error}'));
@@ -123,7 +108,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            constraints: const BoxConstraints(maxWidth: 150,minWidth: 80),
+                            constraints: const BoxConstraints(
+                                maxWidth: 150, minWidth: 80),
                             child: Text.rich(
                               textAlign: TextAlign.center,
                               TextSpan(
@@ -140,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                         .textTheme
                                         .bodyMedium!
                                         .copyWith(
-                                          color: AThemes.appThemeOrange,
+                                          color: AppTheme.appThemeOrange,
                                         ),
                                   ),
                                 ],
@@ -217,7 +203,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 ))
                             : SizedBox(
                                 height: 90,
-                                child: TravelListWIdget(randomuser: randomuser, isowner: isowner),
+                                child: TravelListWIdget(
+                                    randomuser: randomuser, isowner: isowner),
                               ),
                         SizedBox(
                           height: 40,
@@ -230,7 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               indicator: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
                                       50), // Creates border
-                                  color: AThemes.primaryColor.withOpacity(0.1)),
+                                  color: AppTheme.primaryColor.withOpacity(0.1)),
                               automaticIndicatorColorAdjustment: true,
                               tabs: [
                                 Tab(

@@ -10,7 +10,7 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        backgroundColor: AThemes.primaryBackgroundLight,
+        backgroundColor: AppTheme.primaryBackgroundLight,
         title: Text("Next Destination",
             style: Theme.of(context)
                 .textTheme

@@ -49,7 +49,7 @@ class _PostScreenState extends State<PostScreen> {
   Widget build(BuildContext context) {
     Post post = widget.post;
     return Scaffold(
-        backgroundColor: AThemes.universalcolor,
+        backgroundColor: AppTheme.universalcolor,
         body: SingleChildScrollView(
           child: Column(children: [
             const SizedBox(
@@ -154,7 +154,7 @@ class _PostScreenState extends State<PostScreen> {
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(30),
                                         topRight: Radius.circular(30))),
-                                backgroundColor: AThemes.primaryBackgroundLight,
+                                backgroundColor: AppTheme.primaryBackgroundLight,
                                 context: context,
                                 builder: (context) {
                                   return CommentBox(
@@ -173,7 +173,7 @@ class _PostScreenState extends State<PostScreen> {
                             },
                             child: Icon(
                               Icons.mode_comment_outlined,
-                              color: AThemes.appThemeOrange,
+                              color: AppTheme.appThemeOrange,
                             )),
                         const Text("--")
                       ],

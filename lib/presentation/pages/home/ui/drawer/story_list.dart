@@ -10,8 +10,8 @@ import 'story_detail_screen.dart';
 class StoryListScreen extends StatelessWidget {
   StoryListScreen({super.key});
 
-  final Stream<QuerySnapshot> _travelstorytstream =
-      FirebaseFirestore.instance.collection("travelstory").snapshots();
+  final Future<QuerySnapshot> _travelstorytstream =
+      FirebaseFirestore.instance.collection("travelstory").get();
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,8 @@ class StoryListScreen extends StatelessWidget {
         backgroundColor: Colors.transparent, // Make app bar transparent
         elevation: 0, // Remove app bar shadow
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _travelstorytstream,
+      body: FutureBuilder<QuerySnapshot>(
+        future: _travelstorytstream,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -55,7 +55,7 @@ class StoryListScreen extends StatelessWidget {
                           storyTitle: data['storyTitle'],
                           created_at: data['created_at'],
                           likes: data['likes'],
-                          photos: data['photos'],
+                          photos: data['photos']??[],
                           travelStory: data['travelStory'],
                           destinationRating: data['destinationRating'],
                           id: data['id'],
@@ -90,7 +90,7 @@ class StoryListScreen extends StatelessWidget {
                           ),
                           image: DecorationImage(
                             image: NetworkImage(
-                              data['photos'].isEmpty
+                              data['photos'].isEmpty || data['photos'][0] == null
                                   ? 'https://via.placeholder.com/400'
                                   : data['photos'][0],
                             ),

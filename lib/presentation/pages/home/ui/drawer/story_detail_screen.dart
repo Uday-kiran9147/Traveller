@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
@@ -22,8 +23,8 @@ class StoryDetail extends StatelessWidget {
           ListView(
             padding: const EdgeInsets.all(5),
             children: [
-              travelStory.photos.isNotEmpty
-                  ? SizedBox(
+              if (travelStory.photos.isNotEmpty)
+                  SizedBox(
                       height: 300,
                       child: Swiper(
                         autoplay: true,
@@ -33,12 +34,12 @@ class StoryDetail extends StatelessWidget {
                           return Image.network(travelStory.photos[index]);
                         },
                       ),
-                    )
-                  : Container(),
-              Text(
+                    ),
+             if(kDebugMode)
+                Text(
                 travelStory.photos.length.toString(),
                 textAlign: TextAlign.end,
-              ),
+                ),
               Container(
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -144,13 +145,13 @@ class StoryDetail extends StatelessWidget {
                       : Container(),
                   Expanded(
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: null,
                         icon: const Icon(Icons.share_outlined),
                         color: Colors.blue),
                   ),
                   Expanded(
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: null,
                         icon: const Icon(Icons.comment_outlined)),
                   ),
                   Expanded(
@@ -158,9 +159,7 @@ class StoryDetail extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         IconButton(
-                            onPressed: () {
-                              // travelStory.likes.add('1');
-                            },
+                            onPressed: null,
                             icon: const Icon(Icons.favorite_border_outlined)),
                         Text(
                           travelStory.likes.toString(),

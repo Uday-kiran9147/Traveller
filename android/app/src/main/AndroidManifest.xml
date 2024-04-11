@@ -3,6 +3,7 @@
    <application
         android:label="Traveller"
         android:name="${applicationName}"
+        android:allowBackup="false"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

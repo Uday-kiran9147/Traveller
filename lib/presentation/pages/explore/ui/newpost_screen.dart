@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
@@ -46,7 +47,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   String? fulladdress;
   bool isloading = false;
 
-  // Function gets the List of addresses from the latitude and longitude
+  // ? 3. Function gets the List of addresses from the latitude and longitude
   Future<List<Placemark>> getaddressfromlatlong(Position position) async {
     /* 
     Sample Placemark object
@@ -65,8 +66,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
         address = """${place.locality}, ${place.subLocality} """;
         fulladdress =
             """${place.locality}, ${place.subLocality}, ${place.administrativeArea}, ${place.country}""";
-      });
-      setState(() {
         waitingforlocation = false;
       });
       return placelist;
@@ -77,7 +76,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     return placelist!;
   }
 
-  // Function Gets the current Position of Device
+  // ? 1. Function Gets the current Position of Device
   Future getCurrentPosition() async {
     debugPrint('getCurrentPosition');
     final haspermission = await handleLocationPermission();
@@ -88,16 +87,16 @@ class _NewPostScreenState extends State<NewPostScreen> {
     });
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) async {
-      setState(() {
+      // setState(() {
         _currentPosition =
             position; // Assigns the current position to _currentPosition variable
-        waitingforlocation = false;
-      });
+        // waitingforlocation = false;
+      // });
       await getaddressfromlatlong(_currentPosition!);
     });
   }
 
-  // Function Requests for location permission
+  // ? 2. Function Requests for location permission
   Future<bool> handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission
@@ -152,7 +151,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
           style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
-      backgroundColor: AThemes.universalcolor,
+      backgroundColor: AppTheme.universalcolor,
       body: Center(
         child: Container(
           constraints: BoxConstraints(maxWidth: 450),
@@ -166,48 +165,59 @@ class _NewPostScreenState extends State<NewPostScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _image != null
-                          ? Expanded(
-                              flex: 2,
-                              child: GestureDetector(
-                                onDoubleTap: () {
-                                  setState(() {
-                                    _image = null;
-                                  });
-                                },
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.5),
+                        margin: const EdgeInsets.only(bottom: 16.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.yellow.shade200,
+                        ),
+                        child: _image != null
+                            ? GestureDetector(
+                              onDoubleTap: () {
+                                setState(() {
+                                  _image = null;
+                                });
+                              },
+                              // _image != null
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
                                 child: Image.file(
                                   scale: 1.0,
+                                  fit: BoxFit.cover,
                                   _image!,
                                   height: double.infinity,
                                   width: double.infinity,
                                 ),
                               ),
                             )
-                          : Expanded(
-                              flex: 2,
-                              child: Center(
-                                  child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: Colors.grey)),
-                                child: GestureDetector(
-                                    onTap: _getImage,
-                                    child: const Icon(
-                                      Icons.image_search_rounded,
-                                      color: Colors.grey,
-                                      size: 120,
-                                    )),
-                              ))),
+                            : Center(
+                                child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: Colors.grey,width: 4)),
+                              child: GestureDetector(
+                                  onTap: _getImage,
+                                  child: const Icon(
+                                    Icons.image_search_rounded,
+                                    color: Colors.grey,
+                                    size: 120,
+                                  )),
+                            ))),
+                    ),
                       const SizedBox(height: 16.0),
                       TextField(
                         controller: _descriptionController,
                         decoration: InputDecoration(
-                          hintText: "description.....",
-                          fillColor: Colors.grey.shade200,
+                          hintText: "write something.....",
+                          fillColor: Colors.blue.shade200,
                           filled: true,
                           border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            // borderSide: BorderSide.none,
+                            borderSide: BorderSide(color: Colors.blue),
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
                           ),
                         ),
                       ),
@@ -216,11 +226,12 @@ class _NewPostScreenState extends State<NewPostScreen> {
                         controller: _locationController,
                         decoration: InputDecoration(
                           hintText: "location (Ladhak, India)",
-                          fillColor: Colors.grey.shade200,
+                          fillColor: Colors.blue.shade200,
                           filled: true,
                           border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            // borderSide: BorderSide.none,
+                            borderSide: BorderSide(color: Colors.blue),
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
                           ),
                         ),
                       ),
@@ -247,19 +258,21 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             ? const LoadingProgress()
                             : SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.70,
+                                height: MediaQuery.of(context).size.width * 0.13,
                                 child: ElevatedButton(
                                   style: ButtonStyle(
                                       backgroundColor: _image != null
                                           ? const MaterialStatePropertyAll(
                                               Colors.green)
                                           : const MaterialStatePropertyAll(
-                                              Colors.grey),
+                                              Colors.black38),
                                       elevation: MaterialStateProperty.all(10),
                                       overlayColor: MaterialStateColor.resolveWith(
-                                          (states) => const Color.fromARGB(
-                                              255, 5, 160, 11))),
+                                          (states) => const Color.fromARGB(255, 5, 160, 11))),
                                   onPressed: _image == null
-                                      ? null
+                                      ? (){
+                                        customSnackbarMessage('Please select an image', context, Colors.orange);
+                                      }
                                       : () async {
                                           if (_formKey.currentState!.validate()) {
                                             // Form is valid, process the data
@@ -267,28 +280,19 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                               setState(() {
                                                 isloading = true;
                                               });
-                                              await BlocProvider.of<ExploreCubit>(
-                                                      context)
-                                                  .postingPostEvent(
-                                                      post: SavePost(
-                                                description:
-                                                    _descriptionController.text,
-                                                location: _locationController.text,
-                                                date: DateTime.now().toString(),
-                                                image: _image!,
-                                              ));
+                                              await _submitPost(context);
                                               setState(() {
                                                 isloading = false;
                                               });
                                             }
                                           }
                                         },
-                                  child: const Text('Post'),
+                                  child: Text('Post',style: Theme.of(context).textTheme.bodyLarge,),
                                 ),
                               ),
                       ),
-                      Text('ADDRESS: ${address ?? ""}'),
-                      Text('Full adddress: ${fulladdress ?? ""}'),
+                      if (!kDebugMode) Text('ADDRESS: ${address ?? ""}'),
+                      Text('location: ${fulladdress ?? ""}'),
                     ],
                   ),
                 ),
@@ -298,5 +302,17 @@ class _NewPostScreenState extends State<NewPostScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _submitPost(BuildContext context) {
+    return BlocProvider.of<ExploreCubit>(context)
+      .postingPostEvent(
+          post: SavePost(
+          description:
+          _descriptionController.text,
+          location: _locationController.text,
+          date: DateTime.now().toString(),
+          image: _image!,
+  ));
   }
 }

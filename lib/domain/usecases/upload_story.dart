@@ -34,6 +34,7 @@ class UploadTravelStory {
         "created_at": created_at,
         "likes": 0,
         "travelStory": travelStory,
+        "photos":[],
         "destinationRating": destinationRating,
       });
 

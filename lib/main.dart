@@ -20,12 +20,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // if (kIsWeb) {
+  if (kIsWeb) {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-  // } else {
+  } else {
     await Firebase.initializeApp();
-  // }
+  }
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -75,17 +75,17 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             // Define the default brightness and colors.
             // brightness: Brightness.dark,
-            scaffoldBackgroundColor: AThemes.primaryBackgroundLight,
+            scaffoldBackgroundColor: AppTheme.primaryBackgroundLight,
             useMaterial3: true,
             //splash color is a color that appears behind a button's label when the button is tapped.
-            splashColor: AThemes.primaryColor,
+            splashColor: AppTheme.primaryColor,
             colorScheme: ColorScheme.light(
-              primary: AThemes.primaryColor,
+              primary: AppTheme.primaryColor,
               // primaryVariant: AThemes.mainThemeDark,
-              secondary: AThemes.primaryBackgroundLight,
+              secondary: AppTheme.primaryBackgroundLight,
               // secondaryVariant: AThemes.universalcolorlight,
               surface: Colors.white,
-              background: AThemes.primaryColor,
+              background: AppTheme.primaryColor,
               error: Colors.red,
               onPrimary: Colors.white,
               onSecondary: Colors.black,

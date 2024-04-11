@@ -103,7 +103,7 @@ class PostTile extends StatelessWidget {
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(30),
                                   topRight: Radius.circular(30))),
-                          backgroundColor: AThemes.primaryBackgroundLight,
+                          backgroundColor: AppTheme.primaryBackgroundLight,
                           context: context,
                           builder: (context) {
                             return CommentBox(

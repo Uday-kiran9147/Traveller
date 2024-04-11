@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
-import '../../../../../data/repository/authentication.dart';
 import 'loginform.dart';
 import 'signinform.dart';
 
@@ -18,7 +17,6 @@ class AuthAccounts extends StatefulWidget {
 class _AuthAccountsState extends State<AuthAccounts> {
   late bool formVisible;
   int? _formsIndex;
-  GoogleAuth googleAuth = GoogleAuth();
 
   @override
   void initState() {

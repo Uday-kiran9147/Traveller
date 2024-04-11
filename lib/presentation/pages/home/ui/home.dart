@@ -41,18 +41,12 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   int index = 0; // initial index of the [BottomNavigationBar] is 0.
-  List<Widget> _page = [];
-
-  @override
-  void initState() {
-    _page = [
+  List<Widget> _page = [
       const HomeScreen(),
       // const ExploreScreen(),
       const GridScreen(),
       ProfileScreen(null),
     ];
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +63,7 @@ class _MyHomeState extends State<MyHome> {
           // type: BottomNavigationBarType.fixed, // shifting type creates conflict with backgroundcolor
           // iconSize: 16,
           elevation: 5,
-          backgroundColor: AThemes.primaryBackgroundLight ,
+          backgroundColor: AppTheme.primaryBackgroundLight ,
           // unselectedItemColor: Colors.grey,
           indicatorColor: Theme.of(context).primaryColor.withOpacity(0.5),
           selectedIndex: index,
