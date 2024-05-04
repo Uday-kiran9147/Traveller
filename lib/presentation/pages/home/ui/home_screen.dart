@@ -2,19 +2,13 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:traveler/domain/usecases/signout.dart';
 import 'package:traveler/presentation/pages/explore/ui/following_screen.dart';
 import 'package:traveler/presentation/pages/home/ui/drawer/add_story_screen.dart';
 import 'package:traveler/presentation/pages/home/ui/drawer/fab_icons.dart';
 import 'package:traveler/presentation/pages/home/ui/drawer/story_list.dart';
-import '../../../../data/datasources/local/urls.dart';
-import '../../../../domain/models/travel_story.dart';
 import '../../../../domain/models/user.dart';
-import '../../../../utils/routes/route_names.dart';
 import '../../explore/ui/newpost_screen.dart';
 import '../cubit/home_cubit_cubit.dart';
-import 'drawer/story_detail_screen.dart';
-import 'widgets/destination_box.dart';
 import 'widgets/drawer.dart';
 
 // ignore: must_be_immutable

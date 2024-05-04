@@ -5,7 +5,6 @@ import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/explore/ui/explore_grid_screen.dart';
 import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
 import 'package:traveler/presentation/pages/profile/profile.dart';
-import '../../explore/ui/following_screen.dart';
 import 'home_screen.dart';
 
 class HomeBloc extends StatefulWidget {

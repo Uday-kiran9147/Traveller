@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-import 'package:traveler/app/responsive.dart';
-import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/auth/ui/authentication.dart';
-import 'package:traveler/presentation/pages/auth/ui/web_auth.dart';
-import 'package:traveler/presentation/pages/explore/cubit/explore_cubit.dart';
-import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
 import 'package:traveler/presentation/pages/home/ui/home.dart';
-import 'package:traveler/presentation/pages/profile/cubit/profile_cubit.dart';
-import 'package:traveler/utils/constants/sharedprefs.dart';
 import 'package:traveler/main.dart';
 
 void main() {

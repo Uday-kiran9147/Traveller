@@ -42,7 +42,7 @@ dependencies:
   equatable:
   intl: ^0.18.1
   bloc_test: ^9.1.5
-
+  font_awesome_flutter: ^10.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

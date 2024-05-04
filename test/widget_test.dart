@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:traveler/main.dart';
 import 'package:traveler/presentation/pages/auth/ui/authentication.dart';
 
 void main() {
