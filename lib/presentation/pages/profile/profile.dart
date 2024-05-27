@@ -39,13 +39,12 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
-      body: FutureBuilder<UserRegister>(
-          future: FirebaseFirestore.instance
+      // backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+      body: StreamBuilder<UserRegister>(
+          stream: FirebaseFirestore.instance
               .collection('users')
-              .doc(widget.userid ?? owner)
-              .get().then((value) => UserRegister.fromMap(value)),
-              // .map((event) => UserRegister.fromMap(event)),
+              .doc(widget.userid ?? owner).snapshots()
+              .map((event) => UserRegister.fromMap(event)),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text('${snapshot.error}'));
