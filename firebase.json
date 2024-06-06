@@ -1,14 +1,1 @@
-{
-  "extensions": {},
-  "hosting": {
-    "source": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "frameworksBackend": {
-      "region": "us-east1"
-    }
-  }
-}
+{"extensions":{},"hosting":{"source":".","ignore":["firebase.json","**/.*","**/node_modules/**"],"frameworksBackend":{"region":"us-east1"}},"flutter":{"platforms":{"android":{"default":{"projectId":"quizmaker2-565b6","appId":"1:693150012196:android:0f1d829f7ed18aaebd19b1","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"quizmaker2-565b6","configurations":{"android":"1:693150012196:android:0f1d829f7ed18aaebd19b1","ios":"1:693150012196:ios:003e0590e1885f08bd19b1","web":"1:693150012196:web:ed1b32e46c3127a9bd19b1"}}}}}}

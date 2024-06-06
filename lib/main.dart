@@ -15,7 +15,7 @@ import 'package:traveler/utils/constants/sharedprefs.dart';
 import 'package:traveler/utils/routes/app_routes.dart';
 import './firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
@@ -27,7 +27,7 @@ void main() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]);
+  ]);  
   runApp(const MyApp());
 }
 
