@@ -42,7 +42,7 @@ jobs:
           body: "This is the Traveler release."
           draft: false
           prerelease: false
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TRAVELER_TOKEN }}
 
       # Upload the APK to the release
       - name: Upload APK to Release
@@ -52,4 +52,4 @@ jobs:
           asset_path: build/app/outputs/apk/release/app-release.apk
           asset_name: traveler-release.apk
           asset_content_type: application/vnd.android.package-archive
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TRAVELER_TOKEN }}
