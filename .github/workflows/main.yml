@@ -14,31 +14,42 @@ jobs:
     name: Build & Release
     runs-on: windows-latest
     steps:
+      # Checkout the code
       - uses: actions/checkout@v2
+
+      # Set up Java for Flutter
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '12'
+
+      # Set up Flutter
       - uses: subosito/flutter-action@v2
         with:
-          # flutter-version: '2.10.2'
           channel: 'stable'
           architecture: 'x64'
-      - run: |
-          flutter build apk --release
-      - uses: actions/upload-artifact@v3
+
+      # Build the APK for release
+      - run: flutter build apk --release
+
+      # Create a release and upload the APK as a release artifact
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
         with:
-          name: traveler-release.apk
-          path: build/app/outputs/apk/release/app-release.apk
-      - uses: actions/create-release@v1
-        with:
-          tag_name: v1.0.0  # Replace with your desired tag name
+          tag_name: v1.0.0  # Replace with your desired version or use dynamic versioning
           name: Traveler Release
-          body: This is a release for Traveler.
-      - uses: ncipollo/release-action@v1
+          body: "This is the Traveler release."
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Upload the APK to the release
+      - name: Upload APK to Release
+        uses: ncipollo/release-action@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: build/app/outputs/apk/release/app-release.apk
           asset_name: traveler-release.apk
           asset_content_type: application/vnd.android.package-archive
-          token: ${{ secrets.TRAVELER_TOKEN }}  
+          token: ${{ secrets.GITHUB_TOKEN }}
