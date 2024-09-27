@@ -35,9 +35,10 @@ jobs:
           tag_name: v1.0.0  # Replace with your desired tag name
           name: Traveler Release
           body: This is a release for Traveler.
-      - uses: actions/upload-release-asset@v1
+      - uses: ncipollo/release-action@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: build/app/outputs/apk/release/app-release.apk
           asset_name: traveler-release.apk
           asset_content_type: application/vnd.android.package-archive
+          token: ${{ secrets.TRAVELER_TOKEN }}  
