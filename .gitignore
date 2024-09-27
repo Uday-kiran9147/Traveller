@@ -1,10 +1,10 @@
 *.firebase
 
-*lib/firebase_options.dart
-*android/app/google-services.json
-*pubspec.lock
+# *lib/firebase_options.dart
+# *android/app/google-services.json
+# *pubspec.lock
 
-*android
+# *android
 *ios
 *server
 # Miscellaneous
