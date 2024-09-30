@@ -80,7 +80,7 @@ class PostTile extends StatelessWidget {
                 child: Container(
                   height: 400,
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
+                      // border: Border.all(color: Colors.grey),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10.0)),
                       image: DecorationImage(

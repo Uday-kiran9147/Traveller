@@ -68,7 +68,8 @@ class _GridScreenState extends State<GridScreen> {
                         .get(),
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        // return const Center(child: CircularProgressIndicator());
+                        return Container();
                       }
 
                       if (snapshot.hasError) {

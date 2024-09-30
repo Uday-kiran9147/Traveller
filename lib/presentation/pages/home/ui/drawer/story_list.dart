@@ -68,10 +68,10 @@ class StoryListScreen extends StatelessWidget {
                   margin: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(5),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
+                        color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 2,
                         blurRadius: 5,
                         offset: const Offset(0, 3),
@@ -86,7 +86,7 @@ class StoryListScreen extends StatelessWidget {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(20),
+                            top: Radius.circular(5),
                           ),
                           image: DecorationImage(
                             image: NetworkImage(
@@ -98,7 +98,7 @@ class StoryListScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
+                      Container(color: Colors.grey.shade300,width: double.infinity,
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,8 +123,8 @@ class StoryListScreen extends StatelessWidget {
                             Text(
                               "Posted on ${DateFormat.yMd().format(DateTime.parse(data['created_at']))}",
                               // 'Posted on ${data['created_at']}',
-                              style: const TextStyle(
-                                color: Colors.grey, // Customize the date color
+                              style:  TextStyle(
+                                color: Colors.grey.shade700, // Customize the date color
                               ),
                             ),
                           ],

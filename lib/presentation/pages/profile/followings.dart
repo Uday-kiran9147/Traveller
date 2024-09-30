@@ -131,8 +131,8 @@ class FollowList extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                Colors.blue,
-                Colors.deepPurple,
+                AppTheme.primaryColor,
+                Colors.grey,
               ]),
               color: AppTheme.universalcolor,
               borderRadius: BorderRadius.circular(12),
