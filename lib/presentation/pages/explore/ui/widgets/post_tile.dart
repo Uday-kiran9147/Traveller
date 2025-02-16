@@ -9,160 +9,135 @@ import 'package:traveler/utils/routes/route_names.dart';
 import '../../../../../domain/models/post.dart';
 import '../../../../widgets/dialogs.dart';
 
-// ignore: must_be_immutable
 class PostTile extends StatelessWidget {
-  PostTile({
-    Key? key,
-    required this.post,
-  }) : super(key: key);
-
   final Post post;
-  String owner = FirebaseAuth.instance.currentUser!.uid;
+  final String owner = FirebaseAuth.instance.currentUser!.uid;
+
+  PostTile({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bool isowner = post.userID == owner ? true : false;
+    bool isOwner = post.userID == owner;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      decoration: const BoxDecoration(
-          // border: Border.all(color: Colors.red),
-          ),
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            trailing: IconButton(
-              onPressed: () {
-                isowner
-                    ? showBottomSheetCustom(context, post.description!, post.id)
-                    : null;
-              },
-              icon: const Icon(Icons.more_vert),
-            ),
             leading: GestureDetector(
               onTap: () {
-                if (post.userID == owner) {
-                  Navigator.pushNamed(context, RouteName.profilescreen,
-                      arguments: null);
-                } else {
-                  Navigator.pushNamed(context, RouteName.profilescreen,
-                      arguments: post.userID);
-                }
+                Navigator.pushNamed(context, RouteName.profilescreen,
+                    arguments: isOwner ? null : post.userID);
               },
               child: CircleAvatar(
-                child: Text(post.username.toUpperCase().substring(0, 2)),
+                radius: 20,
+                child: Text(
+                  post.username.substring(0, 2).toUpperCase(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
-            title: Row(
-              children: [
-                Text(
-                  post.username,
-                  overflow: TextOverflow.clip,
-                ),
-                Container(
-                  height: 15,
-                  width: 15,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage(
-                      "assets/verified.png",
-                    ),
-                  )),
-                )
-              ],
+            title: Text(
+              post.username,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Text(post.location!),
+            subtitle: Text(post.location ?? ""),
+            trailing: isOwner
+                ? IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    onPressed: () {
+                      showBottomSheetCustom(
+                          context, post.description!, post.id);
+                    },
+                  )
+                : null,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: 400,
-                  decoration: BoxDecoration(
-                      // border: Border.all(color: Colors.grey),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      image: DecorationImage(
-                          fit: BoxFit.fitWidth,
-                          image: NetworkImage(post.imageURL))),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      child: Colwidget("", Icons.chat_bubble_outline_rounded),
-                      onTap: () {
-                        showModalBottomSheet(
-                          isDismissible: true,
-                          enableDrag: true,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30))),
-                          backgroundColor: AppTheme.primaryBackgroundLight,
-                          context: context,
-                          builder: (context) {
-                            return CommentBox(
-                              post: Post(
-                                  id: post.id,
-                                  popularity: post.popularity,
-                                  username: post.username,
-                                  imageURL: post.imageURL,
-                                  description: post.description,
-                                  userID: post.userID,
-                                  location: post.location,
-                                  date: post.date),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 50),
-                      child: Colwidget("", Icons.share_rounded),
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        IncrementReputation incr = IncrementReputation(post.id);
-                        await incr.incrementReputation();
-                        await BlocProvider.of<HomeCubitCubit>(context,
-                                listen: false)
-                            .state
-                            .getuser();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 50),
-                        child: Colwidget(convertToKNotation(post.popularity),
-                            Icons.favorite_border_rounded),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.network(
+              post.imageURL,
+              width: double.infinity,
+              height: 350,
+              fit: BoxFit.cover,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Text(
-              "  ${post.description!}",
+              post.description ?? "",
+              style: const TextStyle(fontSize: 14, color: Colors.black87),
             ),
           ),
-          const Divider(color: Color.fromARGB(255, 210, 208, 208),),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.comment_rounded),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30)),
+                      ),
+                      backgroundColor: AppTheme.primaryBackgroundLight,
+                      builder: (context) => CommentBox(post: post),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.share_rounded),
+                  onPressed: () async {
+                    // make share functionality commingsoon in a dialog
+                   await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return ScaffoldMessenger(
+                          child: AlertDialog(
+                            title: const Text('Coming Soon'),
+                            content: const Text(
+                                'This feature is coming soon. Stay tuned!'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.arrow_upward, color: Colors.green),
+                      const SizedBox(width: 4),
+                      Text(convertToKNotation(post.popularity)),
+                    ],
+                  ),
+                  onPressed: () async {
+                    await IncrementReputation(post.id).incrementReputation();
+                    await BlocProvider.of<HomeCubitCubit>(context, listen: false)
+                        .state
+                        .getuser();
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
-  }
-
-  Widget Rowwidget(String text, IconData icon) {
-    return Row(children: [Text(text), Icon(icon)]);
-  }
-
-  Widget Colwidget(String text, IconData icon) {
-    return Column(children: [Text(text), Icon(icon)]);
   }
 }
 
