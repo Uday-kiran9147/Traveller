@@ -20,66 +20,120 @@ class PostTile extends StatelessWidget {
     bool isOwner = post.userID == owner;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ListTile(
-            leading: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, RouteName.profilescreen,
-                    arguments: isOwner ? null : post.userID);
-              },
-              child: CircleAvatar(
-                radius: 20,
-                child: Text(
-                  post.username.substring(0, 2).toUpperCase(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+          // Header
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, RouteName.profilescreen,
+                      arguments: isOwner ? null : post.userID);
+                },
+                child: Builder(
+                  builder: (context) {
+                    var color = Colors.primaries[post.username.hashCode % Colors.primaries.length];
+                    return CircleAvatar(
+                      radius: 22,
+                      backgroundColor: color.shade50,
+                      child: Text(
+                        post.username.substring(0, 2).toUpperCase(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: color,
+                        ),
+                      ),
+                    );
+                  }
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      post.username,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    if (post.location != null && post.location!.isNotEmpty)
+                      Row(
+                        children: [
+                          const Icon(Icons.location_on, size: 14, color: Colors.grey),
+                          const SizedBox(width: 2),
+                          Text(
+                            post.location!,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+              if (isOwner)
+                IconButton(
+                  icon: const Icon(Icons.more_vert),
+                  onPressed: () {
+                    showBottomSheetCustom(context, post.description!, post.id);
+                  },
+                ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          // Image
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: AspectRatio(
+              aspectRatio: 4 / 3,
+              child: Image.network(
+                post.imageURL,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return Container(
+                    color: Colors.grey.shade200,
+                    child: const Center(child: CircularProgressIndicator()),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.grey.shade200,
+                  child: const Center(child: Icon(Icons.broken_image, size: 48)),
                 ),
               ),
             ),
-            title: Text(
-              post.username,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text(post.location ?? ""),
-            trailing: isOwner
-                ? IconButton(
-                    icon: const Icon(Icons.more_vert),
-                    onPressed: () {
-                      showBottomSheetCustom(
-                          context, post.description!, post.id);
-                    },
-                  )
-                : null,
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-              post.imageURL,
-              width: double.infinity,
-              height: 350,
-              fit: BoxFit.cover,
+          const SizedBox(height: 10),
+          // Description
+          if (post.description != null && post.description!.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              child: Text(
+                post.description!,
+                style: const TextStyle(fontSize: 15, color: Colors.black87),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              post.description ?? "No description provided",
-              style: const TextStyle(fontSize: 14, color: Colors.black87),
-            ),
-          ),
+          const SizedBox(height: 8),
+          // Actions Row
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
-                icon: const Icon(Icons.comment_outlined),
+                icon: const Icon(Icons.comment_outlined, color: Colors.blueGrey),
+                tooltip: "Comments",
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
                     shape: const RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30)),
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
                     ),
                     backgroundColor: AppTheme.universalColor,
                     builder: (context) => CommentBox(post: post),
@@ -87,56 +141,65 @@ class PostTile extends StatelessWidget {
                 },
               ),
               IconButton(
-                icon: const Icon(Icons.share_rounded),
+                icon: const Icon(Icons.share_rounded, color: Colors.blueGrey),
+                tooltip: "Share",
                 onPressed: () async {
-                  // make share functionality commingsoon in a dialog
-                 await showDialog(
+                  await showDialog(
                     context: context,
                     builder: (context) {
-                      return ScaffoldMessenger(
-                        child: AlertDialog(
-                          title: const Text('Coming Soon'),
-                          content: const Text(
-                              'This feature is coming soon. Stay tuned!'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ),
+                      return AlertDialog(
+                        title: const Text('Coming Soon'),
+                        content: const Text('This feature is coming soon. Stay tuned!'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
                       );
                     },
                   );
                 },
               ),
-              Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: Row(
-                      mainAxisSize: MainAxisSize.min,
+              const Spacer(),
+              // Popularity (Upvote)
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(24),
+                  onTap: () async {
+                    await IncrementReputation(post.id).incrementReputation();
+                    await BlocProvider.of<HomeCubitCubit>(context, listen: false)
+                        .state
+                        .getuser();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    child: Row(
                       children: [
-                        Icon(Icons.arrow_upward, color: Colors.green),
+                        const Icon(Icons.arrow_upward, color: Colors.green, size: 22),
                         const SizedBox(width: 4),
-                        Text(convertToKNotation(post.popularity)),
+                        Text(
+                          convertToKNotation(post.popularity),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                            fontSize: 15,
+                          ),
+                        ),
                       ],
                     ),
-                    onPressed: () async {
-                      await IncrementReputation(post.id).incrementReputation();
-                      await BlocProvider.of<HomeCubitCubit>(context, listen: false)
-                          .state
-                          .getuser();
-                    },
                   ),
-                ],
+                ),
               ),
             ],
           ),
-          Divider(thickness: 1,color: Colors.grey,)
+          Divider(
+            color: Colors.grey.shade300,
+            thickness: 1, 
+          ),
         ],
       ),
     );
