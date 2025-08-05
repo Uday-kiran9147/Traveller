@@ -39,7 +39,7 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
-  int index = 2; // initial index of the [BottomNavigationBar] is 0.
+  int index = 0; // initial index of the [BottomNavigationBar] is 0.
   List<Widget> _page = [
       const HomeScreen(),
       // const ExploreScreen(),
@@ -71,15 +71,12 @@ class _MyHomeState extends State<MyHome> {
           }),
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-            // NavigationDestination(
-            //     icon: Icon(Icons.follow_the_signs_outlined),
-            //     label: "following"),
-            NavigationDestination(
-                icon: Icon(Icons.explore), label: "explore"),
+             NavigationDestination(
+                icon: Icon(Icons.explore), label: "Explore"),
             // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar]
             // so, I had to use type property of [BottomNavigationBar] to [BottomNavigationBarType.fixed].
             NavigationDestination(
-                icon: Icon(Icons.person_2_rounded), label: "profile"),
+                icon: Icon(Icons.person_2_rounded), label: "Profile"),
           ],
         ));
   }

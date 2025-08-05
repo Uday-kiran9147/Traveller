@@ -97,39 +97,29 @@ class TextFieldCustom extends StatelessWidget {
       obscureText: obscureText,
       controller: controller,
       decoration: InputDecoration(
-      prefixIcon: Icon(
-        icon,
-        color: AppTheme.primaryColor,
-      ),
-      hintText: hint,
-      hintStyle: const TextStyle(
-        color: Colors.white,
-      ),
-      border: OutlineInputBorder(
-        borderSide: const BorderSide(
-        color: Color.fromARGB(255, 253, 2, 240),
+        prefixIcon: Icon(
+          icon,
+          color: AppTheme.primaryColor,
         ),
-        borderRadius: const BorderRadius.all(
-        Radius.circular(8.0),
+        hintText: hint,
+        hintStyle: const TextStyle(
+          color: Colors.grey,
         ),
-      ),
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(
-        color:  const Color.fromARGB(255, 100, 34, 206)
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Color.fromARGB(255, 253, 2, 240),
+          ),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(8.0),
+          ),
         ),
-        borderRadius: BorderRadius.all(
-        Radius.circular(8.0),
+        enabledBorder: const OutlineInputBorder(
+          borderSide:
+              BorderSide(color: const Color.fromARGB(255, 100, 34, 206)),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8.0),
+          ),
         ),
-      ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(
-        color:  Color.fromARGB(255, 253, 2, 240), // Set focused border color to yellow
-        width: 2.0,
-        ),
-        borderRadius: BorderRadius.all(
-        Radius.circular(8.0),
-        ),
-      ),
       ),
     );
   }
