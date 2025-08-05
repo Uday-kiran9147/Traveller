@@ -30,7 +30,7 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       margin: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: AppTheme.background,
+        color: AppTheme.secondaryBackground,
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: ListView(

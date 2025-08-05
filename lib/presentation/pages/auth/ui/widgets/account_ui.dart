@@ -29,7 +29,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
     return Scaffold(
       body: Container(
         height: double.infinity,
-        color: AppTheme.background,
+        color: AppTheme.secondaryBackground,
         child: SingleChildScrollView(
           child: Column(            
             spacing: 20,
@@ -66,7 +66,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
                             backgroundColor:  AppTheme.buttonBackground,
                             shape: RoundedRectangleBorder(
                               side: _formsIndex == 1
-                                  ? BorderSide(color: AppTheme.d)
+                                  ? BorderSide(color: AppTheme.accentColor)
                                   : BorderSide.none,
                               borderRadius: BorderRadius.circular(20.0),
                             ),
@@ -85,7 +85,7 @@ class _AuthAccountsState extends State<AuthAccounts> {
                             backgroundColor: AppTheme.buttonBackground,
                             shape: RoundedRectangleBorder(
                               side: _formsIndex == 2
-                                  ? BorderSide(color: AppTheme.d)
+                                  ? BorderSide(color: AppTheme.accentColor)
                                   : BorderSide.none,
                               borderRadius: BorderRadius.circular(20.0),
                             ),

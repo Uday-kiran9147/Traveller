@@ -31,10 +31,7 @@ class TravelListWIdget extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: const Color.fromARGB(
                         141, 135, 134, 134),
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black54,
-                    ),
+                   
                     borderRadius:
                         BorderRadius.circular(10)),
                 height: 70,

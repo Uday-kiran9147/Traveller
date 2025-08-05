@@ -10,7 +10,7 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        backgroundColor: AppTheme.primaryBackgroundLight,
+        backgroundColor: AppTheme.accentColor,
         title: Text("Next Destination",
             style: Theme.of(context)
                 .textTheme
@@ -39,7 +39,6 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
               },
               child: const Text(
                 "Add",
-                style: TextStyle(color: Colors.green),
               )),
           TextButton(
               onPressed: () {

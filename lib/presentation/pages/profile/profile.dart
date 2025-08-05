@@ -10,7 +10,6 @@ import 'package:traveler/presentation/pages/profile/cubit/profile_cubit.dart';
 import 'package:traveler/presentation/pages/profile/followings.dart';
 import 'package:traveler/presentation/pages/profile/widgets/travel_list_container.dart';
 import 'package:traveler/utils/routes/route_names.dart';
-import '../../../config/theme/apptheme.dart';
 import '../../../domain/usecases/follow_user.dart';
 import '../../widgets/dialogs.dart';
 
@@ -43,7 +42,8 @@ class _ProfileScreenState extends State<ProfileScreen>
       body: StreamBuilder<UserRegister>(
           stream: FirebaseFirestore.instance
               .collection('users')
-              .doc(widget.userid ?? owner).snapshots()
+              .doc(widget.userid ?? owner)
+              .snapshots()
               .map((event) => UserRegister.fromMap(event)),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -60,82 +60,101 @@ class _ProfileScreenState extends State<ProfileScreen>
                     return ListView(
                       physics: const BouncingScrollPhysics(),
                       children: [
-                        Text(
-                          randomuser.username,
-                          style: Theme.of(context).textTheme.headlineLarge,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Stack(
-                              children: [
-                                Container(
-                                    height: 150,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black),
-                                        borderRadius: BorderRadius.circular(20),
-                                        image: (randomuser.profileurl == null ||
-                                                randomuser.profileurl!
-                                                        .startsWith('http') ==
-                                                    false)
-                                            ? const DecorationImage(
-                                                // opacity: 0.75,
-                                                fit: BoxFit.cover,
-                                                image: AssetImage(
-                                                    'assets/noimage.png'),
-                                              )
-                                            : DecorationImage(
-                                                // opacity: 0.75,
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(
-                                                  randomuser.profileurl!,
-                                                )))),
-                                isowner
-                                    ? IconButton.filled(
-                                        onPressed: () {
-                                          Navigator.pushNamed(
-                                              context, RouteName.editprofile);
-                                        },
-                                        icon: const Icon(Icons.edit))
-                                    : Container()
-                              ],
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            constraints: const BoxConstraints(
-                                maxWidth: 150, minWidth: 80),
-                            child: Text.rich(
-                              textAlign: TextAlign.center,
-                              TextSpan(
-                                style: Theme.of(context).textTheme.bodyMedium,
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: '${randomuser.username} • ',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!),
-                                  TextSpan(
-                                    text: randomuser.tag!,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          color: AppTheme.appThemeOrange,
-                                        ),
-                                  ),
-                                ],
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          width: double.infinity,
+                          color: Colors.blue.shade400,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                randomuser.username,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
+                              if (isowner)
+                                OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, RouteName.editprofile);
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(color: Colors.white),
+                                  ),
+                                  child: const Text(
+                                    'Edit',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
-                        Text(
-                            randomuser.bio!.isEmpty ? '-Bio-' : randomuser.bio!,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyMedium!),
+                        const SizedBox(height: 20),
+                        // Avatar and user info
+                        Row(
+                          spacing: 20,
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                shape: BoxShape.circle,
+                                image: (randomuser.profileurl == null ||
+                                        randomuser.profileurl!
+                                                .startsWith('http') ==
+                                            false)
+                                    ? const DecorationImage(
+                                        // opacity: 0.75,
+                                        fit: BoxFit.cover,
+                                        image: AssetImage('assets/noimage.png'),
+                                      )
+                                    : DecorationImage(
+                                        // opacity: 0.75,
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                          randomuser.profileurl!,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  randomuser.username,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("${randomuser.tag!}",
+                                        style: TextStyle(color: Colors.grey)),
+                                    SizedBox(width: 4),
+                                    Icon(Icons.circle,
+                                        color: Colors.blue, size: 8),
+                                  ],
+                                ),
+                                Text(
+                                  randomuser.bio!.isEmpty
+                                      ? '-Bio-'
+                                      : randomuser.bio!,
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+
                         isowner
                             ? Text(
                                 randomuser.email,
@@ -204,47 +223,42 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 child: TravelListWIdget(
                                     randomuser: randomuser, isowner: isowner),
                               ),
-                        SizedBox(
-                          height: 40,
-                          width: double.maxFinite,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: TabBar(
-                              isScrollable: true,
-                              unselectedLabelColor: Colors.grey,
-                              indicator: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                      50), // Creates border
-                                  color: AppTheme.primaryColor.withOpacity(0.1)),
-                              automaticIndicatorColorAdjustment: true,
-                              tabs: [
-                                Tab(
-                                  icon: Icon(
-                                    Icons.grid_on,
-                                    color: Theme.of(context)
-                                        .tabBarTheme
-                                        .labelColor,
-                                  ),
-                                ),
-                                const Tab(
-                                  icon: Icon(Icons.person_pin),
-                                ),
-                                const Tab(
-                                  icon: Icon(Icons.bookmark_border),
-                                ),
-                              ],
-                              controller: tabController,
-                            ),
+
+                        // Buttons Grid
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Wrap(
+                            spacing: 12,
+                            runSpacing: 12,
+                            children: [
+                              _buildProfileButton(
+                                  Icons.calendar_today, "Following", () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FollowingScreen(
+                                              index: 0,
+                                              userid: randomuser.uid,
+                                              username: randomuser.username,
+                                            )));
+                              }),
+                              _buildProfileButton(Icons.group, "Followers", () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FollowingScreen(
+                                              index: 1,
+                                              userid: randomuser.uid,
+                                              username: randomuser.username,
+                                            )));
+                              }),
+                              _buildProfileButton(
+                                  Icons.favorite_border, "Reputation", () {}),
+                              _buildProfileButton(
+                                  Icons.list_alt, "Upcoming Trips", () {},
+                                  highlight: true),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 400,
-                          child:
-                              TabBarView(controller: tabController, children: [
-                            posts(randomuser),
-                            const Center(child: Text('Empty,\nComing soon!')),
-                            const Center(child: Text('Empty,\nComing soon!')),
-                          ]),
                         ),
                       ],
                     );
@@ -298,19 +312,45 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Container countContainer(IconData icon, int count, String text) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.red),
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-      ),
-      width: 70,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [Icon(icon), Text(count.toString()), Text(text)],
+  Widget _buildProfileButton(
+    IconData icon,
+    String label,
+    VoidCallback onTap, {
+    bool highlight = false,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 150,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: highlight ? Colors.blue.shade50 : Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: Colors.blue),
+            const SizedBox(height: 8),
+            Text(label, textAlign: TextAlign.center),
+          ],
+        ),
       ),
     );
   }
+}
+
+Container countContainer(IconData icon, int count, String text) {
+  return Container(
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.red),
+      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+    ),
+    width: 70,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [Icon(icon), Text(count.toString()), Text(text)],
+    ),
+  );
 }
 
 class DecoratedContainer extends StatelessWidget {

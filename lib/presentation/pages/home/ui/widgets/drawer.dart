@@ -47,29 +47,38 @@ ListView buildDrawer(BuildContext context, HomeCubitState state) {
             ],
           ),
         ),
-        ListTile(
-          onTap: () async {
-            bool isSignout = await SignOut.signoutuser();
-            if (isSignout) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                RouteName.authentication,
-                (route) => true,
-              );
-            } // remove the drawer
-          },
-          leading: const Icon(
-            Icons.logout_outlined,
-            color: Colors.red,
+        Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Colors.grey.shade300, width: 1),
+            ),
           ),
-          title: const Text(
-            "Logout",
-            style: TextStyle(
-              fontSize: 16,
+          child: ListTile(
+            contentPadding: const EdgeInsets.all(8),
+            onTap: () async {
+              bool isSignout = await SignOut.signoutuser();
+              if (isSignout) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteName.authentication,
+                  (route) => true,
+                );
+              } // remove the drawer
+            },
+            leading: const Icon(
+              Icons.logout_outlined,
+              color: Colors.red,
+            ),
+            title: const Text(
+              "Logout",
+              style: TextStyle(
+                fontSize: 16,
+              ),
             ),
           ),
         ),
         ListTile(
+          contentPadding: const EdgeInsets.all(8),
           onTap: () {
             Navigator.push(
               context,
@@ -90,6 +99,7 @@ ListView buildDrawer(BuildContext context, HomeCubitState state) {
           ),
         ),
         ListTile(
+          contentPadding: const EdgeInsets.all(8),
           onTap: () {
             Navigator.pushNamed(context, RouteName.addstory);
           },

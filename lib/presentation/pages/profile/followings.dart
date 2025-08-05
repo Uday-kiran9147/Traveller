@@ -134,7 +134,7 @@ class FollowList extends StatelessWidget {
                 AppTheme.primaryColor,
                 Colors.grey,
               ]),
-              color: AppTheme.universalcolor,
+              color: AppTheme.backgroundLight,
               borderRadius: BorderRadius.circular(12),
             ),
             child: ListTile(

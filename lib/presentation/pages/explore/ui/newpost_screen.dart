@@ -151,7 +151,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
           style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
-      backgroundColor: AppTheme.universalcolor,
+      backgroundColor: AppTheme.backgroundLight,
       body: Center(
         child: Container(
           constraints: BoxConstraints(maxWidth: 450),

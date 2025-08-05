@@ -19,10 +19,8 @@ class PostTile extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isOwner = post.userID == owner;
 
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 3,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -65,76 +63,80 @@ class PostTile extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
-              post.description ?? "",
+              post.description ?? "No description provided",
               style: const TextStyle(fontSize: 14, color: Colors.black87),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.comment_rounded),
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30)),
-                      ),
-                      backgroundColor: AppTheme.primaryBackgroundLight,
-                      builder: (context) => CommentBox(post: post),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.share_rounded),
-                  onPressed: () async {
-                    // make share functionality commingsoon in a dialog
-                   await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return ScaffoldMessenger(
-                          child: AlertDialog(
-                            title: const Text('Coming Soon'),
-                            content: const Text(
-                                'This feature is coming soon. Stay tuned!'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.arrow_upward, color: Colors.green),
-                      const SizedBox(width: 4),
-                      Text(convertToKNotation(post.popularity)),
-                    ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.comment_outlined),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(30)),
+                    ),
+                    backgroundColor: AppTheme.universalColor,
+                    builder: (context) => CommentBox(post: post),
+                  );
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.share_rounded),
+                onPressed: () async {
+                  // make share functionality commingsoon in a dialog
+                 await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ScaffoldMessenger(
+                        child: AlertDialog(
+                          title: const Text('Coming Soon'),
+                          content: const Text(
+                              'This feature is coming soon. Stay tuned!'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.arrow_upward, color: Colors.green),
+                        const SizedBox(width: 4),
+                        Text(convertToKNotation(post.popularity)),
+                      ],
+                    ),
+                    onPressed: () async {
+                      await IncrementReputation(post.id).incrementReputation();
+                      await BlocProvider.of<HomeCubitCubit>(context, listen: false)
+                          .state
+                          .getuser();
+                    },
                   ),
-                  onPressed: () async {
-                    await IncrementReputation(post.id).incrementReputation();
-                    await BlocProvider.of<HomeCubitCubit>(context, listen: false)
-                        .state
-                        .getuser();
-                  },
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
+          Divider(thickness: 1,color: Colors.grey,)
         ],
       ),
     );
