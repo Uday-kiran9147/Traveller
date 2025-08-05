@@ -19,6 +19,10 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          
+      - name: Delete Gradle cache
+        run: rm -rf $HOME/.gradle
+
       - run: flutter pub get
       - run: flutter build apk --release
 
