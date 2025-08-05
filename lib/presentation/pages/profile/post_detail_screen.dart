@@ -23,8 +23,8 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
-  double imageRatio_height = 0.0;
-  double imageRatio_width = 0.0;
+  double imageRatioHeight = 0.0;
+  double imageRatioWidth = 0.0;
 
   @override
   void initState() {
@@ -38,8 +38,8 @@ class _PostScreenState extends State<PostScreen> {
     image.image.resolve(const ImageConfiguration()).addListener(
       ImageStreamListener((ImageInfo info, bool _) {
         setState(() {
-          imageRatio_height = info.image.height.toDouble();
-          imageRatio_width = info.image.width.toDouble();
+          imageRatioHeight = info.image.height.toDouble();
+          imageRatioWidth = info.image.width.toDouble();
         });
       }),
     );
@@ -47,192 +47,200 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Post post = widget.post;
+    final post = widget.post;
+    final isOwner = post.userID == FirebaseAuth.instance.currentUser?.uid;
+
     return Scaffold(
+      backgroundColor: AppTheme.backgroundLight,
+      appBar: AppBar(
         backgroundColor: AppTheme.backgroundLight,
-        body: SingleChildScrollView(
-          child: Column(children: [
-            const SizedBox(
-              height: 30,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: [
+          if (isOwner)
+            IconButton(
+              icon: const Icon(Icons.more_vert, color: Colors.black87),
+              onPressed: () {
+                showBottomSheetCustom(context, post.description!, post.id);
+              },
             ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
             ListTile(
-              trailing: IconButton(
-                onPressed: () {
-                  if (post.userID == FirebaseAuth.instance.currentUser!.uid) {
-                    showBottomSheetCustom(context, post.description!, post.id);
-                  }
-                },
-                icon: const Icon(Icons.more_vert),
-              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               leading: GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, RouteName.profilescreen,
                       arguments: post.userID);
                 },
                 child: CircleAvatar(
-                  child: Text(post.username.toUpperCase().substring(0, 2)),
+                  radius: 24,
+                  backgroundColor: Colors.grey.shade200,
+                  child: Text(
+                    post.username.toUpperCase().substring(0, 2),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black87),
+                  ),
                 ),
               ),
               title: Row(
                 children: [
-                  Text(
-                    post.username,
-                    overflow: TextOverflow.clip,
+                  Flexible(
+                    child: Text(
+                      post.username,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  Container(
-                    height: 15,
-                    width: 15,
-                    decoration: const BoxDecoration(
+                  const SizedBox(width: 6),
+                  if (true)
+                    Container(
+                      height: 18,
+                      width: 18,
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
-                      image: AssetImage(
-                        "assets/verified.png",
+                          image: AssetImage("assets/verified.png"),
+                        ),
                       ),
-                    )),
-                  )
+                    ),
                 ],
               ),
-              subtitle: Text(post.location!),
-            ),
-            InteractiveViewer(
-              // boundaryMargin: const EdgeInsets.all(20.0),
-              minScale: 1,
-              maxScale: 5,
-              child: Container(
-                height: imageRatio_height < 250 ? 250 : 500,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: imageRatio_height < 250
-                            ? BoxFit.fitWidth
-                            : BoxFit.cover,
-                        filterQuality: FilterQuality.high,
-                        image: NetworkImage(post.imageURL))),
+              subtitle: Text(
+                post.location ?? '',
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 20),
+            const SizedBox(height: 10),
+            AspectRatio(
+              aspectRatio: imageRatioWidth != 0 && imageRatioHeight != 0
+                  ? imageRatioWidth / imageRatioHeight
+                  : 1,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.network(
+                  post.imageURL,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  loadingBuilder: (context, child, progress) {
+                    if (progress == null) return child;
+                    return Container(
+                      color: Colors.grey.shade200,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: Colors.grey.shade200,
+                    child: const Center(child: Icon(Icons.broken_image)),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: const BoxDecoration(),
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                            onTap: () async {
-                              IncrementReputation incr =
-                                  IncrementReputation(post.id);
-                              await incr.incrementReputation();
-                              await BlocProvider.of<HomeCubitCubit>(context,listen: false)
-                                  .state
-                                  .getuser();
-                              print("incremented");
-                            },
-                            child: const Icon(
-                              Icons.favorite_border,
-                              color: Colors.red,
-                            )),
-                        Text(
-                          post.popularity.toString(),
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
+                  IconText(
+                    post: post,
+                    icon: Icons.favorite_border,
+                    iconcolor: Colors.red,
+                    icontext: post.popularity.toString(),
+                    ontap: () async {
+                      IncrementReputation incr = IncrementReputation(post.id);
+                      await incr.incrementReputation();
+                      await BlocProvider.of<HomeCubitCubit>(context, listen: false)
+                          .state
+                          .getuser();
+                    },
                   ),
-                  SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              showModalBottomSheet(
-                                isDismissible: true,
-                                enableDrag: true,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30),
-                                        topRight: Radius.circular(30))),
-                                backgroundColor: AppTheme.backgroundLight,
-                                context: context,
-                                builder: (context) {
-                                  return CommentBox(
-                                    post: Post(
-                                        popularity: post.popularity,
-                                        id: post.id,
-                                        username: post.username,
-                                        imageURL: post.imageURL,
-                                        description: post.description,
-                                        userID: post.userID,
-                                        location: post.location,
-                                        date: post.date),
-                                  );
-                                },
-                              );
-                            },
-                            child: Icon(
-                              Icons.mode_comment_outlined,
-                              color: AppTheme.backgroundLight,
-                            )),
-                        const Text("--")
-                      ],
-                    ),
+                  const SizedBox(width: 16),
+                  IconText(
+                    post: post,
+                    icon: Icons.mode_comment_outlined,
+                    iconcolor: Colors.blueGrey,
+                    icontext: post.comments.length.toString(),
+                    ontap: () {
+                      showModalBottomSheet(
+                        isDismissible: true,
+                        enableDrag: true,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30))),
+                        backgroundColor: AppTheme.backgroundLight,
+                        context: context,
+                        builder: (context) {
+                          return CommentBox(
+                            post: Post(
+                              popularity: post.popularity,
+                              id: post.id,
+                              username: post.username,
+                              imageURL: post.imageURL,
+                              description: post.description,
+                              userID: post.userID,
+                              location: post.location,
+                              date: post.date,
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: const BoxDecoration(),
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                            onTap: () async {},
-                            child: const Icon(
-                              Icons.share,
-                              color: Colors.black,
-                            )),
-                        Text(
-                          "",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
+                  const SizedBox(width: 16),
+                  IconText(
+                    post: post,
+                    icon: Icons.share,
+                    iconcolor: Colors.black87,
+                    icontext: "",
+                    ontap: () {},
                   ),
                   const Spacer(),
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.bookmark_border,
-                            color: Colors.black,
-                          )),
-                    ],
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.bookmark_border,
+                      color: Colors.black87,
+                    ),
                   ),
                 ],
               ),
             ),
-            const Divider(
-              thickness: 1,
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+            const Divider(thickness: 1, height: 32),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "${post.username}: ",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(post.description!),
+                  Expanded(
+                    child: Text(
+                      post.description ?? '',
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  ),
                 ],
               ),
             ),
-          ]),
-        ));
+            const SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
   }
 }
 
-// Figure out Why Function reference is not working
 class IconText extends StatelessWidget {
   const IconText({
     Key? key,
@@ -248,28 +256,42 @@ class IconText extends StatelessWidget {
   final String icontext;
   final IconData icon;
   final Color iconcolor;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      width: 50,
-      decoration: BoxDecoration(border: Border.all(color: iconcolor)),
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: ontap,
       child: Container(
-        child: Column(
-          children: [
-            GestureDetector(
-                onTap: () {
-                  ontap!;
-                  print(icontext);
-                },
-                child: Icon(
-                  icon,
-                  color: iconcolor,
-                )),
-            Text(
-              icontext,
-              style: Theme.of(context).textTheme.bodyMedium,
+        height: 48,
+        width: 48,
+        decoration: BoxDecoration(
+          border: Border.all(color: iconcolor.withOpacity(0.2)),
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.07),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
             ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: iconcolor, size: 22),
+            if (icontext.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text(
+                  icontext,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(fontWeight: FontWeight.w500),
+                ),
+              ),
           ],
         ),
       ),
