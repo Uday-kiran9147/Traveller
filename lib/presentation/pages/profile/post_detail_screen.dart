@@ -53,7 +53,7 @@ class _PostScreenState extends State<PostScreen> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundLight,
       appBar: AppBar(
-        backgroundColor: AppTheme.backgroundLight,
+        backgroundColor: AppTheme.primaryColor,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
@@ -117,7 +117,6 @@ class _PostScreenState extends State<PostScreen> {
                 style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
               ),
             ),
-            const SizedBox(height: 10),
             AspectRatio(
               aspectRatio: imageRatioWidth != 0 && imageRatioHeight != 0
                   ? imageRatioWidth / imageRatioHeight
