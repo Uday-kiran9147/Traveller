@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
 import 'package:traveler/presentation/pages/auth/ui/widgets/loginform.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
@@ -37,13 +38,7 @@ class _SignupFormState extends State<SignupForm> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 88, 3, 85),
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(16.0),
+      child: Column(
         children: <Widget>[
           TextFieldCustom(controller: _emailController, hint: 'Enter email', icon: Icons.email),
           const SizedBox(height: 10.0),
@@ -55,12 +50,6 @@ class _SignupFormState extends State<SignupForm> {
           const SizedBox(height: 10.0),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 43, 8, 42),
-              foregroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
             ),
             child: const Text("Signup"),
             onPressed: () {

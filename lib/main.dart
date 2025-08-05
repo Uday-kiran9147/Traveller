@@ -16,6 +16,7 @@ import 'package:traveler/utils/routes/app_routes.dart';
 import './firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
@@ -27,7 +28,7 @@ void main() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]);  
+  ]);
   runApp(const MyApp());
 }
 
@@ -71,6 +72,15 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
           theme: ThemeData(
+            elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              backgroundColor: AppTheme.buttonBackground,
+              foregroundColor: Colors.white,
+              elevation: 0,
+            )),
             // Define the default brightness and colors.
             // brightness: Brightness.dark,
             scaffoldBackgroundColor: AppTheme.primaryBackgroundLight,
@@ -117,7 +127,8 @@ class _MyAppState extends State<MyApp> {
                   color: Colors.black,
                   fontWeight: FontWeight.w400),
             ),
-          ),debugShowCheckedModeBanner: false,
+          ),
+          debugShowCheckedModeBanner: false,
           scrollBehavior: const ScrollBehavior(),
           home: FutureBuilder(
             future: FirebaseAuth.instance.authStateChanges().first,
@@ -129,7 +140,7 @@ class _MyAppState extends State<MyApp> {
               if (!snapshot.hasData) {
                 return const AuthenticationScreen();
               }
-              return const   HomeBloc();
+              return const HomeBloc();
             },
           ),
 

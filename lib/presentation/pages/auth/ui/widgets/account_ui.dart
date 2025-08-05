@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
 import 'loginform.dart';
 import 'signinform.dart';
@@ -15,203 +16,104 @@ class AuthAccounts extends StatefulWidget {
 }
 
 class _AuthAccountsState extends State<AuthAccounts> {
-  late bool formVisible;
   int? _formsIndex;
 
   @override
   void initState() {
     super.initState();
-    formVisible = false;
     _formsIndex = 1;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      decoration: const BoxDecoration(
-          // image: DecorationImage(
-          //   image: AssetImage(room4),
-          //   fit: BoxFit.cover,
-          // ),
-          ),
-      child: Stack(
-        children: <Widget>[
-          SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: Image.asset('assets/onb1.jpg',fit: BoxFit.cover,),
-          ),
-          Container(
-            color: Colors.black54,
-            child: Column(
-              children: <Widget>[
-                const SizedBox(height: kToolbarHeight + 40),
-                const Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "Welcome",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30.0,
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
-                      Text(
-                        "Welcome to this awesome Traveller. \n You are awesome",
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 18.0,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
+      body: Container(
+        height: double.infinity,
+        color: AppTheme.background,
+        child: SingleChildScrollView(
+          child: Column(            
+            spacing: 20,
+            children: <Widget>[
+              const SizedBox(height: kToolbarHeight + 40),
+              Text(
+                "Welcome",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 30.0,
                 ),
-                const SizedBox(height: 10.0),
-                Row(
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                "Welcome to this awesome Traveller. \n You are awesome",
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 18.0,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const SizedBox(width: 10.0),
-                    Expanded(
-                      child: ElevatedButton(key: const Key('loginButton'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:  const Color.fromARGB(255, 43, 8, 42),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                        ),
-                        child: const Text("Login"),
-                        onPressed: () {
-                          setState(() {
-                            formVisible = true;
-                            _formsIndex = 1;
-                          });
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 10.0),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:  const Color.fromARGB(255, 43, 8, 42),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                        ),
-                        child: const Text("Signup"),
-                        onPressed: () {
-                          setState(() {
-                            formVisible = true;
-                            _formsIndex = 2;
-                          });
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 10.0),
-                  ],
-                ),
-                const SizedBox(height: 40.0),
-                // OutlinedButton.icon(
-                //   style: OutlinedButton.styleFrom(
-                //     side: const BorderSide(color: Colors.red),
-                //     backgroundColor: Colors.red,
-                //     foregroundColor: Colors.white,
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(20.0),
-                //     ),
-                //   ),
-                //   icon: const Icon(Icons.add),
-                //   label: const Text("Continue with Google"),
-                //   onPressed: () {
-                //     // googleAuth.signInWithGoogle();
-                //   },
-                // ),
-                const SizedBox(height: 20.0),
-              ],
-            ),
-          ),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            child: (!formVisible)
-                ? null
-                : Container(
-                    color: Colors.black54,
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: _formsIndex == 1
-                                    ? Colors.white
-                                    : Colors.black,
-                                backgroundColor: _formsIndex == 1
-                                    ?  const Color.fromARGB(255, 43, 8, 42)
-                                    : Colors.grey[300],
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0)),
-                              ),
-                              child: const Text("Login"),
-                              onPressed: () {
-                                setState(() {
-                                  _formsIndex = 1;
-                                });
-                              },
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor:Colors.white,
+                            backgroundColor:  AppTheme.buttonBackground,
+                            shape: RoundedRectangleBorder(
+                              side: _formsIndex == 1
+                                  ? BorderSide(color: AppTheme.d)
+                                  : BorderSide.none,
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
-                            const SizedBox(width: 10.0),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: _formsIndex == 2
-                                    ? Colors.white
-                                    : Colors.black,
-                                backgroundColor: _formsIndex == 2
-                                    ?  const Color.fromARGB(255, 43, 8, 42)
-                                    : Colors.grey[300],
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0)),
-                              ),
-                              child: const Text("Signup"),
-                              onPressed: () {
-                                setState(() {
-                                  _formsIndex = 2;
-                                });
-                              },
-                            ),
-                            const SizedBox(width: 10.0),
-                            IconButton(
-                              color: Colors.white,
-                              icon: const Icon(Icons.clear),
-                              onPressed: () {
-                                setState(() {
-                                  formVisible = false;
-                                });
-                              },
-                            )
-                          ],
+                          ),
+                          child: const Text("Login"),
+                          onPressed: () {
+                            setState(() {
+                              _formsIndex = 1;
+                            });
+                          },
                         ),
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
-                          child: _formsIndex == 1
-                              ? LoginForm(
-                                  authBloc: widget.authBloc,
-                                )
-                              : SignupForm(authBloc: widget.authBloc),
-                        )
+                        const SizedBox(width: 10.0),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: AppTheme.buttonBackground,
+                            shape: RoundedRectangleBorder(
+                              side: _formsIndex == 2
+                                  ? BorderSide(color: AppTheme.d)
+                                  : BorderSide.none,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                          ),
+                          child: const Text("Signup"),
+                          onPressed: () {
+                            setState(() {
+                              _formsIndex = 2;
+                            });
+                          },
+                        ),
                       ],
                     ),
-                  ),
-          )
-        ],
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: _formsIndex == 1
+                          ? LoginForm(
+                              authBloc: widget.authBloc,
+                            )
+                          : SignupForm(authBloc: widget.authBloc),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
-    ));
+    );
   }
 }
