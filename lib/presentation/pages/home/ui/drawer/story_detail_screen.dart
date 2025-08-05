@@ -14,164 +14,215 @@ import 'package:traveler/presentation/widgets/snackbars.dart';
 class StoryDetail extends StatelessWidget {
   TravelStory travelStory;
   StoryDetail({Key? key, required this.travelStory}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var curuser = BlocProvider.of<HomeCubitCubit>(context).state.user;
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Story Details',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
+      backgroundColor: Colors.grey[100],
       body: Stack(
         children: [
           ListView(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(16),
             children: [
               if (travelStory.photos.isNotEmpty)
-                  SizedBox(
-                      height: 300,
-                      child: Swiper(
-                        autoplay: true,
-                        itemCount: travelStory.photos.length,
-                        loop: false,
-                        itemBuilder: (context, index) {
-                          return Image.network(travelStory.photos[index]);
-                        },
-                      ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: SizedBox(
+                    height: 260,
+                    child: Swiper(
+                      autoplay: true,
+                      itemCount: travelStory.photos.length,
+                      loop: false,
+                      pagination: const SwiperPagination(),
+                      itemBuilder: (context, index) {
+                        return Image.network(
+                          travelStory.photos[index],
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, progress) =>
+                              progress == null
+                                  ? child
+                                  : Center(child: CircularProgressIndicator()),
+                        );
+                      },
                     ),
-             if(kDebugMode)
-                Text(
-                travelStory.photos.length.toString(),
-                textAlign: TextAlign.end,
+                  ),
                 ),
+              if (kDebugMode)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    'Photos: ${travelStory.photos.length}',
+                    textAlign: TextAlign.end,
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ),
+              const SizedBox(height: 16),
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(color: Colors.grey.shade300)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(travelStory.storyTitle,textAlign: TextAlign.start,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium!
-                              .copyWith(
-                                  fontWeight: FontWeight.w400, fontSize: 30)),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withValues(alpha:0.08),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 18.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        travelStory.storyTitle,
+                        style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 26,
+                            ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('@${travelStory.userName}',
-                              style: Theme.of(context).textTheme.labelMedium),
+                          Row(
+                            children: [
+                              const CircleAvatar(
+                                radius: 14,
+                                backgroundColor: Colors.blueGrey,
+                                child: Icon(Icons.person, color: Colors.white, size: 18),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '@${travelStory.userName}',
+                                style: Theme.of(context).textTheme.labelMedium,
+                              ),
+                            ],
+                          ),
                           Text(
-                            DateFormat.yMd()
+                            DateFormat.yMMMd()
                                 .format(DateTime.parse(travelStory.created_at)),
                             style: const TextStyle(
                               color: Colors.grey,
-                              fontSize: 16,
+                              fontSize: 15,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextContainer(
+                      const SizedBox(height: 14),
+                      TextContainer(
                         text: travelStory.travelStory,
                         selectableText: true,
-                        fontSize: 16,
+                        fontSize: 12,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('Rating'),
-              ),
-              travelStory.destinationRating == null
-                  ? Container()
-                  : SizedBox(
-                      height: 50,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Icon(Icons.star,
-                              color: index + 1 <= travelStory.destinationRating!
-                                  ? Colors.amber[700]
-                                  : Colors.grey);
-                        },
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  const Text('Rating', style: TextStyle(fontWeight: FontWeight.w600)),
+                  const SizedBox(width: 8),
+                  if (travelStory.destinationRating != null)
+                    Row(
+                      children: List.generate(
+                        5,
+                        (index) => Icon(
+                          Icons.star_rounded,
+                          color: index + 1 <= travelStory.destinationRating!
+                              ? Colors.amber[700]
+                              : Colors.grey[300],
+                          size: 24,
+                        ),
                       ),
                     ),
-              const SizedBox(
-                height: 66,
-              )
+                ],
+              ),
+              const SizedBox(height: 80),
             ],
           ),
           Positioned(
-            bottom: 0,
-            left: MediaQuery.of(context).size.width * 0.025,
-            right: MediaQuery.of(context).size.width * 0.025,
+            bottom: 16,
+            left: 16,
+            right: 16,
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.95,
-              height: 66,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              height: 62,
               decoration: BoxDecoration(
-                  color: Colors.black12,
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withValues(alpha:0.12),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  travelStory.uid == curuser.uid
-                      ? Expanded(
-                          child: IconButton(
-                              onPressed: () async {
-                                DeleteTravelStory deleteTravelStory =
-                                    DeleteTravelStory(storyid: travelStory.id);
-                                await deleteTravelStory
-                                    .deleteStory()
-                                    .then((value) => customSnackbarMessage(
-                                        value, context, Colors.green.shade300))
-                                    .catchError((e) {
-                                  customSnackbarMessage(
-                                      e.toString(), context, Colors.red);
-                                  Navigator.pop(context);
-                                });
-                              },
-                              icon: const Icon(Icons.delete_outlined),
-                              color: Colors.red),
-                        )
-                      : Container(),
-                  Expanded(
-                    child: IconButton(
-                        onPressed: null,
-                        icon: const Icon(Icons.share_outlined),
-                        color: Colors.blue),
-                  ),
-                  Expanded(
-                    child: IconButton(
-                        onPressed: null,
-                        icon: const Icon(Icons.comment_outlined)),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        IconButton(
-                            onPressed: null,
-                            icon: const Icon(Icons.favorite_border_outlined)),
-                        Text(
-                          travelStory.likes.toString(),
-                          style: Theme.of(context).textTheme.bodySmall,
-                        )
-                      ],
+                  if (travelStory.uid == curuser.uid)
+                    IconButton(
+                      tooltip: 'Delete',
+                      onPressed: () async {
+                        DeleteTravelStory deleteTravelStory =
+                            DeleteTravelStory(storyid: travelStory.id);
+                        await deleteTravelStory
+                            .deleteStory()
+                            .then((value) => customSnackbarMessage(
+                                value, context, Colors.green.shade300))
+                            .catchError((e) {
+                          customSnackbarMessage(
+                              e.toString(), context, Colors.red);
+                          Navigator.pop(context);
+                        });
+                      },
+                      icon: const Icon(Icons.delete_outline_rounded),
+                      color: Colors.red[400],
                     ),
+                  IconButton(
+                    tooltip: 'Share',
+                    onPressed: null,
+                    icon: const Icon(Icons.share_outlined),
+                    color: Colors.blue[400],
+                  ),
+                  IconButton(
+                    tooltip: 'Comment',
+                    onPressed: null,
+                    icon: const Icon(Icons.comment_outlined),
+                    color: Colors.grey[700],
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        tooltip: 'Like',
+                        onPressed: null,
+                        icon: const Icon(Icons.favorite_border_outlined),
+                        color: Colors.pink[300],
+                      ),
+                      Text(
+                        travelStory.likes.toString(),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

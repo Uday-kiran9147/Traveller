@@ -24,7 +24,7 @@ class TextContainer extends StatelessWidget {
               cursorHeight: 30, style: Theme.of(context).textTheme.bodyLarge)
           : Text(
               text,
-              style: TextStyle(fontSize: fontSize ?? 16),
+              style: TextStyle(fontSize: fontSize ?? 12),
             ),
     );
   }

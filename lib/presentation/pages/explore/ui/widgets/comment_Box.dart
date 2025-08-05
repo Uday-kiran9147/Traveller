@@ -77,7 +77,7 @@ class CommentBox extends StatelessWidget {
                           }
                         },
                         leading:  CircleAvatar(
-                          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.3),
+                          backgroundColor: Theme.of(context).primaryColor.withValues(alpha:0.3),
                           child: Text(data['username'].toString().substring(0,1)),),
                         title: Text("${data['comment']}",style: Theme.of(context)
                               .textTheme

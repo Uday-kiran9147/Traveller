@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
@@ -11,7 +10,6 @@ import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/domain/usecases/save_post.dart';
 import 'package:traveler/presentation/pages/auth/ui/widgets/loginform.dart';
 import 'package:traveler/presentation/pages/explore/cubit/explore_cubit.dart';
-import 'package:traveler/presentation/pages/home/ui/home_screen.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
 class NewPostScreen extends StatefulWidget {
@@ -61,6 +59,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         waitingforlocation = false;
       });
       return placelist;
+    // ignore: body_might_complete_normally_catch_error
     }).catchError((e) {
       customSnackbarMessage(e.toString(), context, Colors.redAccent);
     });
@@ -73,7 +72,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
     setState(() {
       waitingforlocation = true;
     });
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    await Geolocator.getCurrentPosition(locationSettings: AndroidSettings(
+      accuracy: LocationAccuracy.high,
+      
+    ))
         .then((Position position) async {
       _currentPosition = position;
       await getaddressfromlatlong(_currentPosition!);
@@ -160,7 +162,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.08),
+                            color: Colors.grey.withValues(alpha:0.08),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),

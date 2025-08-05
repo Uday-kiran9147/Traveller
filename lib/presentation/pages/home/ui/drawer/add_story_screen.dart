@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:traveler/domain/usecases/upload_story.dart';
-import 'package:traveler/presentation/pages/auth/ui/widgets/loginform.dart';
 import 'package:traveler/presentation/pages/home/cubit/home_cubit_cubit.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 
@@ -30,6 +29,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       imageQuality: 80,
       maxWidth: 600,
     );
+    // ignore: unnecessary_null_comparison
     if (selectedImages != null) {
       setState(() {
         _images.addAll(selectedImages.map((x) => File(x.path)));
@@ -65,16 +65,12 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             child: Tooltip(
               message: "Upload story",
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.blue,
-                  elevation: 0,
-                  side: const BorderSide(color: Colors.blue),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              child: OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.white),
                 ),
-                icon: const Icon(Icons.send_rounded, size: 20),
-                label: const Text('Post'),
+                icon: const Icon(Icons.send_rounded,color: Colors.white, size: 20),
+                label: const Text('Post',style: TextStyle(color: Colors.white),),
                 onPressed: () async {
                   if (_titleController.text.isEmpty || _storyController.text.isEmpty) {
                     customSnackbarMessage('Please share something', context, Colors.orange);
@@ -195,10 +191,16 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
             const SizedBox(height: 18.0),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: TextFieldCustom(
-                icon: Icons.title_rounded,
+              child: TextField(
+           
                 controller: _titleController,
-                hint: "Title of your story...",
+                decoration: InputDecoration(
+                  labelText: "Title",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ),
               ),
             ),
             Padding(
