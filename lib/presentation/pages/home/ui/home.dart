@@ -61,25 +61,22 @@ class _MyHomeState extends State<MyHome> {
               // IconThemeData(color: Theme.of(context).primaryColor),
           // type: BottomNavigationBarType.fixed, // shifting type creates conflict with backgroundcolor
           // iconSize: 16,
-          elevation: 5,
-          backgroundColor: AppTheme.primaryBackgroundLight ,
+          // elevation: 5,
+          backgroundColor: AppTheme.backgroundLight ,
           // unselectedItemColor: Colors.grey,
-          indicatorColor: Theme.of(context).primaryColor.withOpacity(0.5),
+          indicatorColor: Theme.of(context).primaryColor,
           selectedIndex: index,
           onDestinationSelected: (value) => setState(() {
             index = value;
           }),
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-            // NavigationDestination(
-            //     icon: Icon(Icons.follow_the_signs_outlined),
-            //     label: "following"),
-            NavigationDestination(
-                icon: Icon(Icons.explore), label: "explore"),
+             NavigationDestination(
+                icon: Icon(Icons.explore), label: "Explore"),
             // I got into trouble while showing the (backgroundcolor) of the [BottomNavigationBar]
             // so, I had to use type property of [BottomNavigationBar] to [BottomNavigationBarType.fixed].
             NavigationDestination(
-                icon: Icon(Icons.person_2_rounded), label: "profile"),
+                icon: Icon(Icons.person_2_rounded), label: "Profile"),
           ],
         ));
   }

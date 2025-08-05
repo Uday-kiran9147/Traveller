@@ -37,13 +37,7 @@ class _SignupFormState extends State<SignupForm> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 88, 3, 85),
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(16.0),
+      child: Column(
         children: <Widget>[
           TextFieldCustom(controller: _emailController, hint: 'Enter email', icon: Icons.email),
           const SizedBox(height: 10.0),
@@ -55,12 +49,6 @@ class _SignupFormState extends State<SignupForm> {
           const SizedBox(height: 10.0),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 43, 8, 42),
-              foregroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
             ),
             child: const Text("Signup"),
             onPressed: () {

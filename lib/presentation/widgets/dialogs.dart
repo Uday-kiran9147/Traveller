@@ -10,7 +10,7 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        backgroundColor: AppTheme.primaryBackgroundLight,
+        backgroundColor: AppTheme.accentColor,
         title: Text("Next Destination",
             style: Theme.of(context)
                 .textTheme
@@ -39,7 +39,6 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
               },
               child: const Text(
                 "Add",
-                style: TextStyle(color: Colors.green),
               )),
           TextButton(
               onPressed: () {
@@ -54,70 +53,130 @@ Future<dynamic> destinationDialog(BuildContext context, String? destination) {
     },
   );
 }
-
 Future<dynamic> showBottomSheetCustom(
-    BuildContext context, String description, String postid) {
+  BuildContext context, String description, String postid) {
   return showModalBottomSheet(
-      isDismissible: true,
-      enableDrag: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-      context: context,
-      builder: (context) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              ListTile(
-                  title: const Text("Delete",
-                      style: TextStyle(
-                        color: Colors.red,
-                      )),
-                  subtitle: Text(description),
-                  onTap: () async {
-                    showDialogCustom(context, postid);
-                  }),
-            ],
-          ),
-        );
-      });
+  isDismissible: true,
+  enableDrag: true,
+  backgroundColor: Colors.transparent,
+  context: context,
+  builder: (context) {
+    return Container(
+    decoration: const BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(24),
+      topRight: Radius.circular(24),
+      ),
+      boxShadow: [
+      BoxShadow(
+        color: Colors.black12,
+        blurRadius: 16,
+        offset: Offset(0, -4),
+      ),
+      ],
+    ),
+    padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+      Container(
+        width: 40,
+        height: 4,
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(2),
+        ),
+      ),
+      ListTile(
+        leading: const Icon(Icons.delete, color: Colors.redAccent),
+        title: const Text(
+        "Delete",
+        style: TextStyle(
+          color: Colors.redAccent,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
+        ),
+        subtitle: Padding(
+        padding: const EdgeInsets.only(top: 4.0),
+        child: Text(
+          description,
+          style: const TextStyle(fontSize: 15),
+        ),
+        ),
+        onTap: () async {
+        Navigator.pop(context);
+        await Future.delayed(const Duration(milliseconds: 200));
+        showDialogCustom(context, postid);
+        },
+      ),
+      const SizedBox(height: 8),
+      ],
+    ),
+    );
+  },
+  );
 }
 
 Future<dynamic> showDialogCustom(BuildContext context, String postid) {
   return showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text("Are you sure you want to delete this post?",
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: Theme.of(context).colorScheme.error)),
-        actions: [
-          TextButton(
-              onPressed: () async {
-                await FirebaseFirestore.instance
-                    .collection("posts")
-                    .doc(postid)
-                    .delete();
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: Text(
-                "Yes",
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
-              )),
-          TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: const Text(
-                "No",
-                style: TextStyle(color: Colors.green),
-              )),
-        ],
-      );
-    },
+  context: context,
+  barrierDismissible: false,
+  builder: (context) {
+    return AlertDialog(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    title: Row(
+      children: [
+      Icon(Icons.warning_amber_rounded,
+        color: Theme.of(context).colorScheme.error),
+      const SizedBox(width: 8),
+      Expanded(
+        child: Text(
+        "Delete Post",
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: Theme.of(context).colorScheme.error,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      ],
+    ),
+    content: const Text(
+      "Are you sure you want to delete this post? This action cannot be undone.",
+      style: TextStyle(fontSize: 16),
+    ),
+    actions: [
+      TextButton(
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.grey[700],
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      child: const Text("Cancel"),
+      ),
+      ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.error,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      icon: const Icon(Icons.delete_forever),
+      label: const Text("Delete"),
+      onPressed: () async {
+        await FirebaseFirestore.instance
+          .collection("posts")
+          .doc(postid)
+          .delete();
+        Navigator.pop(context);
+      },
+      ),
+    ],
+    );
+  },
   );
 }

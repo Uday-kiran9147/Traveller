@@ -10,7 +10,6 @@ import 'package:traveler/presentation/pages/profile/cubit/profile_cubit.dart';
 import 'package:traveler/presentation/pages/profile/followings.dart';
 import 'package:traveler/presentation/pages/profile/widgets/travel_list_container.dart';
 import 'package:traveler/utils/routes/route_names.dart';
-import '../../../config/theme/apptheme.dart';
 import '../../../domain/usecases/follow_user.dart';
 import '../../widgets/dialogs.dart';
 
@@ -38,276 +37,316 @@ class _ProfileScreenState extends State<ProfileScreen>
   String owner = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
-      body: StreamBuilder<UserRegister>(
-          stream: FirebaseFirestore.instance
-              .collection('users')
-              .doc(widget.userid ?? owner).snapshots()
-              .map((event) => UserRegister.fromMap(event)),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text('${snapshot.error}'));
-            }
-            if (snapshot.hasData) {
-              var randomuser = snapshot.data;
-              bool isowner = randomuser!.uid == owner ? true : false;
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BlocConsumer<ProfileCubit, ProfileState>(
+    return SafeArea(
+      child: Scaffold(
+        body: StreamBuilder<UserRegister>(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(widget.userid ?? owner)
+                .snapshots()
+                .map((event) => UserRegister.fromMap(event)),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(child: Text('${snapshot.error}'));
+              }
+              if (snapshot.hasData) {
+                var randomuser = snapshot.data;
+                bool isowner = randomuser!.uid == owner ? true : false;
+                return BlocConsumer<ProfileCubit, ProfileState>(
                   listener: (context, state) {},
                   builder: (context, state) {
-                    return ListView(
-                      physics: const BouncingScrollPhysics(),
-                      children: [
-                        Text(
-                          randomuser.username,
-                          style: Theme.of(context).textTheme.headlineLarge,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Stack(
+                    var isValidUrl = (randomuser.profileurl == null ||
+                        randomuser.profileurl!.startsWith('http') == true);
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                            height: 80,
+                            width: double.infinity,
+                            color: Colors.blue.shade400,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                    height: 150,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black),
-                                        borderRadius: BorderRadius.circular(20),
-                                        image: (randomuser.profileurl == null ||
-                                                randomuser.profileurl!
-                                                        .startsWith('http') ==
-                                                    false)
-                                            ? const DecorationImage(
-                                                // opacity: 0.75,
-                                                fit: BoxFit.cover,
-                                                image: AssetImage(
-                                                    'assets/noimage.png'),
-                                              )
-                                            : DecorationImage(
-                                                // opacity: 0.75,
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(
-                                                  randomuser.profileurl!,
-                                                )))),
-                                isowner
-                                    ? IconButton.filled(
-                                        onPressed: () {
-                                          Navigator.pushNamed(
-                                              context, RouteName.editprofile);
-                                        },
-                                        icon: const Icon(Icons.edit))
-                                    : Container()
+                                Text(
+                                  randomuser.username,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
                             ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            constraints: const BoxConstraints(
-                                maxWidth: 150, minWidth: 80),
-                            child: Text.rich(
-                              textAlign: TextAlign.center,
-                              TextSpan(
-                                style: Theme.of(context).textTheme.bodyMedium,
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: '${randomuser.username} • ',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!),
-                                  TextSpan(
-                                    text: randomuser.tag!,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          color: AppTheme.appThemeOrange,
+                          ),
+                      
+                          // Avatar and user info
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              spacing: 10,
+                              children: [
+                                Container(
+                                  height: 90,
+                                  width: 100,
+                                  child: isValidUrl
+                                      ? null
+                                      : CircleAvatar(
+                                          radius: 30,
+                                          backgroundColor: Colors.blue.shade100,
+                                          child: Icon(
+                                            Icons.person_2_outlined,
+                                            size: 40,
+                                            color: Colors.blue.shade500,
+                                          ),
                                         ),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: isValidUrl
+                                          ? DecorationImage(
+                                              // opacity: 0.75,
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                randomuser.profileurl!,
+                                              ),
+                                            )
+                                          : null),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      randomuser.username,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text("${randomuser.tag!}",
+                                            style: TextStyle(color: Colors.grey)),
+                                      ],
+                                    ),
+                                    Text(
+                                      randomuser.bio!.isEmpty
+                                          ? '-Bio-'
+                                          : randomuser.bio!,
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                Spacer(),
+                                if (isowner)
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, RouteName.editprofile);
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      side: const BorderSide(color: Colors.blue),
+                                    ),
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
                                   ),
-                                ],
-                              ),
+                              ],
                             ),
                           ),
-                        ),
-                        Text(
-                            randomuser.bio!.isEmpty ? '-Bio-' : randomuser.bio!,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyMedium!),
-                        isowner
-                            ? Text(
-                                randomuser.email,
-                                textAlign: TextAlign.center,
-                              )
-                            : TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.blueAccent,
-                                ),
-                                onPressed: () async {
-                                  FollowUser follow = FollowUser(
+                      
+                          isowner
+                              ? Text(
+                                  randomuser.email,
+                                  textAlign: TextAlign.center,
+                                )
+                              : TextButton(
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: Colors.blueAccent,
+                                  ),
+                                  onPressed: () async {
+                                    FollowUser follow = FollowUser(
                                       userid: randomuser.uid,
-                                      random_User_Followers:
-                                          randomuser.followers);
-                                  await follow.follow();
-                                },
-                                child: randomuser.followers.contains(owner)
-                                    ? const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                            Icon(
-                                              Icons.person_remove_alt_1,
-                                              size: 20,
-                                              color: Colors.teal,
-                                            ),
-                                            Text('  unfollow'),
-                                          ])
-                                    : const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                            Icon(
-                                              Icons.person_add_alt_1,
-                                              size: 20,
-                                              color: Colors.blue,
-                                            ),
-                                            Text('  follow'),
-                                          ])),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Upcoming....."),
-                            isowner
-                                ? TextButton(
+                                      random_User_Followers: randomuser.followers,
+                                    );
+                                    await follow.follow();
+                                  },
+                                  child: randomuser.followers.contains(owner)
+                                      ? const Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                              Icon(
+                                                Icons.person_remove_alt_1,
+                                                size: 20,
+                                                color: Colors.teal,
+                                              ),
+                                              Text('  unfollow'),
+                                            ])
+                                      : const Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                              Icon(
+                                                Icons.person_add_alt_1,
+                                                size: 20,
+                                                color: Colors.blue,
+                                              ),
+                                              Text('  follow'),
+                                            ]),
+                                ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("Upcoming....."),
+                                if (isowner)
+                                  TextButton(
                                     onPressed: () {
                                       String? destination;
                                       destinationDialog(context, destination);
                                     },
-                                    child: const Text('Add'))
-                                : Container()
-                          ],
-                        ),
-                        randomuser.upcomingtrips.isEmpty
-                            ? SizedBox(
-                                height: 30,
-                                width: 300,
-                                child: Text(
-                                  '-----No upcoming plans-----',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                  textAlign: TextAlign.center,
-                                ))
-                            : SizedBox(
-                                height: 90,
-                                child: TravelListWIdget(
-                                    randomuser: randomuser, isowner: isowner),
-                              ),
-                        SizedBox(
-                          height: 40,
-                          width: double.maxFinite,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: TabBar(
-                              isScrollable: true,
-                              unselectedLabelColor: Colors.grey,
-                              indicator: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                      50), // Creates border
-                                  color: AppTheme.primaryColor.withOpacity(0.1)),
-                              automaticIndicatorColorAdjustment: true,
-                              tabs: [
-                                Tab(
-                                  icon: Icon(
-                                    Icons.grid_on,
-                                    color: Theme.of(context)
-                                        .tabBarTheme
-                                        .labelColor,
-                                  ),
-                                ),
-                                const Tab(
-                                  icon: Icon(Icons.person_pin),
-                                ),
-                                const Tab(
-                                  icon: Icon(Icons.bookmark_border),
-                                ),
+                                    child: const Text('Add'),
+                                  )
                               ],
-                              controller: tabController,
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 400,
-                          child:
-                              TabBarView(controller: tabController, children: [
-                            posts(randomuser),
-                            const Center(child: Text('Empty,\nComing soon!')),
-                            const Center(child: Text('Empty,\nComing soon!')),
-                          ]),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: randomuser.upcomingtrips.isEmpty
+                                ? SizedBox(
+                                    height: 30,
+                                    width: 300,
+                                    child: Text(
+                                      '-----No upcoming plans-----',
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: 90,
+                                    child: TravelListWIdget(
+                                      randomuser: randomuser,
+                                      isowner: isowner,
+                                    ),
+                                  ),
+                          ),
+                          // Buttons Grid
+                          Container(
+                            height: 200,
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              // color: Colors.grey,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Wrap(
+                              spacing: 18,
+                              runSpacing: 18,
+                              children: [
+                                _buildProfileButton(
+                                    Icons.calendar_today,
+                                    "Following",
+                                    randomuser.following.length.toString(), () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FollowingScreen(
+                                        index: 0,
+                                        userid: randomuser.uid,
+                                        username: randomuser.username,
+                                      ),
+                                    ),
+                                  );
+                                }),
+                                _buildProfileButton(Icons.group, "Followers",
+                                    randomuser.followers.length.toString(), () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FollowingScreen(
+                                        index: 1,
+                                        userid: randomuser.uid,
+                                        username: randomuser.username,
+                                      ),
+                                    ),
+                                  );
+                                }),
+                                _buildProfileButton(
+                                  Icons.favorite_border,
+                                  "Reputation",
+                                  randomuser.reputation.toString(),
+                                  () {},
+                                ),
+                                _buildProfileButton(
+                                  Icons.list_alt,
+                                  "Upcoming Trips",
+                                  randomuser.upcomingtrips.length.toString(),
+                                  () {},
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   },
-                ),
-              );
-            }
-            return const Center(child: LoadingProgress());
-          }),
-    );
-  }
-
-  GridView posts(UserRegister user) {
-    return GridView(
-      physics: const BouncingScrollPhysics(),
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 30 / 13,
-          crossAxisCount: 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 10),
-      children: [
-        GestureDetector(
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => FollowingScreen(
-                        index: 1,
-                        userid: user.uid,
-                        username: user.username,
-                      ))),
-          child: countContainer(
-              Icons.follow_the_signs, user.followers.length, "followers"),
-        ),
-        InkWell(
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => FollowingScreen(
-                        index: 0,
-                        userid: user.uid,
-                        username: user.username,
-                      ))),
-          child: countContainer(
-              Icons.follow_the_signs, user.following.length, "following"),
-        ),
-        countContainer(Icons.favorite, user.reputation, "reputation"),
-        countContainer(Icons.density_large_rounded, user.upcomingtrips.length,
-            "upcoming trips"),
-      ],
-    );
-  }
-
-  Container countContainer(IconData icon, int count, String text) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.red),
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                );
+              }
+              return const Center(child: LoadingProgress());
+            }),
       ),
-      width: 70,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [Icon(icon), Text(count.toString()), Text(text)],
+    );
+  }
+
+  Widget _buildProfileButton(
+    IconData icon,
+    String label,
+    String count,
+    VoidCallback onTap, {
+    bool highlight = true,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 150,
+        height: 90,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: highlight ? Colors.blue.shade50 : Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(icon, color: Colors.blue),
+                Text(
+                  ' $count',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(label, textAlign: TextAlign.center),
+          ],
+        ),
       ),
     );
   }

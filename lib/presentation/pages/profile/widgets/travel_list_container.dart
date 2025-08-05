@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/domain/models/user.dart';
@@ -23,76 +22,59 @@ class TravelListWIdget extends StatelessWidget {
       itemCount: randomuser!.upcomingtrips.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding:
-              const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.only(right: 8.0),
           child: Stack(
             children: [
               Container(
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(
-                        141, 135, 134, 134),
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black54,
-                    ),
-                    borderRadius:
-                        BorderRadius.circular(10)),
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(10)),
                 height: 70,
-                width: MediaQuery.of(context)
-                        .size
-                        .width *
-                    0.8,
+                width: MediaQuery.of(context).size.width * 0.90,
                 child: Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SizedBox(
                         width: 150,
-                        child: Text.rich(
-                            TextSpan(children: [
+                        child: Text.rich(TextSpan(children: [
                           TextSpan(
                               text: "Next\n",
-                              style: Theme.of(
-                                      context)
+                              style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
-                                  .copyWith(
-                                      color: Colors
-                                          .black)),
+                                  .copyWith(color: Colors.black)),
                           TextSpan(
-                              text:
-                                  "${randomuser!.upcomingtrips[index]}",
-                              style: Theme.of(
-                                      context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                      color: Colors
-                                          .white)),
+                            text: "${randomuser!.upcomingtrips[index]}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold),
+                          ),
                         ])
                             // maxLines: 3,
                             )),
-                    Text("Destination",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(
-                                color:
-                                    Colors.black))
+                    Text(
+                      "Destination",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: Colors.black),
+                    )
                   ],
                 ),
               ),
-             isowner? Positioned(
-                right: 2,
-                top: 2,
-                child: GestureDetector(
+              if (isowner)
+                Positioned(
+                  right: 2,
+                  top: 2,
+                  child: GestureDetector(
                     onTap: () async {
-                      var destination = randomuser!
-                          .upcomingtrips[index];
+                      var destination = randomuser!.upcomingtrips[index];
                       await context
                           .read<ProfileCubit>()
-                          .deleteDestination(
-                              destination)
+                          .deleteDestination(destination)
                           .then((value) {
                         print(value);
                       });
@@ -100,8 +82,9 @@ class TravelListWIdget extends StatelessWidget {
                     child: const Icon(
                       Icons.close_rounded,
                       color: Colors.black45,
-                    )),
-              ):Container()
+                    ),
+                  ),
+                )
             ],
           ),
         );

@@ -91,15 +91,30 @@ class _UserInfoFormState extends State<UserInfoForm> {
                   _image != null || imageurl == null
                       ? _image != null
                           ? CircleAvatar(
-                              radius: 50, backgroundImage: FileImage(_image!))
-                          : const CircleAvatar(
-                              backgroundImage: AssetImage('assets/noimage.png'),
-                              radius: 50)
+                              radius: 50,
+                              backgroundImage: FileImage(_image!),
+                            )
+                          : CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.blue.shade100,
+                              child: Icon(
+                                Icons.person_2_outlined,
+                                size: 40,
+                                color: Colors.blue.shade500,
+                              ),
+                            )
                       : CircleAvatar(
-                          radius: 50, backgroundImage: NetworkImage(imageurl!)),
+                          radius: 50,
+                          backgroundImage: NetworkImage(imageurl!),
+                        ),
                   IconButton.outlined(
-                      onPressed: _getImage, icon: const Icon(Icons.edit)),
-                  TextButton(
+                    onPressed: _getImage,
+                    icon: const Icon(Icons.edit),
+                  ),
+                  OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.blue),
+                      ),
                       onPressed: () async {
                         if (_image != null) {
                           customSnackbarMessage("updating please wait..... ",
@@ -108,7 +123,8 @@ class _UserInfoFormState extends State<UserInfoForm> {
                               .then((value) async {
                             if (value) {
                               await BlocProvider.of<HomeCubitCubit>(context,
-                                      listen: false).state
+                                      listen: false)
+                                  .state
                                   .getuser();
                               customSnackbarMessage("Profile image updated ",
                                   context, Colors.green);
@@ -123,14 +139,20 @@ class _UserInfoFormState extends State<UserInfoForm> {
                       },
                       child: const Text('save image'))
                 ],
-              ),const SizedBox(height: 20,),
-              SizedBox(height: 300,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 300,
                 child: Flex(
                   direction: Axis.vertical,
                   children: [
-                    Expanded(flex: 1,
+                    Expanded(
+                      flex: 1,
                       child: TextFormField(
-                        decoration: const InputDecoration(labelText: 'Username'),
+                        decoration:
+                            const InputDecoration(labelText: 'Username'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a username';
@@ -140,13 +162,15 @@ class _UserInfoFormState extends State<UserInfoForm> {
                         controller: username,
                       ),
                     ),
-                    Expanded(flex: 1,
+                    Expanded(
+                      flex: 1,
                       child: TextFormField(
                         decoration: const InputDecoration(labelText: 'tag'),
                         controller: tag,
                       ),
                     ),
-                    Expanded(flex: 1,
+                    Expanded(
+                      flex: 1,
                       child: TextFormField(
                         decoration: const InputDecoration(labelText: 'bio'),
                         controller: bio,
@@ -158,11 +182,13 @@ class _UserInfoFormState extends State<UserInfoForm> {
               // Add more text fields for other user information here.
 
               const SizedBox(height: 16),
-              ElevatedButton(key: const Key('submit'),
+              ElevatedButton(
+                key: const Key('submit'),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // Save the user information to your database or use it as needed.
-                    var response = await BlocProvider.of<ProfileCubit>(context).editProfile(username.text, bio.text, tag.text);
+                    var response = await BlocProvider.of<ProfileCubit>(context)
+                        .editProfile(username.text, bio.text, tag.text);
                     if (response) {
                       Navigator.pop(context);
                       customSnackbarMessage("success!", context, Colors.green);

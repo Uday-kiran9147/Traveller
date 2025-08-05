@@ -1,5 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/presentation/pages/explore/ui/following_screen.dart';
@@ -32,8 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   StoryListScreen storyListScreen = StoryListScreen();
-  final Stream<QuerySnapshot> _travelstorytstream =
-      FirebaseFirestore.instance.collection("travelstory").snapshots();
   getuser() async {
     await BlocProvider.of<HomeCubitCubit>(context, listen: false)
         .state
@@ -70,26 +66,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   floating: true, snap: true,
                   // onStretchTrigger:// for refreshing page
                 ),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 50,
-                    child: AnimatedTextKit(
-                      animatedTexts: [
-                        ColorizeAnimatedText(
-                          ' Recent stories.....',
-                          textStyle: Theme.of(context).textTheme.bodyLarge!,
-                          colors: [
-                            Colors.blue,
-                            Colors.yellow,
-                            Colors.grey,
-                          ],
-                        ),
-                      ],
-                      isRepeatingAnimation: true,
-                      onTap: () {},
-                    ),
-                  ),
-                ),
+                // SliverToBoxAdapter(
+                //   child: SizedBox(
+                //     height: 50,
+                //     child: AnimatedTextKit(
+                //       animatedTexts: [
+                //         ColorizeAnimatedText(
+                //           ' Recent stories.....',
+                //           textStyle: Theme.of(context).textTheme.bodyLarge!,
+                //           colors: [
+                //             Colors.blue,
+                //             Colors.yellow,
+                //             Colors.grey,
+                //           ],
+                //         ),
+                //       ],
+                //       isRepeatingAnimation: true,
+                //       onTap: () {},
+                //     ),
+                //   ),
+                // ),
                 SliverToBoxAdapter(child: ExploreScreen()),
                 SliverToBoxAdapter(
                   child: Padding(

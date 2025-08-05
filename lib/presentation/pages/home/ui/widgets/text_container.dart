@@ -8,8 +8,8 @@ class TextContainer extends StatelessWidget {
     this.selectableText=false,
   }) : super(key: key);
   final String text;
-  double? fontSize;
-  bool? selectableText;
+  final double? fontSize;
+  final bool? selectableText;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +24,7 @@ class TextContainer extends StatelessWidget {
               cursorHeight: 30, style: Theme.of(context).textTheme.bodyLarge)
           : Text(
               text,
-              style: TextStyle(fontSize: fontSize ?? 16),
+              style: TextStyle(fontSize: fontSize ?? 12),
             ),
     );
   }
