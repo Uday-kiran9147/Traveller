@@ -61,10 +61,10 @@ class _MyHomeState extends State<MyHome> {
               // IconThemeData(color: Theme.of(context).primaryColor),
           // type: BottomNavigationBarType.fixed, // shifting type creates conflict with backgroundcolor
           // iconSize: 16,
-          elevation: 5,
+          // elevation: 5,
           backgroundColor: AppTheme.backgroundLight ,
           // unselectedItemColor: Colors.grey,
-          indicatorColor: Theme.of(context).primaryColor.withOpacity(0.5),
+          indicatorColor: Theme.of(context).primaryColor,
           selectedIndex: index,
           onDestinationSelected: (value) => setState(() {
             index = value;
