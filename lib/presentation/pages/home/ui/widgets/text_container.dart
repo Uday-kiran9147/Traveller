@@ -8,8 +8,8 @@ class TextContainer extends StatelessWidget {
     this.selectableText=false,
   }) : super(key: key);
   final String text;
-  double? fontSize;
-  bool? selectableText;
+  final double? fontSize;
+  final bool? selectableText;
   @override
   Widget build(BuildContext context) {
     return Container(

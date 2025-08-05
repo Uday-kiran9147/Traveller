@@ -49,32 +49,19 @@ class _FollowingScreenState extends State<FollowingScreen> {
       length: 2,
       initialIndex: widget.index,
       child: Scaffold(
-        appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.primary,
-          automaticallyImplyLeading:
-              true, // hides leading widget (Back button)
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          automaticallyImplyLeading: true, // hides leading widget (Back button)
           title: Text(
             widget.username,
             textAlign: TextAlign.end,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           bottom: TabBar(
-            padding:const EdgeInsets.only(left: 30,right: 30),// padding Around Left and Right Tab
-            dividerColor: Theme.of(context).colorScheme.primary,indicatorSize: TabBarIndicatorSize.tab,
-            labelColor: Theme.of(context).primaryColor,
-            indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
-                  colors: widget.index == 0
-                      ? [
-                          Colors.white,
-                          Colors.grey.shade300,
-                        ]
-                      : [
-                          Colors.grey.shade300,
-                          Colors.white,
-                        ]),
-              // borderRadius: BorderRadius.circular(40), // Creates border
-            ),
+            padding: const EdgeInsets.only(
+                left: 30, right: 30), // padding Around Left and Right Tab
+            labelColor: Colors.white,
+            indicatorSize: TabBarIndicatorSize.tab,
             tabs: const [
               Tab(text: '   Following   '),
               Tab(text: '   Followers   '),
@@ -91,7 +78,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                         ? const Center(
                             child: Text('No following yet'),
                           )
-                        : FollowList(biglist: biglist![0]),
+                        : FollowList(followers_followings: biglist![0]),
               ),
             ),
             Container(
@@ -102,7 +89,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                         ? const Center(
                             child: Text('No followers yet'),
                           )
-                        : FollowList(biglist: biglist![1]),
+                        : FollowList(followers_followings: biglist![1]),
               ),
             ),
           ],
@@ -115,25 +102,21 @@ class _FollowingScreenState extends State<FollowingScreen> {
 class FollowList extends StatelessWidget {
   const FollowList({
     super.key,
-    required this.biglist,
+    required this.followers_followings,
   });
 
-  final List<UserRegister>? biglist;
+  final List<UserRegister>? followers_followings;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: biglist!.length,
+      itemCount: followers_followings!.length,
       itemBuilder: (context, index) {
-        var user = biglist![index];
+        var user = followers_followings![index];
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                AppTheme.primaryColor,
-                Colors.grey,
-              ]),
               color: AppTheme.backgroundLight,
               borderRadius: BorderRadius.circular(12),
             ),
@@ -150,7 +133,10 @@ class FollowList extends StatelessWidget {
                   : CircleAvatar(
                       backgroundImage: NetworkImage(user.profileurl!),
                     ),
-              title: Text(biglist![index].username), subtitle: Text(biglist![index].bio!.isEmpty?"--":biglist![index].bio!),
+              title: Text(followers_followings![index].username),
+              subtitle: Text(followers_followings![index].bio!.isEmpty
+                  ? "--"
+                  : followers_followings![index].bio!),
             ),
           ),
         );

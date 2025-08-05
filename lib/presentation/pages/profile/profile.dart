@@ -52,50 +52,51 @@ class _ProfileScreenState extends State<ProfileScreen>
             if (snapshot.hasData) {
               var randomuser = snapshot.data;
               bool isowner = randomuser!.uid == owner ? true : false;
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BlocConsumer<ProfileCubit, ProfileState>(
-                  listener: (context, state) {},
-                  builder: (context, state) {
-                    return ListView(
-                      physics: const BouncingScrollPhysics(),
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          width: double.infinity,
-                          color: Colors.blue.shade400,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                randomuser.username,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+              return BlocConsumer<ProfileCubit, ProfileState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        width: double.infinity,
+                        color: Colors.blue.shade400,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              randomuser.username,
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            if (isowner)
+                              OutlinedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, RouteName.editprofile);
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(color: Colors.white),
+                                ),
+                                child: const Text(
+                                  'Edit',
+                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
-                              if (isowner)
-                                OutlinedButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, RouteName.editprofile);
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    side: const BorderSide(color: Colors.white),
-                                  ),
-                                  child: const Text(
-                                    'Edit',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                            ],
-                          ),
+                          ],
                         ),
-                        const SizedBox(height: 20),
-                        // Avatar and user info
-                        Row(
+                      ),
+                      // const SizedBox(height: 20),
+                      // Avatar and user info
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
                           spacing: 20,
                           children: [
                             Container(
@@ -152,50 +153,51 @@ class _ProfileScreenState extends State<ProfileScreen>
                             )
                           ],
                         ),
+                      ),
 
-                        const SizedBox(height: 20),
-
-                        isowner
-                            ? Text(
-                                randomuser.email,
-                                textAlign: TextAlign.center,
-                              )
-                            : TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.blueAccent,
-                                ),
-                                onPressed: () async {
-                                  FollowUser follow = FollowUser(
-                                      userid: randomuser.uid,
-                                      random_User_Followers:
-                                          randomuser.followers);
-                                  await follow.follow();
-                                },
-                                child: randomuser.followers.contains(owner)
-                                    ? const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                            Icon(
-                                              Icons.person_remove_alt_1,
-                                              size: 20,
-                                              color: Colors.teal,
-                                            ),
-                                            Text('  unfollow'),
-                                          ])
-                                    : const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                            Icon(
-                                              Icons.person_add_alt_1,
-                                              size: 20,
-                                              color: Colors.blue,
-                                            ),
-                                            Text('  follow'),
-                                          ])),
-                        Row(
+                      isowner
+                          ? Text(
+                              randomuser.email,
+                              textAlign: TextAlign.center,
+                            )
+                          : TextButton(
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.blueAccent,
+                              ),
+                              onPressed: () async {
+                                FollowUser follow = FollowUser(
+                                    userid: randomuser.uid,
+                                    random_User_Followers:
+                                        randomuser.followers);
+                                await follow.follow();
+                              },
+                              child: randomuser.followers.contains(owner)
+                                  ? const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                          Icon(
+                                            Icons.person_remove_alt_1,
+                                            size: 20,
+                                            color: Colors.teal,
+                                          ),
+                                          Text('  unfollow'),
+                                        ])
+                                  : const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                          Icon(
+                                            Icons.person_add_alt_1,
+                                            size: 20,
+                                            color: Colors.blue,
+                                          ),
+                                          Text('  follow'),
+                                        ])),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text("Upcoming....."),
@@ -209,7 +211,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 : Container()
                           ],
                         ),
-                        randomuser.upcomingtrips.isEmpty
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: randomuser.upcomingtrips.isEmpty
                             ? SizedBox(
                                 height: 30,
                                 width: 300,
@@ -223,47 +228,53 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 child: TravelListWIdget(
                                     randomuser: randomuser, isowner: isowner),
                               ),
-
-                        // Buttons Grid
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Wrap(
-                            spacing: 12,
-                            runSpacing: 12,
-                            children: [
-                              _buildProfileButton(
-                                  Icons.calendar_today, "Following", () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FollowingScreen(
-                                              index: 0,
-                                              userid: randomuser.uid,
-                                              username: randomuser.username,
-                                            )));
-                              }),
-                              _buildProfileButton(Icons.group, "Followers", () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FollowingScreen(
-                                              index: 1,
-                                              userid: randomuser.uid,
-                                              username: randomuser.username,
-                                            )));
-                              }),
-                              _buildProfileButton(
-                                  Icons.favorite_border, "Reputation", () {}),
-                              _buildProfileButton(
-                                  Icons.list_alt, "Upcoming Trips", () {},
-                                  highlight: true),
-                            ],
+                      ),
+                      // Buttons Grid
+                      Wrap(
+                        spacing: 18,
+                        runSpacing: 18,
+                        children: [
+                          _buildProfileButton(Icons.calendar_today, "Following",
+                              () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FollowingScreen(
+                                  index: 0,
+                                  userid: randomuser.uid,
+                                  username: randomuser.username,
+                                ),
+                              ),
+                            );
+                          }),
+                          _buildProfileButton(Icons.group, "Followers", () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FollowingScreen(
+                                  index: 1,
+                                  userid: randomuser.uid,
+                                  username: randomuser.username,
+                                ),
+                              ),
+                            );
+                          }),
+                          _buildProfileButton(
+                            Icons.favorite_border,
+                            "Reputation",
+                            () {},
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                          _buildProfileButton(
+                            Icons.list_alt,
+                            "Upcoming Trips",
+                            () {},
+                            
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
               );
             }
             return const Center(child: LoadingProgress());
@@ -290,7 +301,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         userid: user.uid,
                         username: user.username,
                       ))),
-          child: countContainer(
+          child: _countContainer(
               Icons.follow_the_signs, user.followers.length, "followers"),
         ),
         InkWell(
@@ -302,11 +313,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                         userid: user.uid,
                         username: user.username,
                       ))),
-          child: countContainer(
+          child: _countContainer(
               Icons.follow_the_signs, user.following.length, "following"),
         ),
-        countContainer(Icons.favorite, user.reputation, "reputation"),
-        countContainer(Icons.density_large_rounded, user.upcomingtrips.length,
+        _countContainer(Icons.favorite, user.reputation, "reputation"),
+        _countContainer(Icons.density_large_rounded, user.upcomingtrips.length,
             "upcoming trips"),
       ],
     );
@@ -339,7 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 }
 
-Container countContainer(IconData icon, int count, String text) {
+Container _countContainer(IconData icon, int count, String text) {
   return Container(
     decoration: BoxDecoration(
       border: Border.all(color: Colors.red),

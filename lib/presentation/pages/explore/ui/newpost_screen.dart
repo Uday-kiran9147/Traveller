@@ -262,12 +262,12 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                 child: ElevatedButton(
                                   style: ButtonStyle(
                                       backgroundColor: _image != null
-                                          ? const MaterialStatePropertyAll(
+                                          ? const WidgetStatePropertyAll(
                                               Colors.green)
-                                          : const MaterialStatePropertyAll(
+                                          : const WidgetStatePropertyAll(
                                               Colors.black38),
-                                      elevation: MaterialStateProperty.all(10),
-                                      overlayColor: MaterialStateColor.resolveWith(
+                                      elevation: WidgetStateProperty.all(10),
+                                      overlayColor: WidgetStateColor.resolveWith(
                                           (states) => const Color.fromARGB(255, 5, 160, 11))),
                                   onPressed: _image == null
                                       ? (){

@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
 import 'package:traveler/presentation/pages/auth/ui/widgets/loginform.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
