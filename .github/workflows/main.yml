@@ -78,13 +78,3 @@ jobs:
         with:
           artifacts: "build/app/outputs/flutter-apk/app-release.apk"
           token: ${{ secrets.TRAVELER_TOKEN }}
-          tag: ${{ github.ref_name || github.sha }}
-          allowUpdates: true
-
-      - name: Push to Releases (AAB)
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/bundle/release/app-release.aab"
-          token: ${{ secrets.TRAVELER_TOKEN }}
-          tag: ${{ github.ref_name || github.sha }}
-          allowUpdates: true
