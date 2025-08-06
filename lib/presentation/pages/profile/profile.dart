@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             horizontal: 16,
                             vertical: 12,
                           ),
-                          height: 80+ MediaQuery.of(context).padding.top,
+                          height: 80 + MediaQuery.of(context).padding.top,
                           alignment: Alignment.bottomCenter,
                           width: double.infinity,
                           color: Colors.blue.shade400,
@@ -84,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ],
                           ),
                         ),
-                    
+
                         // Avatar and user info
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -160,13 +160,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ],
                           ),
                         ),
-                    
+
                         isowner
                             ? Text(
                                 randomuser.email,
                                 textAlign: TextAlign.center,
                               )
-                            : TextButton(
+                            : OutlinedButton(
                                 style: TextButton.styleFrom(
                                   foregroundColor: Colors.white,
                                   backgroundColor: Colors.blueAccent,
@@ -180,27 +180,31 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 },
                                 child: randomuser.followers.contains(owner)
                                     ? const Row(
+                                        spacing: 20,
+                                        mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                            Icon(
-                                              Icons.person_remove_alt_1,
-                                              size: 20,
-                                              color: Colors.teal,
-                                            ),
-                                            Text('  unfollow'),
-                                          ])
+                                          Icon(
+                                            Icons.person_remove_alt_1,
+                                            size: 20,
+                                          ),
+                                          Text('unfollow'),
+                                        ],
+                                      )
                                     : const Row(
+                                        spacing: 20,
+                                        mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                            Icon(
-                                              Icons.person_add_alt_1,
-                                              size: 20,
-                                              color: Colors.blue,
-                                            ),
-                                            Text('  follow'),
-                                          ]),
+                                          Icon(
+                                            Icons.person_add_alt_1,
+                                            size: 20,
+                                          ),
+                                          Text('follow'),
+                                        ],
+                                      ),
                               ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
