@@ -5,9 +5,9 @@ import 'package:traveler/config/theme/apptheme.dart';
 import 'package:traveler/domain/models/user.dart';
 import 'package:traveler/data/repository/database.dart';
 import 'package:traveler/domain/usecases/get_follow_user.dart';
+import 'package:traveler/presentation/widgets/loading_indicator.dart';
 import 'package:traveler/utils/routes/route_names.dart';
 
-import '../home/ui/home_screen.dart';
 
 class FollowingScreen extends StatefulWidget {
   const FollowingScreen({
