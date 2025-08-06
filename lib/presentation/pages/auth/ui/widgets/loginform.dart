@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 
 import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
+import 'package:traveler/presentation/widgets/snackbars.dart';
 
 class LoginForm extends StatefulWidget {
   final AuthCubitCubit authBloc;
@@ -20,12 +21,36 @@ class _LoginFormState extends State<LoginForm> {
   bool showresetfield = false;
 
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _passwordController = TextEditingController();
-  // ignore: unused_field
   final TextEditingController _resetEmailController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _resetFormKey = GlobalKey<FormState>();
+
   final emailKey = const Key('email_field');
   final passwordKey = const Key('password_field');
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email is required';
+    }
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!emailRegex.hasMatch(value)) {
+      return 'Enter a valid email';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,30 +63,63 @@ class _LoginFormState extends State<LoginForm> {
         shrinkWrap: true,
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          TextFieldCustom(
-            controller: _emailController,
-            hint: "Enter email",
-            icon: Icons.email,
-            key: emailKey,
-          ),
+          showresetfield
+              ? Form(
+                  key: _resetFormKey,
+                  child: TextFieldCustom(
+                    controller: _resetEmailController,
+                    hint: "Reset email",
+                    icon: Icons.email,
+                    key: const Key('reset_email_field'),
+                    validator: _validateEmail,
+                  ),
+                )
+              : Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFieldCustom(
+                        controller: _emailController,
+                        hint: "Enter email",
+                        icon: Icons.email,
+                        key: emailKey,
+                        validator: _validateEmail,
+                      ),
+                      const SizedBox(height: 10.0),
+                      TextFieldCustom(
+                        controller: _passwordController,
+                        hint: "Enter password",
+                        icon: Icons.lock,
+                        obscureText: true,
+                        key: passwordKey,
+                        validator: _validatePassword,
+                      ),
+                    ],
+                  ),
+                ),
           const SizedBox(height: 10.0),
-          TextFieldCustom(
-            controller: _passwordController,
-            hint: "Enter password",
-            icon: Icons.lock,
-            obscureText: true,
-            key: passwordKey,
-          ),
-          const SizedBox(height: 10.0),
-          ElevatedButton(
-            key: const Key('login'),
-            style: ElevatedButton.styleFrom(),
-            child: const Text("Login"),
-            onPressed: () async {
-              BlocProvider.of<AuthCubitCubit>(context).authLoginEvent(
-                  _emailController.text, _passwordController.text);
-            },
-          ),
+          showresetfield
+              ? ElevatedButton(
+                  key: const Key('send_reset_email'),
+                  style: ElevatedButton.styleFrom(),
+                  child: const Text("Send reset email"),
+                  onPressed: () async {
+                    if (_resetFormKey.currentState?.validate() ?? false) {
+                      customSnackbarMessage('Reset email sent', context, Colors.green);
+                    }
+                  },
+                )
+              : ElevatedButton(
+                  key: const Key('login'),
+                  style: ElevatedButton.styleFrom(),
+                  child: const Text("Login"),
+                  onPressed: () async {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      BlocProvider.of<AuthCubitCubit>(context).authLoginEvent(
+                        _emailController.text, _passwordController.text);
+                    }
+                  },
+                ),
           TextButton(
             onPressed: () {
               setState(() {
@@ -84,12 +142,14 @@ class TextFieldCustom extends StatelessWidget {
   final String hint;
   final IconData icon;
   final bool obscureText;
+  final String? Function(String?)? validator;
   const TextFieldCustom({
     Key? key,
     this.obscureText = false,
     required this.controller,
     required this.hint,
     required this.icon,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -97,6 +157,7 @@ class TextFieldCustom extends StatelessWidget {
     return TextFormField(
       obscureText: obscureText,
       controller: controller,
+      validator: validator,
       decoration: InputDecoration(
         prefixIcon: Icon(
           icon,
@@ -116,7 +177,7 @@ class TextFieldCustom extends StatelessWidget {
         ),
         enabledBorder: const OutlineInputBorder(
           borderSide:
-              BorderSide(color: const Color.fromARGB(255, 100, 34, 206)),
+              BorderSide(color: Color.fromARGB(255, 100, 34, 206)),
           borderRadius: BorderRadius.all(
             Radius.circular(8.0),
           ),

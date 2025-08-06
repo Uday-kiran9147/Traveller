@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - master
-
+      - dev
 permissions:
   contents: write  # Required to push changes to repo
 
@@ -77,14 +77,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/flutter-apk/app-release.apk"
-          token: ${{ secrets.TRAVELER_TOKEN }}
-          tag: ${{ github.ref_name || github.sha }}
-          allowUpdates: true
-
-      - name: Push to Releases (AAB)
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/bundle/release/app-release.aab"
-          token: ${{ secrets.TRAVELER_TOKEN }}
-          tag: ${{ github.ref_name || github.sha }}
-          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: v${{ github.run_number }} 

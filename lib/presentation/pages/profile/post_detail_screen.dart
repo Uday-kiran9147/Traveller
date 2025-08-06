@@ -118,28 +118,23 @@ class _PostScreenState extends State<PostScreen> {
               ),
             ),
             AspectRatio(
-              aspectRatio: imageRatioWidth != 0 && imageRatioHeight != 0
-                  ? imageRatioWidth / imageRatioHeight
-                  : 1,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  post.imageURL,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  loadingBuilder: (context, child, progress) {
-                    if (progress == null) return child;
-                    return Container(
-                      color: Colors.grey.shade200,
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) => Container(
+              aspectRatio:1,
+              child: Image.network(
+                post.imageURL,
+                fit: BoxFit.contain,
+                width: double.infinity,
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return Container(
                     color: Colors.grey.shade200,
-                    child: const Center(child: Icon(Icons.broken_image)),
-                  ),
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.grey.shade200,
+                  child: const Center(child: Icon(Icons.broken_image)),
                 ),
               ),
             ),

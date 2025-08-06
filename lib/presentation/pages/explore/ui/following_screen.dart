@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/presentation/pages/explore/ui/newpost_screen.dart';
-import 'package:traveler/presentation/pages/home/ui/home_screen.dart';
+import 'package:traveler/presentation/widgets/loading_indicator.dart';
 import 'package:traveler/presentation/widgets/snackbars.dart';
 import '../../../../domain/models/post.dart';
 import '../cubit/explore_cubit.dart';

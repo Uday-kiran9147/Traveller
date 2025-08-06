@@ -66,7 +66,7 @@ class GridScreen extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/images/placeholder.png',
+                        placeholder: 'assets/noimage.png',
                         image: data["imageurl"],
                         fit: BoxFit.cover,
                         imageErrorBuilder: (context, error, stackTrace) =>

@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             floatingActionButton: ExpandableFab(
-              distance: 90.0,
+              distance: 60.0,
               children: [
                 ActionButton(key:Key('new_post'),
                   onPressed: () {
@@ -147,16 +147,4 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class LoadingProgress extends StatelessWidget {
-  const LoadingProgress({
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return const CircularProgressIndicator(
-      backgroundColor: Colors.greenAccent,
-      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-    );
-  }
-}
