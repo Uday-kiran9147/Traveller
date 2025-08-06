@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:traveler/config/theme/apptheme.dart';
 
 import 'package:traveler/presentation/pages/auth/cubit/auth_cubit_cubit.dart';
+import 'package:traveler/presentation/widgets/snackbars.dart';
 
 class LoginForm extends StatefulWidget {
   final AuthCubitCubit authBloc;
@@ -38,30 +39,50 @@ class _LoginFormState extends State<LoginForm> {
         shrinkWrap: true,
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          TextFieldCustom(
-            controller: _emailController,
-            hint: "Enter email",
-            icon: Icons.email,
-            key: emailKey,
-          ),
+          showresetfield
+              ? TextFieldCustom(
+                  controller: _resetEmailController,
+                  hint: "Reset email",
+                  icon: Icons.email,
+                  key: const Key('reset_email_field'),
+                )
+              : Column(
+                  children: [
+                    TextFieldCustom(
+                      controller: _emailController,
+                      hint: "Enter email",
+                      icon: Icons.email,
+                      key: emailKey,
+                    ),
+                    const SizedBox(height: 10.0),
+                    TextFieldCustom(
+                      controller: _passwordController,
+                      hint: "Enter password",
+                      icon: Icons.lock,
+                      obscureText: true,
+                      key: passwordKey,
+                    ),
+                  ],
+                ),
           const SizedBox(height: 10.0),
-          TextFieldCustom(
-            controller: _passwordController,
-            hint: "Enter password",
-            icon: Icons.lock,
-            obscureText: true,
-            key: passwordKey,
-          ),
-          const SizedBox(height: 10.0),
-          ElevatedButton(
-            key: const Key('login'),
-            style: ElevatedButton.styleFrom(),
-            child: const Text("Login"),
-            onPressed: () async {
-              BlocProvider.of<AuthCubitCubit>(context).authLoginEvent(
-                  _emailController.text, _passwordController.text);
-            },
-          ),
+          showresetfield
+              ? ElevatedButton(
+                  key: const Key('send_reset_email'),
+                  style: ElevatedButton.styleFrom(),
+                  child: const Text("Send reset email"),
+                  onPressed: () async {
+                    customSnackbarMessage('Reset email sent', context,Colors.green );
+                  },
+                )
+              : ElevatedButton(
+                  key: const Key('login'),
+                  style: ElevatedButton.styleFrom(),
+                  child: const Text("Login"),
+                  onPressed: () async {
+                    BlocProvider.of<AuthCubitCubit>(context).authLoginEvent(
+                        _emailController.text, _passwordController.text);
+                  },
+                ),
           TextButton(
             onPressed: () {
               setState(() {
