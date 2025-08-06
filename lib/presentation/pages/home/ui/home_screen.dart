@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             floatingActionButton: ExpandableFab(
-              distance: 90.0,
+              distance: 60.0,
               children: [
                 ActionButton(key:Key('new_post'),
                   onPressed: () {

@@ -132,6 +132,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
           duration: const Duration(milliseconds: 250),
           child: FloatingActionButton(
+            shape: const CircleBorder(),
             onPressed: _toggle,
             child: const Icon(Icons.create),
           ),
@@ -198,8 +199,8 @@ class ActionButton extends StatelessWidget {
     return Material(
       shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
-      color: theme.colorScheme.secondary,
-      elevation: 4,
+      color: theme.colorScheme.primary,
+      elevation: 0,
       child: IconButton(
         onPressed: onPressed,
         icon: icon,
