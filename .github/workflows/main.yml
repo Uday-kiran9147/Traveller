@@ -1,35 +1,90 @@
+
+name: Flutter CI/CD
+
 on:
   push:
     branches:
       - master
 
-name: Android Release
+permissions:
+  contents: write  # Required to push changes to repo
 
 jobs:
   build:
-    name: Build and Release new apk
+    if: "!contains(github.event.head_commit.message, 'ci: bump versionCode')"  # Skip if version bump
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          distribution: 'zulu'
+          fetch-depth: 1  # Faster checkout, unless full history is required
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
           java-version: '17'
 
-      - uses: subosito/flutter-action@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          
-      - name: Delete Gradle cache
-        run: rm -rf $HOME/.gradle
+          channel: stable
 
-      - run: flutter pub get
-      - run: flutter build apk --release
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-      - name: Push to Releases
+      - name: Cache Flutter Pub packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Auto-increment versionCode in pubspec.yaml
+        run: |
+          VERSION_LINE=$(grep '^version:' pubspec.yaml)
+          VERSION_NAME=$(echo "$VERSION_LINE" | cut -d '+' -f 1 | awk '{print $2}')
+          VERSION_CODE=$(echo "$VERSION_LINE" | cut -d '+' -f 2)
+          NEW_CODE=$((VERSION_CODE + 1))
+          sed -i "s/^version:.*/version: $VERSION_NAME+$NEW_CODE/" pubspec.yaml
+          echo "🔢 Updated pubspec.yaml to version: $VERSION_NAME+$NEW_CODE"
+
+      - name: Build APK
+        run: |
+          flutter build apk --release && echo "✅ APK build success" || (echo "❌ APK build failed" && exit 1)
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 7
+
+      - name: Push to Releases (APK)
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/apk/release/app-release.apk"
-          tag: v0.0.3
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
           token: ${{ secrets.TRAVELER_TOKEN }}
-          # token: ${{ secrets.TRAVELER_TOKEN }}
+          tag: ${{ github.ref_name || github.sha }}
+          allowUpdates: true
+
+      - name: Push to Releases (AAB)
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/bundle/release/app-release.aab"
+          token: ${{ secrets.TRAVELER_TOKEN }}
+          tag: ${{ github.ref_name || github.sha }}
+          allowUpdates: true
